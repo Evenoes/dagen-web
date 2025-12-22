@@ -1,7 +1,7 @@
 const isProd = process.env.NODE_ENV === "production";
 
 // Repo-navn fra GitHub Actions (owner/repo)
-const repoName = process.env.GITHUB_REPOSITORY?.split("/")[1] ?? "";
+const repo = process.env.GITHUB_REPOSITORY?.split("/")[1] ?? "dagen-web";
 
 const nextConfig = {
   output: "export",
@@ -11,8 +11,8 @@ const nextConfig = {
   trailingSlash: true,
 
   // Viktig for GitHub Pages prosjekt-site: https://bruker.github.io/<repoName>/
-  basePath: isProd ? `/${repoName}` : "",
-  assetPrefix: isProd ? `/${repoName}/` : "",
+  basePath: isProd ? `/${repo}` : "",
+  assetPrefix: isProd ? `/${repo}/` : "",
 };
 
 export default nextConfig;

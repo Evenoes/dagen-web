@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 type JobCardProps = {
     tittel: string;
@@ -7,6 +8,8 @@ type JobCardProps = {
     url: string;
     logo?: string;
 };
+
+const router = useRouter();
 
 const getCategoryColor = (title: string) => {
     switch (title?.toLowerCase()) {
@@ -39,7 +42,7 @@ export default function JobCard({ tittel, firma, frist, url, logo }: JobCardProp
             {/* Logo */}
             {logo && (
                 <img
-                    src={`/logos/${logo}`}
+                    src={`${router.basePath}/logos/${logo}`}
                     className="absolute top-4 right-4 h-20 w-30 object-contain"
                 />
             )}

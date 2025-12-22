@@ -1,3 +1,5 @@
+import { useRouter } from "next/router";
+
 type MemberCardProps = {
     memberPicture?: string | null;
     memberName: string;
@@ -5,13 +7,15 @@ type MemberCardProps = {
     titleMail: string;
 }
 
+const router = useRouter();
+
 export default function MemberCard({memberPicture, memberName, memberTitle, titleMail}: MemberCardProps) {
     return (
         <div className="p-6 bg-white dark:bg-gray-800 rounded-lg text-center">
             {/* Bilde, white space lik bildestørrelse hvis ikke bilde */}
             {memberPicture ? (
                 <img
-                    src={`/${memberPicture}`}
+                    src={`${router.basePath}/${memberPicture}`}
                     alt={memberName}
                     className="w-32 h-32 mx-auto mb-4 rounded-full object-cover"
                 />
