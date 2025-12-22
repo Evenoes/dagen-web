@@ -1,0 +1,1 @@
+Klikk på “kontakt oss” øverst til høyre på nettsiden, og send oss navn på bedriften og e-postadresse til en kontaktperson. Så tar vi kontakt når vi åpner påmeldingen til Ettermiddagen- og Dagen@ifi.  

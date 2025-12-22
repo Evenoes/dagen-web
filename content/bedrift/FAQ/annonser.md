@@ -1,0 +1,1 @@
+Vi publiserer kun jobbannonser for bedrifter som deltar på arrangementene våre. Jobbannonser oppdateres hvert semester og bedrift må være deltager på semesterets arrangement for å få jobbannonse publisert med mindre annet er spesifisert i kontrakt. 

@@ -8,7 +8,6 @@ export default function Header() {
     const router = useRouter();
 
     const links = [
-        { href: "/arrangementer", label: "Arrangementer" },
         { href: "/stillingsannonser", label: "Stillingsannonser" },
         { href: "/bedrift", label: "Bedrift" },
         { href: "/intern", label: "Intern" },
@@ -18,21 +17,22 @@ export default function Header() {
 
     return (
         <header className="sticky top-0 z-50 backdrop-blur-md bg-white/90 dark:bg-gray-900/90 border-b border-gray-200 dark:border-gray-800">
-            <div className="max-w-7xl mx-auto flex items-center md:justify-center p-4 md:p-4 py-6 relative">
+            <div className="max-w-7xl mx-auto px-4 md:px-6">
+                <div className="flex items-center justify-between md:justify-center py-6 relative">
 
                 {/* Logo */}
-                <Link href="/" className="flex items-center gap-2 md:mr-16 absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0">
+                <Link href="/" className="flex items-center gap-2 absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0 md:mr-16">
                     <Image src="/dagen-logo-black-teal.svg" alt="dagen@ifi logo" width={132} height={132} className="block dark:hidden" />
                     <Image src="/dagen-logo-white-teal.svg" alt="dagen@ifi logo" width={132} height={132} className="hidden dark:block" />
                 </Link>
 
                 {/* Desktop Menu */}
-                <nav className="hidden md:flex gap-8 font-medium ml-8">
+                <nav className="hidden md:flex gap-8 font-medium">
                     {links.map((link) => (
                         <Link
                             key={link.href}
                             href={link.href}
-                            className={`transition-colors ${router.pathname === link.href
+                            className={`transition-colors whitespace-nowrap ${router.pathname === link.href
                                 ? "text-(--primary) border-b-2 border-(--primary) pb-1"
                                 : "hover:text-(--primary)"
                                 }`}
@@ -45,13 +45,14 @@ export default function Header() {
 
                 {/* Mobile Hamburger */}
                 <button
-                    className="md:hidden flex flex-col gap-1 ml-auto"
+                    className="md:hidden flex flex-col gap-1 ml-auto z-10"
                     onClick={() => setOpen(!open)}
                 >
                     <span className="w-6 h-0.5 bg-current"></span>
                     <span className="w-6 h-0.5 bg-current"></span>
                     <span className="w-6 h-0.5 bg-current"></span>
                 </button>
+                </div>
             </div>
 
             {/* Mobile Menu */}

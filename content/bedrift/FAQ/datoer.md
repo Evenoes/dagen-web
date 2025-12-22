@@ -1,0 +1,1 @@
+Dateoene publiseres kort tid etter at den er satt. Typisk er ettermiddagen@ifi i april/mai, mens dato for dagen@ifi typisk skjer i starten av høsten i august/september.

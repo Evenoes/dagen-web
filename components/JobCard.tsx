@@ -46,7 +46,7 @@ export default function JobCard({ tittel, firma, frist, url, logo }: JobCardProp
 
             <h2 className="text-xl font-semibold text-(--primary)">{tittel}</h2>
             <p className="text-gray-700 dark:text-gray-300 font-medium">{firma}</p>
-            <p className="text-gray-500 dark:text-gray-400 mt-2 text-sm">
+            <p className="text-gray-500 dark:text-gray-700 mt-2 text-sm">
                 <strong className="text-(--primary)">Frist:</strong> {formatDate(frist)}
             </p>
         </Link>

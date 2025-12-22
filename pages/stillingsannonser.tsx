@@ -21,7 +21,7 @@ export default function Stillingsannonser({ jobs }: { jobs: any[] }) {
 export async function getStaticProps() {
   const jobs = getJobListings();
 
-  // ---- Filtrer bort utgåtte ----
+  // ---- Filtrer etter dato og tar bort utgåtte ----
   const today = new Date();
   const validJobs = jobs.filter((job: any) => {
     const fristDate = new Date(job.Frist);
