@@ -1,7 +1,7 @@
 export default function Kontakt() {
   return (
     <div className="max-w-3xl mx-auto p-6">
-      <h1 className="text-4xl font-bold text-[var(--primary)] mb-8">
+      <h1 className="text-4xl font-bold text-(--primary) mb-8">
         Kontakt oss
       </h1>
 
@@ -14,7 +14,7 @@ export default function Kontakt() {
           <input
             type="text"
             placeholder="Ola Nordmann"
-            className="w-full rounded-lg border border-gray-300 dark:border-gray-700 p-3 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+            className="w-full rounded-lg border border-gray-300 dark:border-gray-700 p-3 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-(--primary)"
           />
         </div>
 
@@ -26,7 +26,7 @@ export default function Kontakt() {
           <input
             type="email"
             placeholder="ola@eksempel.no"
-            className="w-full rounded-lg border border-gray-300 dark:border-gray-700 p-3 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+            className="w-full rounded-lg border border-gray-300 dark:border-gray-700 p-3 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-(--primary)"
           />
         </div>
 
@@ -36,7 +36,7 @@ export default function Kontakt() {
             Jeg tar kontakt som
           </label>
           <select
-            className="w-full rounded-lg border border-gray-300 dark:border-gray-700 p-3 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+            className="w-full rounded-lg border border-gray-300 dark:border-gray-700 p-3 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-(--primary)"
           >
             <option value="">Velg...</option>
             <option value="bedrift">Bedrift</option>
@@ -53,14 +53,14 @@ export default function Kontakt() {
           <textarea
             rows={6}
             placeholder="Skriv meldingen din her..."
-            className="w-full rounded-lg border border-gray-300 dark:border-gray-700 p-3 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+            className="w-full rounded-lg border border-gray-300 dark:border-gray-700 p-3 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-(--primary)"
           />
         </div>
 
         {/* Send-knapp (kun visuell nå) */}
         <button
           type="button"
-          className="bg-[var(--primary)] text-white font-semibold px-6 py-3 rounded-lg opacity-70 cursor-not-allowed"
+          className="bg-(--primary) text-white font-semibold px-6 py-3 rounded-lg opacity-70 cursor-not-allowed"
         >
           Send melding
         </button>
