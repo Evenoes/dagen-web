@@ -1,6 +1,6 @@
 export default function Kontakt() {
   return (
-    <div className="max-w-7xl mx-auto px-4 md:px-6 py-8">
+    <main className="max-w-7xl mx-auto px-4 md:px-6 py-8">
       <div className="max-w-3xl mx-auto">
       <h1 className="text-4xl font-bold text-(--primary) mb-8">
         Kontakt oss
@@ -58,7 +58,7 @@ export default function Kontakt() {
           />
         </div>
 
-        {/* Send-knapp (kun visuell nå) */}
+        {/* Send-knapp */}
         <button
           type="button"
           className="bg-(--primary) text-white font-semibold px-6 py-3 rounded-lg opacity-70 cursor-not-allowed"
@@ -71,6 +71,6 @@ export default function Kontakt() {
         </p>
       </form>
       </div>
-    </div>
+    </main>
   );
 }

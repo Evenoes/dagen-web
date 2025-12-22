@@ -26,3 +26,22 @@ export type JobCardProps = {
   deadline: string;
   location: string;
 };
+
+export type FAQ = {
+  question: string;
+  answer: string;
+};
+
+export type Member = {
+  name: string;
+  title: string;
+  email: string;
+  picturePath: string | null;
+};
+
+export type ContentItem = {
+  type: "image" | "markdown";
+  content: string;
+};
+
+export type ContentRow = ContentItem[];
