@@ -45,3 +45,9 @@ export type ContentItem = {
 };
 
 export type ContentRow = ContentItem[];
+
+
+export type LayoutCsvRow = {
+    index: string;
+    file: string;
+};

@@ -6,7 +6,7 @@ import { getJobListings, JobCsvRow } from "@/lib/jobs";
 // Props som definer hva siden skal jobbe med (liste av objekter fra jobs.ts)
 type StillingsannonserProps = {
   jobs: JobCsvRow[];
-}
+};
 
 // Lager og viser et JobCard for hver annonse 
 export default function Stillingsannonser({ jobs }: StillingsannonserProps) {
