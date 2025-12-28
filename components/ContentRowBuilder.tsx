@@ -3,6 +3,7 @@
 
 import ReactMarkdown from "react-markdown";
 import { ContentRow } from "@/types";
+import Image from "next/image";
 
 // Props som definerer hva komponenten lager
 // Liste av ContentRow
@@ -22,10 +23,11 @@ export default function ContentRowBuilder({ rows }: ContentRowBuilderProps) {
                     {row.map((item, itemIndex) =>
                         item.type === "image" ? (
                             // Hvis filen er et bilde
-                            <img
-                                key={itemIndex}
+                            <Image
                                 src={`/${item.content}`}
                                 alt={`Bilde ${rowIndex + 1}`}
+                                width={1200}
+                                height={800}
                                 className="w-full h-auto rounded-lg"
                             />
                         ) : (

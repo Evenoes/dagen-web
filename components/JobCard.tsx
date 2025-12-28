@@ -1,6 +1,7 @@
 // Klikkbart "kort" for å vise stillingsannonser 
 
 import Link from "next/link";
+import Image from "next/image";
 
 // Props som forventes for å lage et kort (logo kan mangle)
 type JobCardProps = {
@@ -46,9 +47,11 @@ export default function JobCard({ tittel, firma, frist, url, logo }: JobCardProp
         >
             {/* Logo, alt="", siden logo er dekorativ og teksten gir info */}
             {logo && (
-                <img
+                <Image
                     src={`/logos/${logo}`}
                     alt=""
+                    width={120}
+                    height={80}
                     className="absolute top-4 right-4 h-20 w-30 object-contain"
                 />
             )}
