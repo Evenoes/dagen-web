@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 // Props som forventes for å lage et kort (logo kan mangle)
 type JobCardProps = {
@@ -28,6 +29,8 @@ const getCategoryColor = (title: string) => {
 
 // Hovedfunksjon
 export default function JobCard({ tittel, firma, frist, url, logo }: JobCardProps) {
+    const router = useRouter();
+
     // Formaterer dato fra YYYY-MM-DD til DD.MM.YYYY
     const formatDate = (date: string) => {
         // Hvis dato mangler
@@ -48,7 +51,7 @@ export default function JobCard({ tittel, firma, frist, url, logo }: JobCardProp
             {/* Logo, alt="", siden logo er dekorativ og teksten gir info */}
             {logo && (
                 <Image
-                    src={`/logos/${logo}`}
+                    src={`${router.basePath}/logos/${logo}`}
                     alt=""
                     width={120}
                     height={80}

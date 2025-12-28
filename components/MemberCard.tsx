@@ -1,6 +1,7 @@
 // Lager et "kort" om et styremedlem, bilde, navn, styrerolle/tittel og epost til å vises under "om-oss"
 
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 // Props (data) som trengs for å vise ett medlem
 type MemberCardProps = {
@@ -16,12 +17,14 @@ export default function MemberCard({
     memberTitle,
     titleMail
 }: MemberCardProps) {
+    const router = useRouter();
+
     return (
         <div className="p-6 bg-white dark:bg-gray-800 rounded-lg text-center">
             {/* Bilde, white space lik bildestørrelse hvis ikke bilde */}
             {memberPicture ? (
                 <Image
-                    src={`/${memberPicture}`}
+                    src={`${router.basePath}/${memberPicture}`}
                     alt={memberName}
                     width={256}
                     height={256}

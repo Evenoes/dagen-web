@@ -4,6 +4,7 @@
 import ReactMarkdown from "react-markdown";
 import { ContentRow } from "@/types";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 // Props som definerer hva komponenten lager
 // Liste av ContentRow
@@ -13,6 +14,8 @@ type ContentRowBuilderProps = {
 
 // Bygger rader
 export default function ContentRowBuilder({ rows }: ContentRowBuilderProps) {
+    const router = useRouter();
+
     return (
         <>
             {rows?.map((row, rowIndex) => (
@@ -24,7 +27,7 @@ export default function ContentRowBuilder({ rows }: ContentRowBuilderProps) {
                         item.type === "image" ? (
                             // Hvis filen er et bilde
                             <Image
-                                src={`/${item.content}`}
+                                src={`${router.basePath}/${item.content}`}
                                 alt={`Bilde ${rowIndex + 1}`}
                                 width={1200}
                                 height={800}
