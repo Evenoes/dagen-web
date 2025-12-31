@@ -1,1 +1,0 @@
-Det velges nytt styre i dagen@ifi ved hvert årsskifte. I løpet av januar vil det nye styret komme på plass, og avklare hvordan årets to arrangementer skal gjennomføres før bedrifter og nettside blir oppdatert med informasjon. Det kan med dette forventes en treigere informasjonsflyt før midten av februar.
