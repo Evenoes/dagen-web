@@ -39,6 +39,9 @@ jobs:
         run: bash scripts/pull-content.sh
 
       - name: Build (Next export)
+        env:
+          # github-actions[bot] FORMSPREE_ID is configured in repository secrets
+          NEXT_PUBLIC_FORMSPREE_ID: ${{ secrets.FORMSPREE_ID }}
         run: npm run build
 
       - name: Upload Pages artifact

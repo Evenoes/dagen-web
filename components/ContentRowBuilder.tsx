@@ -65,7 +65,7 @@ export default function ContentRowBuilder({ rows }: ContentRowBuilderProps) {
 
                                     {item.buttonHref && (
                                         <Link href={item.buttonHref} className="mt-4">
-                                            <button className="px-4 py-2 rounded-lg bg-(--primary) text-white text-sm font-medium transition">
+                                            <button className="px-4 py-2 rounded-lg bg-(--primary) text-white text-sm font-medium hover:opacity-90 transition">
                                                 {item.buttonLabel ?? "Les mer"}
                                             </button>
                                         </Link>
