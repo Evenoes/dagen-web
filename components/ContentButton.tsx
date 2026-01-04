@@ -10,10 +10,12 @@ type ContentButtonProps = {
 };
 
 export default function ContentButton({ href, label }: ContentButtonProps) {
-    
+    const isAnchor = href.startsWith("#");
+    const isExternal = href.startsWith("http://") || href.startsWith("https://");
+
     // Hvis href peker til et anker (#), bruk smooth scroll i stedet for vanlig navigering
     const handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
-        if (href.startsWith("#")) {
+        if (isAnchor) {
             // Gjør at "#row-2" ikke legges til i URL-en ("dagenatifi.no/bedrift#row-2" <- ser ikke bra ut)
             event.preventDefault();
             
@@ -26,6 +28,23 @@ export default function ContentButton({ href, label }: ContentButtonProps) {
         }
     };
 
+    // Etern link? Ny fane
+    if (isExternal) {
+        return (
+            <a
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-4"
+            >
+                <button className="px-4 py-2 rounded-lg bg-(--primary) text-white text-sm font-medium hover:opacity-90 transition">
+                    {label ?? "Les mer"}
+                </button>
+            </a>
+        )
+    }
+
+    // Intern lenke, ikke ny fane
     return (
         <Link 
             href={href} 
