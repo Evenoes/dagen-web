@@ -61,6 +61,30 @@ function computeSizes(row: ContentRow): number[] {
     );
 }
 
+// Funksjon for å ikke få bilde - tekst - tekst - bilde på mobil
+// 2 elementer i raden bilde - tekst
+// 3 elementer i raden bilde - tekst - bilde
+// Flere / færre, behold original
+function getMobileRowOrder(row: ContentRow): ContentRow {
+    const images = row.filter((item) => item.type === "image");
+    const texts = row.filter((item) => item.type === "markdown");
+
+    // 2 elementer
+    if (row.length === 2 && images.length === 1 && texts.length === 1) {
+        const image = images[0];
+        const text = texts[0];
+        return [image, text]; // <========== REVERSER DENNE FOR Å BYTTE REKKEFØLGE
+    }
+
+    if (row.length === 3 && images.length === 2 && texts.length === 1) {
+        const text = texts[0];
+        const [imageOne, imageTwo] = images;
+        return [imageOne, text, imageTwo]; // ==== REKKEFØLGE KAN ENDRES HER
+    }
+
+    return row;
+}
+
 // Hovedfunksjon
 export default function ContentRowBuilder({ rows }: ContentRowBuilderProps) {
     return (
@@ -81,6 +105,9 @@ export default function ContentRowBuilder({ rows }: ContentRowBuilderProps) {
                 // Størrelse i forhold til naboelementer (2-8)
                 const sizes = computeSizes(row);
 
+                // Rekkefølge for mobil / liten skjerm
+                const mobileRow = getMobileRowOrder(row);
+
                 return (
                     <div
                         key={rowIndex}
@@ -88,51 +115,80 @@ export default function ContentRowBuilder({ rows }: ContentRowBuilderProps) {
                         className={`
                         scroll-mt-24
                         max-w-full mx-auto
-                        flex flex-col md:flex-row
-                        md:justify-center
-                        gap-6 
-                        items-start
                         `}
                     >
-                        {row.map((item, itemIndex) => (
-                            <div
-                                key={itemIndex}
-                                className="flex flex-col items-center text-center min-w-0"
-                                style={
-                                    columnCount > 1
-                                        ? {
-                                            maxWidth: `${(sizes[itemIndex] / 10) * 100}%`,
-                                            flexShrink: 1,
-                                            flexGrow: 0,
-                                        }
-                                        : undefined
-                                }
-                            >
-                                {/* Viser bilde eller tekst */}
-                                {item.type === "image" ? (
-                                    // Hvis det er et bilde
-                                    <ContentImage
-                                        imagePath={item.content}
-                                        rowNumber={rowIndex}
-                                    />
-                                ) : (
-                                    // Hvis det er tekst
-                                    <ContentMarkdown
-                                        markdownText={item.content}
-                                        isCentered={isSingle}  // Sentrer hvis bare ett element i raden
-                                    />
-                                )}
+                        {/* Mobil-layout: egen rekkefølge */}
+                        <div className="flex flex-col gap-6 items-center md:hidden">
+                            {mobileRow.map((item, itemIndex) => (
+                                <div
+                                    key={itemIndex}
+                                    className="w-full flex flex-col items-center text-center min-w-0 wrap-break-word"
+                                >
+                                    {item.type === "image" ? (
+                                        <ContentImage
+                                            imagePath={item.content}
+                                            rowNumber={rowIndex}
+                                        />
 
-                                {/* Hvis det er en knapp */}
-                                {/* && betyr: hvis item.buttonHref finnes, vis det som kommer etter */}
-                                {item.buttonHref && (
-                                    <ContentButton
-                                        href={item.buttonHref}
-                                        label={item.buttonLabel}
-                                    />
-                                )}
-                            </div>
-                        ))}
+                                    ) : (
+                                        <ContentMarkdown
+                                            markdownText={item.content}
+                                            isCentered={mobileRow.length === 1}
+                                        />
+                                    )}
+                                    {item.buttonHref && (
+                                        <ContentButton
+                                            href={item.buttonHref}
+                                            label={item.buttonLabel}
+                                        />
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* Desktop-layout, original rekkefølge + size */}
+                        <div
+                            className="hidden md:flex md:justify-center gap-6 items-start">
+                            {row.map((item, itemIndex) => (
+                                <div
+                                    key={itemIndex}
+                                    className="flex flex-col items-center text-center min-w-0 wrap-break-word"
+                                    style={
+                                        columnCount > 1
+                                            ? {
+                                                maxWidth: `${(sizes[itemIndex] / 10) * 100}%`,
+                                                flexShrink: 1,
+                                                flexGrow: 0,
+                                            }
+                                            : undefined
+                                    }
+                                >
+                                    {/* Viser bilde eller tekst */}
+                                    {item.type === "image" ? (
+                                        // Hvis det er et bilde
+                                        <ContentImage
+                                            imagePath={item.content}
+                                            rowNumber={rowIndex}
+                                        />
+                                    ) : (
+                                        // Hvis det er tekst
+                                        <ContentMarkdown
+                                            markdownText={item.content}
+                                            isCentered={isSingle}  // Sentrer hvis bare ett element i raden
+                                        />
+                                    )}
+
+                                    {/* Hvis det er en knapp */}
+                                    {/* && betyr: hvis item.buttonHref finnes, vis det som kommer etter */}
+                                    {item.buttonHref && (
+                                        <ContentButton
+                                            href={item.buttonHref}
+                                            label={item.buttonLabel}
+                                        />
+                                    )}
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 );
             })}
