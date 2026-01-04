@@ -3,10 +3,10 @@
 // Viser "om-oss" fra markdown og styremedlemmer fra CSV-fil
 
 import ReactMarkdown from "react-markdown";
-import { ContentRow } from "../types";
+import { ContentRow, Member } from "../types";
 import { getContentRowLayout } from "@/lib/getContentRowLayout"
 import { getMarkdownContent } from "@/lib/getMarkdownContent";
-import { getMembers, Member } from "@/lib/members";
+import { getMembers } from "@/lib/members";
 import ContentRowBuilder from "@/components/ContentRowBuilder";
 import GridSection from "@/components/GridSection";
 import MemberCard from "@/components/MemberCard";
@@ -40,7 +40,7 @@ export default function Home({ rows, aboutText, members }: HomePageProps) {
             key={`${member.name}-${member.title}`} // Sammensatt, tilfelle like navn
             memberName={member.name}
             memberTitle={member.title}
-            titleMail={member.email}
+            roleEmail={member.email}
             memberPicture={member.picturePath}
           />
         ))}

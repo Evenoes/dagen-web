@@ -8,14 +8,14 @@ type MemberCardProps = {
     memberPicture: string | null;   // Path til bilde som tekst eller null hvis bilde ikke finnes
     memberName: string;             // Navn på medlem som tekst
     memberTitle: string;            // Rolle / tittel som tekst
-    titleMail: string;              // Epost som tekst - "rolle@dagenatifi.no"
+    roleEmail: string;              // Epost som tekst - "rolle@dagenatifi.no"
 }
 
 export default function MemberCard({
     memberPicture,
     memberName,
     memberTitle,
-    titleMail
+    roleEmail: roleEmail
 }: MemberCardProps) {
     const router = useRouter();
 
@@ -49,7 +49,7 @@ export default function MemberCard({
 
             {/* Epost, denne kan gjøres klikkbar (mailto), men var ikke det på den gamle siden */}
             <p className="text-gray-500 dark:text-gray-400 mt-2 text-sm wrap-break-word">
-                {titleMail}
+                {roleEmail}
             </p>
         </div>
     );

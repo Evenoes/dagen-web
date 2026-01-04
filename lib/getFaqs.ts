@@ -1,13 +1,14 @@
 // Henter FAQ fra CSV-fil
 // CSV innholder spørsmål som string, og svar som filreferanse (markdown)
 // Question,File
-// "spørsmål"."filnavn.md"(henter fil i undermappe)
+// "spørsmål"."filnavn.md"
+// (henter fil i undermappe = ikke path)
 
 import fs from "fs";
 import path from "path";
 import Papa from "papaparse";
 import matter from "gray-matter";
-import { FaqProps } from "@/types";
+import { FaqItem } from "@/types";
 
 // Typen vi forventer fra hver rad i CSV-fil
 type FaqCsvRow = {
@@ -15,7 +16,7 @@ type FaqCsvRow = {
   file: string; // navn på fil
 }
 
-export function getFAQs(faqDirectory: string): FaqProps[] {
+export function getFAQs(faqDirectory: string): FaqItem[] {
   const csvPath = path.join(process.cwd(), "content", faqDirectory, "faq.csv");
   const answerDir = path.join(process.cwd(), "content", faqDirectory, "answers");
 
@@ -37,7 +38,7 @@ export function getFAQs(faqDirectory: string): FaqProps[] {
   });
 
   // Tom liste til å returnere
-  const result: FaqProps[] = [];
+  const result: FaqItem[] = [];
 
   // Looper alle objektene
   for (const row of data as FaqCsvRow[]) {

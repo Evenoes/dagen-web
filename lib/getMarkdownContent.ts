@@ -9,7 +9,7 @@ export function getMarkdownContent(contentName: string): string {
 
   if (!fs.existsSync(filePath)) {
     console.error(`Missing markdown file for content: ${contentName}`);
-    return "# 404 - This is just for placement during development! "; // OBS denne byttes til "" når prod!! TODO TODO TODO
+    return "";
   }
 
   const file = fs.readFileSync(filePath, "utf8");

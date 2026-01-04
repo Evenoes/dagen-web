@@ -14,7 +14,7 @@ const links = [
 ];
 
 export default function Header() {
-    const [open, setOpen] = useState(false);
+    const [isMobilMenuOpen, setMobileMenuOpen] = useState(false);
     const router = useRouter();
 
     return (
@@ -67,9 +67,9 @@ export default function Header() {
                     <button
                         type="button"
                         className="md:hidden flex flex-col gap-1 ml-auto z-10"
-                        onClick={() => setOpen(!open)}
-                        aria-label={open ? "Lukk meny" : "Åpne meny"}
-                        aria-expanded={open}
+                        onClick={() => setMobileMenuOpen(!isMobilMenuOpen)}
+                        aria-label={isMobilMenuOpen ? "Lukk meny" : "Åpne meny"}
+                        aria-expanded={isMobilMenuOpen}
                         aria-controls="mobile-menu"
                     >
                         <span className="w-6 h-0.5 bg-current"></span>
@@ -80,7 +80,7 @@ export default function Header() {
             </div>
 
             {/* Mobil Meny */}
-            {open && (
+            {isMobilMenuOpen && (
                 <nav
                     id="mobile-menu"
                     className="md:hidden flex flex-col gap-3 p-4 border-t border-gray-200 dark:border-gray-800 font-medium bg-white dark:bg-gray-900"
@@ -93,7 +93,7 @@ export default function Header() {
                                     ? "text-(--primary) font-semibold"
                                     : "hover:text-(--primary)"
                                 }`}
-                            onClick={() => setOpen(false)}
+                            onClick={() => setMobileMenuOpen(false)}
                         >
                             {link.label}
                         </Link>

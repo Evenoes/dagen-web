@@ -3,34 +3,10 @@ export type InternGroup = {
   title?: string;
 };
 
-export type PageProps = {
-  content: string;
-};
-
-export type MemberCardProps = {
-  memberPicture?: string;
-  memberName: string;
-  memberTitle: string;
-  titleMail: string;
-};
-
-export type ArrangementCardProps = {
-  title: string;
-  date: string;
-  description: string;
-};
-
-export type JobCardProps = {
-  company: string;
-  position: string;
-  deadline: string;
-  location: string;
-};
-
-export type FAQ = {
-  question: string;
-  answer: string;
-};
+export type JoinUsProps = {
+  contentRows: ContentRow[];
+  internGroups: InternGroup[];
+}
 
 export type Member = {
   name: string;
@@ -39,25 +15,26 @@ export type Member = {
   picturePath: string | null;
 };
 
+export type LayoutCsvRow = {
+    index: string;
+    file: string;
+    buttonhref?: string;
+    buttonlabel?: string;
+    size?: string | null;
+};
+
 export type ContentItem = {
   type: "image" | "markdown";
   content: string;
   buttonHref?: string | null; // Link til sub pages - "/bedrift", "/", "kontakt", osv.
   buttonLabel?: string | null; // Det som skal stå på knappen
   rowId?: string;  // For å mappe knapper til index
+  size: number | null; // 2 - 8 (20-80%)
 };
 
 export type ContentRow = ContentItem[];
 
-
-export type LayoutCsvRow = {
-    index: string;
-    file: string;
-    buttonhref?: string;
-    buttonlabel?: string;
-};
-
-export type FaqProps = {
+export type FaqItem = {
   question: string;
   answer: string;
 };

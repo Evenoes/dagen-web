@@ -1,25 +1,19 @@
+// Ja! Denne er overkommentert, fin for læring!
+
 // Denne filen leser inn medlemmer fra members.csv 
 // og returnerer en liste til å bruke på om-oss-siden
 
 import fs from "fs";
 import path from "path";
 import Papa from "papaparse";
-
-// Dataklasse for innhold til et medlem
-// Tenk klasse uten funksjoner (dataclass eller dict i Python)
-export type Member = {
-    name: string;               // Navn på medlem
-    title: string;              // Rolle / styretittel
-    email: string;              // Epost; rolle@dagenatifi.no
-    picturePath: string | null; // Path til bilde av medlem eller null
-};
+import { Member } from "@/types";
 
 // Type for å lese rader i CSV-filen etter header
 type MemberCsvRow = {
-    name: string;
-    title: string;
-    email: string;
-    picture?: string;
+    name: string;       // Navn på medlem
+    title: string;      // Rolle / styretittel
+    email: string;      // Epost; rolle@dagenatifi.no
+    picture?: string;   // Path til bilde av medlem eller null
 };
 
 // Denne funksjonen leser CSV-filen og lager listen av medlemmer
@@ -28,7 +22,7 @@ export function getMembers(): Member[] {
     const csvPath = path.join(process.cwd(), "content/hjem/members.csv");
 
     // Path til bildemappen fra root
-    const picturesDir = path.join(process.cwd(), "public/members");
+    const memberPictureDir = path.join(process.cwd(), "public/members");
 
     // Hvis CSV-filen ikke finnes, logges en error og returnerer en tom liste
     // På siden vil det da bare være tomt under "Styret" isteden for at den kræsjer
@@ -75,7 +69,7 @@ export function getMembers(): Member[] {
         // Hvis kolonnen ikke var tom, kan vi prøve å finne bildet
         if (pictureFileName) {
             // Bygger en fullstendig path til bildet
-            const absPicturePath = path.join(picturesDir, pictureFileName);
+            const absPicturePath = path.join(memberPictureDir, pictureFileName);
 
             // Sjekker at bildet finnes
             if (fs.existsSync(absPicturePath)) {

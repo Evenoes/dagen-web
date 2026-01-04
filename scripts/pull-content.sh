@@ -18,10 +18,9 @@ git clone --depth 1 "$CONTENT_REPO_URL" "$TMP_DIR"
 # Kopier innhold inn i dagen-web
 rm -rf content
 mkdir -p content
-cp -R "$TMP_DIR"/arrangementer content/arrangementer || true
+cp -R "$TMP_DIR"/hjem content/hjem || true
 cp -R "$TMP_DIR"/bedrift content/bedrift || true
-cp -R "$TMP_DIR"/intern content/intern || true
-cp -R "$TMP_DIR"/om-oss content/om-oss || true
+cp -R "$TMP_DIR"/bli-med content/bli-med || true
 
 # Kopier public assets
 mkdir -p public

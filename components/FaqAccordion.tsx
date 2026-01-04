@@ -1,18 +1,18 @@
-// Viser en liste med FAQ som dropwdown-menyer (åpne / lukke svarene)
+// Viser en liste med FAQ som dropwdown-menyer (åpne / lukke svar)
 "use client";
 
 import { useState } from "react";
 import ReactMarkdown from "react-markdown";
-import { FaqProps } from "@/types";
+import { FaqItem } from "@/types";
 import ArrowDownIcon from "@/components/icons/ArrowDownIcon"
 
 // Props: liste med FAQ-objekter
-type FaqDropdownProps = {
-    faqs: FaqProps[];
+type FaqAccordionProps = {
+    faqs: FaqItem[];
 };
 
 
-export default function FaqDropdown({ faqs }: FaqDropdownProps) {
+export default function FaqAccordion({ faqs }: FaqAccordionProps) {
     // State for åpen / lukket dropdown
     const [openIndex, setOpenIndex] = useState<number | null>(null);
 

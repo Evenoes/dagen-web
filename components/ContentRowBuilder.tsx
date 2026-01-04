@@ -1,99 +1,138 @@
-// Denne lager rader med bilder og / eller tekst 
-// Tar inn en liste med ContentRow - type fil og filnavn
+// ContentRowBuilder viser innhold på nettsiden i rader.
+// Hver rad kan inneholde markdown-tekst(er) og/eller bilder ved siden av hverandre.
+// Og en knapp under bilde eller tekst (optional)
+//   * ContentImage - viser bilder
+//   * ContentMarkdown - viser tekst
+//   * ContentButton - viser knapper
 
-import ReactMarkdown from "react-markdown";
 import { ContentRow } from "@/types";
-import Image from "next/image";
-import { useRouter } from "next/router";
-import Link from "next/link";
+import ContentImage from "./ContentImage";
+import ContentMarkdown from "./ContentMarkdown";
+import ContentButton from "./ContentButton";
 
-// Props som definerer hva komponenten lager
-// Liste av ContentRow
+// rows: Liste av rader som skal vises
 type ContentRowBuilderProps = {
     rows: ContentRow[];
 };
 
-// Bygger rader
-export default function ContentRowBuilder({ rows }: ContentRowBuilderProps) {
-    const router = useRouter();
+// Holder size innenfor 2 og 8 - 1 = 2, 0 = 2, osv..
+const normalizeSize = (n: number) => Math.min(8, Math.max(2, n));
 
+// Hjelpefunksjon for størrelsesforhold til elementer (sette size i csv)
+// 1 element = full bredde, 2 elementer 5/5 default eller X / (10-X)
+// 3+ elementer = alle likt, eller fordeler
+function computeSizes(row: ContentRow): number[] {
+    const count = row.length;
+    if (count === 0) return [];
+    if (count === 1) return [10];
+
+    const hasSetSize = row.some((item) => item.size != null);
+
+    // For to i raden
+    if (count === 2) {
+        const [a, b] = row;
+        const defaultSize = 5;
+
+        if (!hasSetSize) {
+            return [defaultSize, defaultSize];
+        }
+
+        const aSizeRaw =
+            a.size != null
+                ? a.size
+                : b.size != null
+                    ? 10 - b.size
+                    : defaultSize;
+
+        const aSize = normalizeSize(aSizeRaw);
+        const bSizeRaw = b.size != null ? b.size : 10 - aSize;
+        const bSize = normalizeSize(bSizeRaw);
+
+        return [aSize, bSize]
+    }
+
+    // For tre eller flere
+    if (!hasSetSize) {
+        return row.map(() => 1);
+    }
+
+    return row.map((item) =>
+        item.size != null ? normalizeSize(item.size) : 2
+    );
+}
+
+// Hovedfunksjon
+export default function ContentRowBuilder({ rows }: ContentRowBuilderProps) {
     return (
         <>
+            {/* ? betyr: hvis rows er null/undefined, ikke krasj            */}
             {rows?.map((row, rowIndex) => {
-                // Radlengde, brukes for å velge antall kolonner
+
+                // Antall elementer i raden
                 const columnCount = row.length;
 
-                // Kun en i raden, brukes for å sentrere tekst
+                // Hvis bare ett element, sentrerer tekst lenger ned
                 const isSingle = columnCount === 1;
 
-                // Setter id på raden for å bruke knapp med index
+                // Hent id for raden (f.eks. "row-0", "row-1")
+                // Brukes av knapper for å kunne scrolle hit
                 const rowId = row[0]?.rowId;
+
+                // Størrelse i forhold til naboelementer (2-8)
+                const sizes = computeSizes(row);
 
                 return (
                     <div
                         key={rowIndex}
-                        id={rowId}  // Id som knapper kan bruke
+                        id={rowId}
                         className={`
                         scroll-mt-24
-                        grid gap-6 items-center
-                        grid-cols-1
-                        md:grid-cols-${columnCount}
-                        `}  // scroll-mt-24 så knappetrykk ikke starter under header
-                            // grid-cols-${columnCount} - setter ant kolonner
-                    >       
-                        {row.map((item, itemIndex) => {
-                            const content =
-                                item.type === "image" ? (
-                                    // Hvis filen er et bilde
-                                    <Image
-                                        src={`${router.basePath}/${item.content}`}
-                                        alt={`Bilde ${rowIndex + 1}`}
-                                        width={1200}
-                                        height={800}
-                                        className="w-full h-auto rounded-lg"
+                        max-w-5xl mx-auto
+                        flex flex-col md:flex-row
+                        md:justify-center
+                        gap-6 
+                        items-start
+                        `}
+                    >
+                        {row.map((item, itemIndex) => (
+                            <div
+                                key={itemIndex}
+                                className="flex flex-col items-center text-center min-w-0"
+                                style={
+                                    columnCount > 1
+                                        ? {
+                                            maxWidth: `${(sizes[itemIndex] / 10) * 100}%`,
+                                            flexShrink: 1,
+                                            flexGrow: 0,
+                                        }
+                                        : undefined
+                                }
+                            >
+                                {/* Viser bilde eller tekst */}
+                                {item.type === "image" ? (
+                                    // Hvis det er et bilde
+                                    <ContentImage
+                                        imagePath={item.content}
+                                        rowNumber={rowIndex}
                                     />
                                 ) : (
-                                    // Hvis ikke bilde, antar vi markdown
-                                    <div
-                                        key={itemIndex}
-                                        className={`
-                                    prose wrap-break-word max-w-full
-                                    ${isSingle ? "text-center mx-auto" : ""}
-                                    `}
-                                    >
-                                        <ReactMarkdown>{item.content}</ReactMarkdown>
-                                    </div>
-                                );
+                                    // Hvis det er tekst
+                                    <ContentMarkdown
+                                        markdownText={item.content}
+                                        isCentered={isSingle}  // Sentrer hvis bare ett element i raden
+                                    />
+                                )}
 
-                                // Knapp for link, legger seg under teksten eller bildet den hører til
-                            return (
-                                <div
-                                    key={itemIndex}
-                                    className="flex flex-col items-center text-center min-w-0"
-                                >
-                                    {content}
-
-                                    {item.buttonHref && (
-                                        <Link 
-                                        href={item.buttonHref} 
-                                        className="mt-4"
-                                        onClick={(event) => {
-                                            // Hvis href er ankerpunkt på samme side fjernes #anker fra url (så det ikke hopper ned ved oppdatering av siden)
-                                            if (item.buttonHref?.startsWith("#")) {
-                                                event.preventDefault();
-                                                const targetElement = document.querySelector(item.buttonHref);
-                                                targetElement?.scrollIntoView({ behavior: "smooth" });
-                                            }
-                                        }}
-                                        >
-                                            <button className="px-4 py-2 rounded-lg bg-(--primary) text-white text-sm font-medium hover:opacity-90 transition">
-                                                {item.buttonLabel ?? "Les mer"}
-                                            </button>
-                                        </Link>
-                                    )}
-                                </div>
-                            );
-                        })}
+                                {/* Hvis det er en knapp */}
+                                {/* && betyr: hvis item.buttonHref finnes, vis det som kommer etter */}
+                                {item.buttonHref && (
+                                    <ContentButton
+                                        href={item.buttonHref}
+                                        label={item.buttonLabel}
+                                    />
+                                )}
+                            </div>
+                        ))}
                     </div>
                 );
             })}

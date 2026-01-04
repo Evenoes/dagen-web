@@ -1,3 +1,5 @@
+// For a lage grid (matriser), f.eks. styremedlemmer
+
 type GridSectionProps = {
   title?: string;
   children: React.ReactNode;

@@ -14,7 +14,7 @@ type JobCardProps = {
 };
 
 // Setter farge på kant (border) etter type stilling
-const getCategoryColor = (title: string) => {
+const getJobTypeBorderColor = (title: string) => {
     switch (title?.toLowerCase()) {
         case "sommerjobb":
             return "border-pink-400";
@@ -44,7 +44,9 @@ export default function JobCard({ tittel, firma, frist, url, logo }: JobCardProp
         <Link
             href={url}
             target="_blank"
-            className={`relative block bg-white dark:bg-gray-400 shadow-xl border-t-8 rounded-xl p-6 hover:scale-[1.02] transition-transform cursor-pointer ${getCategoryColor(
+            rel="noopener noreferrer"
+            aria-label={`${tittel} hos ${firma}, søknadsfrist ${formatDate(frist)} (åpnes i ny fane)`}
+            className={`relative block bg-white dark:bg-gray-400 shadow-xl border-t-8 rounded-xl p-6 hover:scale-[1.02] transition-transform cursor-pointer ${getJobTypeBorderColor(
                 tittel
             )}`}
         >

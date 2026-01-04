@@ -3,16 +3,16 @@
 // Egen CSV-fil for info (content)
 // Egen CSV-fil for FAQ
 
-import { getFAQs } from "../lib/faq";
-import FaqDropdown from "@/components/FaqDropdown";
+import { getFAQs } from "../lib/getFaqs";
+import FaqAccordion from "@/components/FaqAccordion";
 import { getContentRowLayout } from "@/lib/getContentRowLayout";
-import { ContentRow, FaqProps } from "@/types";
+import { ContentRow, FaqItem } from "@/types";
 import ContentRowBuilder from "@/components/ContentRowBuilder";
 
 // Props for hva siden jobber med
 type BedriftPageProps = {
   contentRows: ContentRow[];
-  faqs: FaqProps[];
+  faqs: FaqItem[];
 }
 
 
@@ -28,7 +28,7 @@ export default function Page({ contentRows, faqs }: BedriftPageProps) {
         <h2 className="text-4xl font-bold text-center mb-8 text-(--primary)">
           FAQs
           </h2>
-        <FaqDropdown 
+        <FaqAccordion 
         faqs={faqs} 
         />
       </div>

@@ -1,110 +1,166 @@
-// Lager og returnerer ContentRow - rader med bilder og / eller tekst
-// til å brukes på flere sider
-// Bruker readLayoutCsv fra contentLayoutRowReader.ts
+// Leser layout fra en CSV-fil og lager rader med bilder og/eller markdown-tekst
 //
-// Kan brukes til alle sider som trenger tekst og bilder på samme rad
+// CSV-filen ser slik ut:
+//   Index,File,ButtonHref,ButtonLabel
+//   0,hjem/tekst.md,/bedrift,Les mer
+//   0,bilde.png,,
+//   1,annen-tekst.md,#row-2,Gå til neste
+//
+// VIKTIG:
+// - Markdown-filer (.md) forventes å ligge i content-mappen
+// - Bilder forventes å ligge i public-mappen
 
 import fs from "fs";
 import path from "path";
+import Papa from "papaparse";
 import matter from "gray-matter";
 import { ContentItem, ContentRow, LayoutCsvRow } from "@/types";
-import { readLayoutCsv } from "./layoutCsvReader";
 
-// Hjelpefunksjon for å sjekke om en href er til en index (int) eller path (side) / #anker
-function checkNumberOrHref(ref?: string | null): string | null {
+
+// Leser en CSV-fil og gjør den om til en liste med objekter
+
+function readCsvFile(csvPath: string): LayoutCsvRow[] {
+    // Bygger full path til CSV-fil fra root (process.cwd() = roten av prosjektet)
+    const fullCsvPath = path.join(process.cwd(), "content", csvPath);
+
+    // Hvis filen ikke finnes / feil path
+    if (!fs.existsSync(fullCsvPath)) {
+        console.error(`CSV-file for row layout not found ${fullCsvPath}`);
+        return [];
+    }
+
+    // Leser filen til tekst (utf8 = vanlig tekstkoding)
+    const csvFileContent = fs.readFileSync(fullCsvPath, "utf8");
+
+    // Papa.parse gjør CSV-tekst om til objekter
+    const { data } = Papa.parse<LayoutCsvRow>(csvFileContent, {
+        header: true,               
+        skipEmptyLines: true,       // Hopper over tomme linjer
+        transformHeader: (h) => h.toLowerCase().trim(),
+        transform: (v) => v?.trim(),  // .trim() = .strip() i Python
+    });
+
+    return data as LayoutCsvRow[];
+}
+
+
+// Sjekker om en href er et tall (index) eller en vanlig link
+// Hvis ref = "2"      → returnerer "#row-2" (ankerpunkt på samme side)
+// Hvis ref = "/bedrift" → returnerer "/bedrift" (link til annen side)
+// Hvis ref = null     → returnerer null (ingen knapp)
+
+function resolveButtonHref(ref?: string | null): string | null {
     if (!ref) return null;
 
-    // Tall: tolk som referanse til index
+    // Regex /^\d+$/ sjekker om ref kun består av tall (0-9)
+    // ^ = start, \d = digit, + = ett eller flere, $ = slutt
     if (/^\d+$/.test(ref)) {
         return `#row-${ref}`;
     }
 
-    // Ikke tall, vanlig href (path eller #anker)
+    // Ikke tall
     return ref;
 }
 
-// Tar inn path til CSV som argument
-// OBS!
-// Markdown-filer forventes å ligge innenfor content-mappe
-// Bilder forventes å ligge innenfor public
-// Videre path fra disse må tilpasses sidene denne brukes på
-export function getContentRowLayout(csvPath: string): ContentRow[] {
-    // Leser fil med hjelpemetoden nevt øverst
-    const rows: LayoutCsvRow[] = readLayoutCsv(csvPath)
 
-    // Ordbok med key = index fra CSV, value = liste av filnavn (bilder og/eller tekst)
+// Leser CSV-filen og lager listen av ContentRow
+export function getContentRowLayout(csvPath: string): ContentRow[] {
+    
+    // Les CSV-filen
+    const rows: LayoutCsvRow[] = readCsvFile(csvPath);
+
+    // Grupper filer etter index (som ordbok)
     const grouped: { [key: number]: ContentItem[] } = {};
 
-    // Looper igjennom alle objektene
+    // Looper igjennom alle radene fra CSV-filen
     for (const row of rows) {
 
-        // Hopper over ugyldige objekter (linjer i CSV-filen)
+        // Hopper over ugyldige rader (mangler index eller fil)
         if (!row.index || !row.file) {
             continue;
         }
 
-        // Parser index til int (10 = decimal)
+        // parseInt(tekst, 10) = int(tekst) i Python (10 = decimal)
         const index = parseInt(row.index, 10);
 
-        // Hopper over ugyldige indekser (ikke tall)
+        // Hopper over hvis index ikke er et tall (isNaN = is Not a Number)
         if (isNaN(index)) {
             continue;
         }
 
-        // Lager ny ordbokindeks hvis den ikke finnes
+        // Hvis det ikke finnes en liste for denne indexen enda, lag en
         if (!grouped[index]) {
             grouped[index] = [];
         }
 
-        
-        // Sjekker om filen er markdown (.md), hvis ikke antar vi at det er et bilde
+        // Hvis filnavnet ender med ".md" - Behandles som markdown-tekst
+        // Hvis ikke - anta at det er et bilde (Kunne vært bedre fail safe hvis brukergruppen var større)
         const isMarkdown = row.file.toLowerCase().endsWith(".md");
 
-        // Index til raden
-        const rowId = `row-${index}`;
+        // Lag id for raden (brukes av knapper for å scrolle til riktig sted)
+        const rowId = `row-${index}`; // f.eks. "row-0", "row-1"
 
-        // Href for knapp (sjekker tall eller string) og label
-        const buttonHref = checkNumberOrHref(row.buttonhref ?? null);
+        // Hvis buttonhref, settes ref eller null
+        const buttonHref = resolveButtonHref(row.buttonhref ?? null);
         const buttonLabel = row.buttonlabel && row.buttonlabel.length > 0 ? row.buttonlabel : null;
 
+        // Relativ størrelse på elementet, f.eks: 2:8 fordeling, ett får 20% bredde det andre 80%
+        let size: number | null = null;
+        if (row.size) {
+            const parsed = parseInt(row.size, 10);
+            if (!isNaN(parsed)) {
+                size = Math.min(8, Math.max(2, parsed));
+            }
+        }
 
         if (isMarkdown) {
-            // Det er en markdown fil, lager full path
+            // Lag full path til markdown-filen
             const mdPath = path.join(process.cwd(), "content", row.file);
 
-            // Hvis filen eksisterer
+            // Sjekk at filen faktisk eksisterer
             if (fs.existsSync(mdPath)) {
-                // Leser filen til tekst
+                // Les filen til tekst (utf8)
                 const mdContent = fs.readFileSync(mdPath, "utf8");
-                // Gray-matter for å fjerne metadata og bare hente teksten 
+                
+                // Gray-matter fjerner metadata fra markdown-filer
+                // F.eks. hvis filen har:
+                //   ---
+                //   title: Min side
+                //   ---
+                //   # Hei
+                // Så gir content bare "# Hei" (uten metadata)
                 const { content } = matter(mdContent);
 
-                // Legger filreferansen til i ordboken med type
+                // Legg til i ordboken
                 grouped[index].push({
                     type: "markdown",
                     content,
                     buttonHref,
                     buttonLabel,
                     rowId,
+                    size,
                 });
             } else {
+                // Filen finnes ikke
                 console.error(`Markdown file not found: ${mdPath}`);
             }
+            
         } else {
-            // Filen er ikke markdown, behandler som bilde
+            // Hvis det er et bilde
+            // Vi lagrer bare path til bildet
             grouped[index].push({
                 type: "image",
                 content: row.file,
                 buttonHref,
                 buttonLabel,
                 rowId,
+                size,
             });
         }
-
     }
 
-    // Returnerer en sortert liste etter indekseringen til ordboken
+    // Sorter og returner
     return Object.keys(grouped)
-        .sort((a, b) => parseInt(a, 10) - parseInt(b, 10))
-        .map((key) => grouped[parseInt(key, 10)]);
+        .sort((a, b) => parseInt(a, 10) - parseInt(b, 10))  // Sorter numerisk
+        .map((key) => grouped[parseInt(key, 10)]);           // Hent verdiene
 }

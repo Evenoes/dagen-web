@@ -32,7 +32,7 @@
 }
 
 html {
-  overflow-y: scroll; /* Always show vertical scrollbar to prevent layout shift */
+  overflow-y: scroll;
   scroll-behavior: smooth;
 }
 

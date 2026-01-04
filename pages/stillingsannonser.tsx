@@ -3,17 +3,17 @@
 import JobCard from "@/components/JobCard";
 import { getJobListings, JobCsvRow } from "@/lib/getJobListings";
 
-// Props som definer hva siden skal jobbe med (liste av objekter fra jobs.ts)
+// Props som definer hva siden skal jobbe med (liste av objekter fra getJobListings.ts)
 type StillingsannonserProps = {
-  jobs: JobCsvRow[];
+  jobListings: JobCsvRow[];
 };
 
 // Lager og viser et JobCard for hver annonse 
-export default function Stillingsannonser({ jobs }: StillingsannonserProps) {
+export default function Stillingsannonser({ jobListings: jobListings }: StillingsannonserProps) {
   return (
     <div className="max-w-7xl mx-auto px-4 md:px-6 py-8">
       <div className="max-w-96 md:max-w-[832px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
-      {jobs.map((job) => (
+      {jobListings.map((job) => (
         <JobCard
           key={`${job.firma}-${job.url}`}
           tittel={job.tittel}
@@ -48,6 +48,6 @@ export async function getStaticProps() {
   });
 
   return {
-    props: { jobs: validJobs },
+    props: { jobListings: validJobs },
   };
 }
