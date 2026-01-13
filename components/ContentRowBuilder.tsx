@@ -147,12 +147,12 @@ export default function ContentRowBuilder({ rows }: ContentRowBuilderProps) {
                         </div>
 
                         {/* Desktop-layout, original rekkefølge + size */}
-                                                <div
-                            className="hidden md:flex md:justify-center gap-6 items-start">
+                        <div
+                            className="hidden md:flex md:justify-center gap-6 items-start w-full">
                             {row.map((item, itemIndex) => (
                                 <div
                                     key={itemIndex}
-                                    className="flex flex-col items-center text-center min-w-0 wrap-break-word"
+                                    className="flex flex-col items-center min-w-0 wrap-break-word"
                                     style={
                                         columnCount > 1
                                             ? {
@@ -160,7 +160,9 @@ export default function ContentRowBuilder({ rows }: ContentRowBuilderProps) {
                                                 flexShrink: 1,
                                                 flexGrow: 0,
                                             }
-                                            : undefined
+                                            : {
+                                                width: '100%',
+                                            }
                                     }
                                 >
                                     {/* Viser bilde eller tekst */}
