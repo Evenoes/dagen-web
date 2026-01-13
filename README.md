@@ -42,7 +42,7 @@ NEXT_PUBLIC_FORMSPREE_ID=...
 npm run dev
 ```
 Åpne:
-[http://localhost:300](http://localhost:3000)
+[http://localhost:3000](http://localhost:3000)
 
 ### Minimum filstruktur for content
 For at siden skal fungere
