@@ -5,6 +5,7 @@ import { Member } from "../types";
 import { getMarkdownContent } from "@/lib/getMarkdownContent";
 import { getMembers } from "@/lib/members";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 type HomePageProps = {
   whatIsDagen: string;
@@ -16,7 +17,8 @@ type HomePageProps = {
 };
 
 // Hovedfunksjon
-export default function Home({ whatIsDagen, hspInfo, dagenInfo, ettermiddagenInfo, aboutText, members }: HomePageProps) {
+export default function Home({ whatIsDagen, hspInfo, dagenInfo, ettermiddagenInfo }: HomePageProps) {
+  const router = useRouter();
   return (
     <main className="max-w-7xl mx-auto px-4 md:px-6 py-8 space-y-50 mt-44 mb-44">
 
@@ -28,7 +30,7 @@ export default function Home({ whatIsDagen, hspInfo, dagenInfo, ettermiddagenInf
         <div className="flex items-center justify-center gap-32 mb-12 mt-8">
           <div className="relative w-32 h-32 shrink-0">
             <Image
-              src={"/homepage/hsp_logo.png"}
+              src={`${router.basePath}/homepage/hsp_logo.png`}
               alt=""
               fill
               sizes="48px"
@@ -61,7 +63,7 @@ export default function Home({ whatIsDagen, hspInfo, dagenInfo, ettermiddagenInf
 
           <div className="relative max-w-md w-full aspect-4/3">
             <Image
-              src="/homepage/dagen.webp"
+              src={`${router.basePath}/homepage/dagen.webp`}
               alt=""
               fill
               sizes="(min-width: 768px) 448px, 100vw"
@@ -75,7 +77,7 @@ export default function Home({ whatIsDagen, hspInfo, dagenInfo, ettermiddagenInf
         <div className="flex gap-10">
           <div className="relative max-w-md w-full aspect-4/3">
             <Image
-              src="/homepage/ettermiddagen.webp"
+              src={`${router.basePath}/homepage/ettermiddagen.webp`}
               alt=""
               fill
               sizes="(min-width: 768px) 448px, 100vw"
