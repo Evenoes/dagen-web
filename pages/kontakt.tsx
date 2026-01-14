@@ -19,20 +19,42 @@ export default function Kontakt() {
         >
 
           {/* Anonym? */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-4">
             <label htmlFor="anonymous" className="text-sm">
-              Anonym tilbakemelding? Kryss av her!
+              Anonym tilbakemelding?
             </label>
+
+            <button
+              type="button"
+              role="switch"
+              aria-checked={isAnonymous}
+              onClick={() => setIsAnonymous((v) => !v)}
+              className={[
+                "relative inline-flex h-7 w-12 items-center rounded-full transition",
+                "focus:outline-none focus:ring-2 focus:ring-(--primary) focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-900",
+                isAnonymous ? "bg-(--primary)" : "bg-gray-300 dark:bg-gray-700",
+              ].join(" ")}
+            >
+              <span
+                className={[
+                  "inline-block h-5 w-5 transform rounded-full bg-white shadow transition",
+                  isAnonymous ? "translate-x-6" : "translate-x-1",
+                ].join(" ")}
+              />
+            </button>
+
+            {/* Skjult input så Formspree fortsatt får feltet */}
             <input
               id="anonymous"
-              type="checkbox"
               name="anonymous"
+              type="checkbox"
               value="true"
               checked={isAnonymous}
-              onChange={(e) => setIsAnonymous(e.target.checked)}
-              className="h-4 w-4"
+              readOnly
+              className="hidden"
             />
           </div>
+
 
           {/* Navn */}
           <div>
