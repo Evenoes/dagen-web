@@ -7,7 +7,13 @@ module.exports = {
     "./content/**/*.{md}", 
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ["Inter", "system-ui", "sans-serif"],
+        mono: ["var(--font-roboto-mono)", "ui-monospace", "SFMono-Regular", "monospace"],
+        heading: ["var(--font-ibm-plex-mono)", "ui-monospace", "SFMono-Regular", "monospace"],
+      },
+    },
   },
   plugins: [require("@tailwindcss/typography")],
   plugins: [require("@tailwindcss/line-clamp")],

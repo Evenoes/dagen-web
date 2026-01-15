@@ -20,7 +20,7 @@ type HomePageProps = {
 export default function Home({ whatIsDagen, hspInfo, dagenInfo, ettermiddagenInfo }: HomePageProps) {
   const router = useRouter();
   return (
-    <main className="max-w-7xl mx-auto px-4 md:px-6 py-8 space-y-44 mt-32 mb-32">
+    <main className="max-w-[1253px] mx-auto px-4 md:px-6 py-8 space-y-44 mt-32 mb-32">
 
       {/* Hva er Dagen - infotekst */}
       <div className="prose max-w-4xl mx-auto">
@@ -29,7 +29,7 @@ export default function Home({ whatIsDagen, hspInfo, dagenInfo, ettermiddagenInf
 
       {/* HSP, skjult hvis markdownfilen er tom */}
       {hspInfo &&
-        <div className="max-w-5xl mx-auto border-2 px-8 py-8 flex flex-col">
+        <div className="max-w-[1106px] min-h-[557px] mx-auto border-2 px-8 py-8 flex flex-col">
           <div className="flex items-center justify-center gap-32 mb-12 mt-8">
             <div className="relative w-32 h-32 shrink-0">
               <Image
