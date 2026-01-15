@@ -20,7 +20,7 @@ export default function Header() {
     const router = useRouter();
 
     return (
-        <header className="sticky top-0 z-50 backdrop-blur-md bg-white/30 pt-[35px]">
+        <header className="sticky top-0 z-50 pt-[35px]">
             <div className="max-w-[1304px] mx-auto px-4 md:px-6">
                 <div className="relative h-[61px]">
 

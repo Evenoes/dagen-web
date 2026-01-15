@@ -1,77 +1,121 @@
-// Footer som vises på alle sider
-
 import Link from "next/link";
 import { SOCIAL_LINKS, CONTACT_INFO } from "../lib/config";
 import FacebookLogoIcon from "./icons/FacebookLogoIcon";
 import InstagramLogoIcon from "./icons/InstagramLogoIcon";
 import LinkedInLogoIcon from "./icons/LinkedInLogoIcon";
 
-// <span className="sr-only">SoMe-type</span>, sr = screen reader, altså er disse for skjermlesere
-
 export default function Footer() {
     return (
-        <footer className="border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
-            <div className="max-w-7xl mx-auto px-4 md:px-6 py-8">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center text-center">
+        <footer className="bg-(--primary) border-t border-black">
+            <div className="mx-auto max-w-[1440px] px-4 md:px-[51px]">
 
-                    {/* SOME-linker */}
-                    <div className="flex gap-4 justify-center md:justify-start">
-
-                        {/* LinkedIn */}
-                        <Link
-                            href={SOCIAL_LINKS.linkedin}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="hover:opacity-70 transition-opacity"
-                        >
+                {/* MOBIL */}
+                <div className="md:hidden py-8 flex flex-col items-center gap-6">
+                    {/* Øverst - SoMe-ikoner */}
+                    <div className="flex gap-6">
+                        <Link href={SOCIAL_LINKS.linkedin} target="_blank" rel="noopener noreferrer" className="hover:opacity-70 transition-opacity">
                             <span className="sr-only">LinkedIn</span>
-                            <LinkedInLogoIcon className="w-6 h-6 text-black dark:text-white" />
+                            <LinkedInLogoIcon className="w-6 h-6 text-black" />
                         </Link>
-
-                        {/* Facebook */}
-                        <Link
-                            href={SOCIAL_LINKS.facebook}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="hover:opacity-70 transition-opacity"
-                        >
+                        <Link href={SOCIAL_LINKS.facebook} target="_blank" rel="noopener noreferrer" className="hover:opacity-70 transition-opacity">
                             <span className="sr-only">Facebook</span>
-                            <FacebookLogoIcon className="w-6 h-6 text-black dark:text-white" />
+                            <FacebookLogoIcon className="w-6 h-6 text-black" />
                         </Link>
-
-                        {/* Instagram */}
-                        <Link
-                            href={SOCIAL_LINKS.instagram}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="hover:opacity-70 transition-opacity"
-                        >
+                        <Link href={SOCIAL_LINKS.instagram} target="_blank" rel="noopener noreferrer" className="hover:opacity-70 transition-opacity">
                             <span className="sr-only">Instagram</span>
-                            <InstagramLogoIcon className="w-6 h-6 text-black dark:text-white" />
+                            <InstagramLogoIcon className="w-6 h-6 text-black" />
                         </Link>
                     </div>
 
-                    {/* Foreningsnavnet og adresse */}
+                    {/* Midten - orgnavn + adresse */}
                     <div className="text-center">
-                        <p className="font-semibold text-lg text-(--primary)">
-                            {CONTACT_INFO.organizationName}
-                        </p>
-                        <div className="text-sm text-gray-600 dark:text-gray-400">
+                        <div className="font-mono font-normal text-[16px] leading-[34px] tracking-[0.05em] text-black">
                             <p>{CONTACT_INFO.address}</p>
                             <p>{CONTACT_INFO.postalCode}</p>
                         </div>
-
+                        <br />
+                        <p className="font-semibold text-black">
+                            {CONTACT_INFO.organizationName}
+                        </p>
                     </div>
 
-                    {/* Kontakt oss knapp */}
-                    <div className="flex gap-4 justify-center md:justify-end">
-                        <Link
-                            href="/kontakt"
-                            className="bg-(--primary) rounded-4xl px-8 py-4 inline-block text-white">
-                            Kontakt oss
-                        </Link>
-                    </div>
+                    {/* Nederst - kontakt-button */}
+                    <Link
+                        href="/kontakt"
+                        className="inline-flex items-center justify-center
+                                    w-[242px] h-[73px]
+                                    rounded-[65.77px]
+                                    border-[0.66px] border-black
+                                    bg-white
+                                    font-mono font-normal text-[16px] leading-[34px] tracking-[0.05em] text-black
+                                    hover:opacity-80 transition"
+                    >
+                        Kontakt oss
+                    </Link>
+                </div>
 
+                {/* DESKTOP */}
+                <div className="hidden md:block h-[178px] pt-[31px]">
+                    <div className="grid grid-cols-3 items-start">
+
+                        {/* Venstre - SoMe-text */}
+                        <div className="justify-self-start">
+                            <div className="flex flex-col text-left">
+                                <Link
+                                    href={SOCIAL_LINKS.instagram}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="underline underline-offset-2 font-mono font-normal text-[16px] leading-[25px] tracking-[0.05em] text-black hover:opacity-70 transition"
+                                >
+                                    Instagram
+                                </Link>
+                                <Link
+                                    href={SOCIAL_LINKS.linkedin}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="underline underline-offset-2 font-mono font-normal text-[16px] leading-[25px] tracking-[0.05em] text-black hover:opacity-70 transition"
+                                >
+                                    LinkedIn
+                                </Link>
+                                <Link
+                                    href={SOCIAL_LINKS.facebook}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="underline underline-offset-2 font-mono font-normal text-[16px] leading-[25px] tracking-[0.05em] text-black hover:opacity-70 transition"
+                                >
+                                    Facebook
+                                </Link>
+                            </div>
+                        </div>
+
+                        {/* Midten - orgnavn + adresse */}
+                        <div className="justify-self-center text-center">
+                            <div className="font-mono font-normal text-[16px] leading-[34px] tracking-[0.05em] text-black">
+                                <p>{CONTACT_INFO.address}</p>
+                                <p>{CONTACT_INFO.postalCode}</p>
+                            </div>
+                            <br />
+                            <p className="font-semibold text-black">
+                                {CONTACT_INFO.organizationName}
+                            </p>
+                        </div>
+
+                        {/* Høyre - kontakt-button */}
+                        <div className="justify-self-end">
+                            <Link
+                                href="/kontakt"
+                                className="inline-flex items-center justify-center
+                                            w-[242px] h-[73px]
+                                            rounded-[65.77px]
+                                            border-[0.66px] border-black
+                                            bg-white
+                                            font-mono font-normal text-[16px] leading-[34px] tracking-[0.05em] text-black
+                                            hover:opacity-80 transition"
+                            >
+                                Kontakt oss
+                            </Link>
+                        </div>
+                    </div>
                 </div>
             </div>
         </footer>
