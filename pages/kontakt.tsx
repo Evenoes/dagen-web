@@ -27,10 +27,6 @@ export default function Kontakt() {
     const data = new FormData(form);
 
     try {
-      console.log("contactType:", contactType);
-      console.log("formId:", formId);
-      console.log("formAction:", formAction);
-
       const res = await fetch(formAction, {
         method: "POST",
         headers: { Accept: "application/json" },
