@@ -20,41 +20,46 @@ type HomePageProps = {
 export default function Home({ whatIsDagen, hspInfo, dagenInfo, ettermiddagenInfo }: HomePageProps) {
   const router = useRouter();
   return (
-    <main className="max-w-7xl mx-auto px-4 md:px-6 py-8 space-y-50 mt-44 mb-44">
+    <main className="max-w-7xl mx-auto px-4 md:px-6 py-8 space-y-44 mt-32 mb-32">
 
+      {/* Hva er Dagen - infotekst */}
       <div className="prose max-w-4xl mx-auto">
         <ReactMarkdown>{whatIsDagen}</ReactMarkdown>
       </div>
 
-      <div className="max-w-5xl mx-auto border-2 px-8 py-8 flex flex-col">
-        <div className="flex items-center justify-center gap-32 mb-12 mt-8">
-          <div className="relative w-32 h-32 shrink-0">
-            <Image
-              src={`${router.basePath}/homepage/hsp_logo.png`}
-              alt=""
-              fill
-              sizes="48px"
-            />
+      {/* HSP, skjult hvis markdownfilen er tom */}
+      {hspInfo &&
+        <div className="max-w-5xl mx-auto border-2 px-8 py-8 flex flex-col">
+          <div className="flex items-center justify-center gap-32 mb-12 mt-8">
+            <div className="relative w-32 h-32 shrink-0">
+              <Image
+                src={`${router.basePath}/homepage/hsp_logo.png`}
+                alt=""
+                fill
+                sizes="48px"
+              />
+            </div>
+            <h2 className="text-4xl text-(--primary) font-bold m-0">
+              Hovedsamarbeidspartner
+            </h2>
           </div>
-          <h2 className="text-4xl text-(--primary) font-bold m-0">
-            Hovedsamarbeidspartner
-          </h2>
-        </div>
 
-        <div className="prose max-w-none flex-1">
-          <ReactMarkdown>{hspInfo}</ReactMarkdown>
-        </div>
+          <div className="prose max-w-none flex-1">
+            <ReactMarkdown>{hspInfo}</ReactMarkdown>
+          </div>
 
-        <div className="mt-auto flex flex-col gap-4 md:flex-row md:gap-8 md:justify-end">
-          <button className="py-4 w-xs bg-(--primary) text-white rounded-4xl hover:opacity-70">
-            Bli hovedsamarbeidspartner
-          </button>
-          <button className="py-4 w-xs bg-(--primary) text-white rounded-4xl hover:opacity-70">
-            Bli samarbeidspartner
-          </button>
+          <div className="mt-auto flex flex-col gap-4 md:flex-row md:gap-8 md:justify-end">
+            <button className="py-4 w-xs bg-(--primary) text-white rounded-4xl hover:opacity-70">
+              Bli hovedsamarbeidspartner
+            </button>
+            <button className="py-4 w-xs bg-(--primary) text-white rounded-4xl hover:opacity-70">
+              Bli samarbeidspartner
+            </button>
+          </div>
         </div>
-      </div>
+      }
 
+      {/* Dagen */}
       <div className="max-w-5xl mr-auto">
         <div className="flex gap-10">
           <div className="prose max-w-xl flex-1">
@@ -73,6 +78,7 @@ export default function Home({ whatIsDagen, hspInfo, dagenInfo, ettermiddagenInf
         </div>
       </div>
 
+      {/* Ettermiddagen */}
       <div className="max-w-5xl ml-auto">
         <div className="flex gap-10">
           <div className="relative max-w-md w-full aspect-4/3">
@@ -90,6 +96,7 @@ export default function Home({ whatIsDagen, hspInfo, dagenInfo, ettermiddagenInf
           </div>
         </div>
       </div>
+
     </main>
   );
 }

@@ -1,4 +1,3 @@
-// pages/kontakt.tsx
 import { useMemo, useState } from "react";
 
 type Status = "idle" | "sending" | "sent" | "error";
