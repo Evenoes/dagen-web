@@ -1,24 +1,62 @@
-import { useState } from "react";
+// pages/kontakt.tsx
+import { useMemo, useState } from "react";
+
+type Status = "idle" | "sending" | "sent" | "error";
 
 export default function Kontakt() {
   const [isAnonymous, setIsAnonymous] = useState(false);
   const [contactType, setContactType] = useState("");
+  const [status, setStatus] = useState<Status>("idle");
+
+  const formId = useMemo(() => {
+    if (contactType === "student") return process.env.NEXT_PUBLIC_FORMSPREE_STUDENT_ID;
+    if (contactType === "bedrift") return process.env.NEXT_PUBLIC_FORMSPREE_BEDRIFT_ID;
+    if (contactType === "si_fra") return process.env.NEXT_PUBLIC_FORMSPREE_SIFRA_ID;
+    return "";
+  }, [contactType]);
+
+  const formAction = formId ? `https://formspree.io/f/${formId}` : "";
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    if (!formAction) return;
+
+    setStatus("sending");
+
+    const form = e.currentTarget;
+    const data = new FormData(form);
+
+    try {
+      const res = await fetch(formAction, {
+        method: "POST",
+        headers: { Accept: "application/json" },
+        body: data,
+      });
+
+      const json = await res.json().catch(() => ({} as any));
+
+      if (res.ok && (json.ok === true || json.success === true || !json.errors)) {
+        setStatus("sent");
+        form.reset();
+        setIsAnonymous(false);
+        setContactType("");
+      } else {
+        setStatus("error");
+      }
+    } catch {
+      setStatus("error");
+    }
+  }
 
   return (
-    <main className="max.w.7xl mx-auto px-4 md:px-6 py-8">
+    <main className="max-w-7xl mx-auto px-4 md:px-6 py-8">
       <div className="max-w-3xl mx-auto">
         <h1 className="text-4xl font-bold text-(--primary) mb-8">
           Kontakt oss
         </h1>
 
-        {/* Formspree link med id fra secrets */}
-        <form
-          className="space-y-6"
-          action={`https://formspree.io/f/${process.env.NEXT_PUBLIC_FORMSPREE_ID}`}
-          method="POST"
-        >
-
-          {/* Anonym? */}
+        <form className="space-y-6" onSubmit={handleSubmit}>
+          {/* Anonym */}
           <div className="flex items-center gap-4">
             <label htmlFor="anonymous" className="text-sm">
               Anonym tilbakemelding?
@@ -43,7 +81,6 @@ export default function Kontakt() {
               />
             </button>
 
-            {/* Skjult input så Formspree fortsatt får feltet */}
             <input
               id="anonymous"
               name="anonymous"
@@ -54,7 +91,6 @@ export default function Kontakt() {
               className="hidden"
             />
           </div>
-
 
           {/* Navn */}
           <div>
@@ -68,8 +104,9 @@ export default function Kontakt() {
               placeholder={isAnonymous ? "Anonym" : "Ola Nordmann"}
               disabled={isAnonymous}
               required={!isAnonymous}
-              className={`w-full rounded-lg border border-gray-300 dark:border-gray-700 p-3 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-(--primary) ${isAnonymous ? "opacity-60 cursor-not-allowed" : ""
-                }`}
+              className={`w-full rounded-lg border border-gray-300 dark:border-gray-700 p-3 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-(--primary) ${
+                isAnonymous ? "opacity-60 cursor-not-allowed" : ""
+              }`}
             />
           </div>
 
@@ -85,17 +122,15 @@ export default function Kontakt() {
               placeholder={isAnonymous ? "Anonym" : "ola@epost.no"}
               disabled={isAnonymous}
               required={!isAnonymous}
-              className={`w-full rounded-lg border border-gray-300 dark:border-gray-700 p-3 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-(--primary) ${isAnonymous ? "opacity-60 cursor-not-allowed" : ""
-                }`}
+              className={`w-full rounded-lg border border-gray-300 dark:border-gray-700 p-3 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-(--primary) ${
+                isAnonymous ? "opacity-60 cursor-not-allowed" : ""
+              }`}
             />
           </div>
 
-          {/* Type henvendelse */}
+          {/* Type */}
           <div>
-            <label
-              className="block text-sm font-medium mb-1"
-              htmlFor="contact_type"
-            >
+            <label className="block text-sm font-medium mb-1" htmlFor="contact_type">
               Jeg tar kontakt som
             </label>
             <select
@@ -103,15 +138,16 @@ export default function Kontakt() {
               name="contact_type"
               required
               value={contactType}
-              onChange={(e) => setContactType(e.target.value)}
+              onChange={(e) => {
+                setContactType(e.target.value);
+                if (status !== "idle") setStatus("idle");
+              }}
               className="w-full rounded-lg border border-gray-300 dark:border-gray-700 p-3 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-(--primary)"
             >
-              {/* Valg av type! */}
               <option value="">Velg...</option>
               <option value="student">Student</option>
               <option value="bedrift">Bedriftsrepresentant</option>
               <option value="si_fra">Si fra!</option>
-
             </select>
           </div>
 
@@ -130,19 +166,35 @@ export default function Kontakt() {
             />
           </div>
 
-          {/* Skjulte felt som kan brukes i Formspree Rules / filtrering */}
           <input type="hidden" name="form_name" value="kontakt_skjema" />
 
-          {/* Knapp for å sende */}
+          {/* Submit */}
           <button
             type="submit"
-            className="bg-(--primary) text-white font-semibold px-6 py-3 rounded-lg hover:opacity-90 transition"
+            disabled={!contactType || !formId || status === "sending"}
+            className={[
+              "bg-(--primary) text-white font-semibold px-6 py-3 rounded-lg transition",
+              (!contactType || !formId || status === "sending")
+                ? "opacity-50 cursor-not-allowed"
+                : "hover:opacity-90",
+            ].join(" ")}
           >
-            Send melding
+            {status === "sending" ? "Sender…" : "Send melding"}
           </button>
 
+          {status === "sent" && (
+            <p className="text-sm text-green-700 dark:text-green-400">
+              Melding sendt
+            </p>
+          )}
+
+          {status === "error" && (
+            <p className="text-sm text-red-700 dark:text-red-400">
+              Noe gikk galt. Prøv igjen.
+            </p>
+          )}
         </form>
       </div>
     </main>
-  )
+  );
 }

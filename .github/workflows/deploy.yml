@@ -40,10 +40,14 @@ jobs:
 
       - name: Build (Next export)
         env:
-          # github-actions[bot] FORMSPREE_ID is configured in repository secrets
-          NEXT_PUBLIC_FORMSPREE_ID: ${{ secrets.FORMSPREE_ID }}
+          # github-actions[bot] FORMSPREE_STUDENT_ID is configured in repository secrets
+          NEXT_PUBLIC_FORMSPREE_STUDENT_ID: ${{ secrets.FORMSPREE_STUDENT_ID }}
+          # github-actions[bot] FORMSPREE_BEDRIFT_ID is configured in repository secrets
+          NEXT_PUBLIC_FORMSPREE_BEDRIFT_ID: ${{ secrets.FORMSPREE_BEDRIFT_ID }}
+          # github-actions[bot] FORMSPREE_SIFRA_ID is configured in repository secrets
+          NEXT_PUBLIC_FORMSPREE_SIFRA_ID: ${{ secrets.FORMSPREE_SIFRA_ID }}
         run: npm run build
-
+        
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
