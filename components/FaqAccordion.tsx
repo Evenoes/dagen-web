@@ -26,12 +26,12 @@ export default function FaqAccordion({ faqs }: FaqAccordionProps) {
             {faqs.map((faq, index) => (
                 <div
                     key={index}
-                    className="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden"
+                    className="border border-gray-200 rounded-lg overflow-hidden"
                 >
                     {/* Knapp for å åpne/lukke svar med spørsmål som tittel */}
                     <button
                         onClick={() => toggleFAQ(index)}
-                        className="w-full px-6 py-4 text-left bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors flex justify-between items-center gap-4"
+                        className="w-full px-6 py-4 text-left bg-white hover:bg-gray-50 transition-colors flex justify-between items-center gap-4"
                     >
                         <span className="font-semibold text-lg">
                             {faq.question}
@@ -46,7 +46,7 @@ export default function FaqAccordion({ faqs }: FaqAccordionProps) {
 
                     {/* Viser svaret kun hvis denne raden (spørsmålet) er åpen */}
                     {openIndex === index && (
-                        <div className="px-6 py-4 bg-gray-50 dark:bg-gray-900 prose prose-sm max-w-none">
+                        <div className="px-6 py-4 bg-gray-50 prose prose-sm max-w-none">
                             <ReactMarkdown>{faq.answer}</ReactMarkdown>
                         </div>
                     )}

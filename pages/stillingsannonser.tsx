@@ -17,7 +17,7 @@ export default function Stillingsannonser({ jobListings: jobListings }: Stilling
     <div className="max-w-7xl mx-auto px-4 md:px-6 py-8">
       <div className="max-w-96 md:max-w-[832px] mx-auto">
         {/* Mobil: 1 kolonne */}
-        <div className="flex flex-col gap-6 md:hidden">
+        <div className="flex flex-col gap-6 ">
           {jobListings.map((job) => (
             <JobCard
               key={`${job.firma}-${job.url}`}
@@ -32,40 +32,7 @@ export default function Stillingsannonser({ jobListings: jobListings }: Stilling
           ))}
         </div>
 
-        {/* Desktop: 2 uavhengige kolonner, så extend ikke flytter på kolonner */}
-        {/* Kolonne 1 */}
-        <div className="hidden md:flex gap-6 items-start">
-          <div className="flex-1 flex flex-col gap-6">
-            {left.map((job) => (
-              <JobCard
-                key={`${job.firma}-${job.url}`}
-                tittel={job.tittel}
-                stillingstype={job.stillingstype}
-                firma={job.firma}
-                frist={job.frist}
-                url={job.url}
-                logo={job.logo}
-                beskrivelse={job.beskrivelse}
-              />
-            ))}
-          </div>
-
-          {/* Kolonne 2 */}
-          <div className="flex-1 flex flex-col gap-6">
-            {right.map((job) => (
-              <JobCard
-                key={`${job.firma}-${job.url}`}
-                tittel={job.tittel}
-                stillingstype={job.stillingstype}
-                firma={job.firma}
-                frist={job.frist}
-                url={job.url}
-                logo={job.logo}
-                beskrivelse={job.beskrivelse}
-              />
-            ))}
-          </div>
-        </div>
+        
       </div>
     </div>
   );
