@@ -28,7 +28,7 @@ export default function Page({
   styretExtended,
 }: JoinProps) {
   return (
-    <main className="max-w-[1304px] mx-auto mt-[260px]">
+    <main className="max-w-[1304px] mx-auto pt-[164]">
       <div
         className="max-w-[1107px] mx-auto">
         <p
