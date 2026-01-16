@@ -43,12 +43,12 @@ export default function MemberCard({
             </h2>
 
             {/* Rolle / tittel */}
-            <p className="text-gray-700 dark:text-gray-300 font-medium wrap-break-word">
+            <p className="text-gray-700 font-medium wrap-break-word">
                 {memberTitle}
             </p>
 
             {/* Epost, denne kan gjøres klikkbar (mailto), men var ikke det på den gamle siden */}
-            <p className="text-gray-500 dark:text-gray-400 mt-2 text-sm wrap-break-word">
+            <p className="text-gray-500 mt-2 text-sm wrap-break-word">
                 {roleEmail}
             </p>
         </div>

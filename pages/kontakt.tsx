@@ -68,8 +68,8 @@ export default function Kontakt() {
               onClick={() => setIsAnonymous((v) => !v)}
               className={[
                 "relative inline-flex h-7 w-12 items-center rounded-full transition",
-                "focus:outline-none focus:ring-2 focus:ring-(--primary) focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-900",
-                isAnonymous ? "bg-(--primary)" : "bg-gray-300 dark:bg-gray-700",
+                "focus:outline-none focus:ring-2 focus:ring-(--primary) focus:ring-offset-2 focus:ring-offset-white",
+                isAnonymous ? "bg-(--primary)" : "bg-gray-300",
               ].join(" ")}
             >
               <span
@@ -103,7 +103,7 @@ export default function Kontakt() {
               placeholder={isAnonymous ? "Anonym" : "Ola Nordmann"}
               disabled={isAnonymous}
               required={!isAnonymous}
-              className={`w-full rounded-lg border border-gray-300 dark:border-gray-700 p-3 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-(--primary) ${isAnonymous ? "opacity-60 cursor-not-allowed" : ""
+              className={`w-full rounded-lg border border-gray-300 p-3 bg-white focus:outline-none focus:ring-2 focus:ring-(--primary) ${isAnonymous ? "opacity-60 cursor-not-allowed" : ""
                 }`}
             />
           </div>
@@ -120,7 +120,7 @@ export default function Kontakt() {
               placeholder={isAnonymous ? "Anonym" : "ola@epost.no"}
               disabled={isAnonymous}
               required={!isAnonymous}
-              className={`w-full rounded-lg border border-gray-300 dark:border-gray-700 p-3 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-(--primary) ${isAnonymous ? "opacity-60 cursor-not-allowed" : ""
+              className={`w-full rounded-lg border border-gray-300 p-3 bg-white focus:outline-none focus:ring-2 focus:ring-(--primary) ${isAnonymous ? "opacity-60 cursor-not-allowed" : ""
                 }`}
             />
           </div>
@@ -139,7 +139,7 @@ export default function Kontakt() {
                 setContactType(e.target.value);
                 if (status !== "idle") setStatus("idle");
               }}
-              className="w-full rounded-lg border border-gray-300 dark:border-gray-700 p-3 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-(--primary)"
+              className="w-full rounded-lg border border-gray-300 p-3 bg-white focus:outline-none focus:ring-2 focus:ring-(--primary)"
             >
               <option value="">Velg...</option>
               <option value="student">Student</option>
@@ -159,7 +159,7 @@ export default function Kontakt() {
               rows={6}
               required
               placeholder="Skriv meldingen din her..."
-              className="w-full rounded-lg border border-gray-300 dark:border-gray-700 p-3 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-(--primary)"
+              className="w-full rounded-lg border border-gray-300 p-3 bg-white focus:outline-none focus:ring-2 focus:ring-(--primary)"
             />
           </div>
 
@@ -180,13 +180,13 @@ export default function Kontakt() {
           </button>
 
           {status === "sent" && (
-            <p className="text-sm text-green-700 dark:text-green-400">
+            <p className="text-sm text-green-700">
               Melding sendt
             </p>
           )}
 
           {status === "error" && (
-            <p className="text-sm text-red-700 dark:text-red-400">
+            <p className="text-sm text-red-700">
               Noe gikk galt. Prøv igjen.
             </p>
           )}

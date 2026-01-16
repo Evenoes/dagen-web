@@ -21,17 +21,6 @@
   --font-heading: var(--font-ibm-plex-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-    --card-bg: #1f2937;
-    --card-border: #374151;
-    --gray-600: #9ca3af;
-    --gray-700: #d1d5db;
-  }
-}
-
 html {
   overflow-y: scroll;
   scroll-behavior: smooth;
