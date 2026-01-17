@@ -1,7 +1,6 @@
-import Image from "next/image";
 import ReactMarkdown from "react-markdown";
-import downArrow from "@/components/icons/downArrow.svg";
-import ApplyButton from "./ApplyButton";
+import ApplyButton from "../buttons/ApplyButton";
+import ReadMoreButton from "../buttons/ReadMoreButton";
 
 type JoinUsCardProps = {
     title: string;
@@ -45,21 +44,9 @@ export default function JoinUsCard({ title, infoText, onOpen, applyLink }: JoinU
             {/* Knapper */}
             <div className="mt-10 flex items-center justify-between md:mt-0 md:static">
                 {/* Les mer */}
-                <button
-                    onClick={onOpen}
-                    type="button"
-                    className="md:absolute md:left-[35px] md:top-[506px]"
-                >
-                    <div className={[
-                        "w-40 h-14 bg-(--primary) rounded-[53.41px]",
-                        "outline-[1px] outline-offset-[-0.53px] outline-black",
-                        "overflow-hidden flex items-center justify-center gap-3 font-mono",
-                        "text-lg text-black tracking-wide",
-                    ].join(" ")}>
-                        <span className="leading-none">Les mer</span>
-                        <Image src={downArrow} alt="" width={16} height={8} priority />
-                    </div>
-                </button>
+                <div className="md:absolute md:left-[35px] md:top-[506px]">
+                    <ReadMoreButton onClick={onOpen} />
+                </div>
 
                 {/* Søk */}
                 {applyLink && (

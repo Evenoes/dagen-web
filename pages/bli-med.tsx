@@ -4,7 +4,7 @@ import { useState, useMemo, useRef } from "react";
 import JoinUsCard from "@/components/bli-med/JoinUsCard";
 import JoinUsOverlay from "@/components/bli-med/JoinUsOverlay";
 import JoinReadMoreCard from "@/components/bli-med/JoinReadMoreCard";
-import ApplyButton from "@/components/bli-med/ApplyButton";
+import ApplyButton from "@/components/buttons/ApplyButton";
 
 import { getMarkdownContent } from "@/lib/getMarkdownContent";
 import { getApplyLinks } from "@/lib/bli-med/getApplyLinks";
