@@ -15,7 +15,7 @@ type BedriftPageProps = {
 }
 
 
-export default function Page({ contentRows, faqs }: BedriftPageProps) {
+export default function Bedrift({ contentRows, faqs }: BedriftPageProps) {
   return (
     <main className="max-w-7xl mx-auto px-4 md:px-6 py-8 space-y-12">
       

@@ -38,9 +38,6 @@ function useContainerScale(
 }
 
 
-
-
-// Lager og viser et JobCard for hver annonse 
 export default function Stillingsannonser({ jobListings: jobListings }: StillingsannonserProps) {
   const [isGalleryView, setIsGalleryView] = useState(false);
   const left = jobListings.filter((_, i) => i % 2 === 0);

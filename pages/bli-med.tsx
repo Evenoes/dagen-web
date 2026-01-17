@@ -20,7 +20,7 @@ import type { CardData } from "@/types/domain";
 
 type OverlayType = "funk" | "intern" | "styret" | null;
 
-export default function Page({
+export default function JoinUs({
   bliMedInfo,
   funkInfo,
   funkExtended,

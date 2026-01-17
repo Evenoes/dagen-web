@@ -38,3 +38,13 @@ export type FaqItem = {
   question: string;
   answer: string;
 };
+
+export type ProgramItem = {
+    time?: string;
+    text: string;
+};
+
+export type BedriftItem = {
+    name: string;
+    logo: string;
+}
