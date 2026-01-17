@@ -9,6 +9,7 @@ import { getMarkdownContent } from "@/lib/getMarkdownContent";
 import { getProgramText } from "@/lib/program/getProgramText";
 import { BedriftItem, ProgramItem } from "@/types";
 import { getBedrifter } from "@/lib/program/getBedrifter";
+import StandkartOverlay from "@/components/StandkartOverlay";
 
 function getEventNameOnDate(date = new Date()): string {
     const year = date.getFullYear();
@@ -37,6 +38,7 @@ export default function ProgramPage({
 }: ProgramPageProps) {
     const router = useRouter();
     const [tab, setTab] = useState<Tab>("program");
+    const [standkartOpen, setStandkartOpen] = useState(false);
 
     const isProgram = tab === "program";
     const isBedrifter = tab === "bedrifter";
@@ -120,7 +122,7 @@ export default function ProgramPage({
                     {/* Knapp øverst */}
                     <button
                         type="button"
-                        onClick={() => router.push("/program/standkart")}
+                        onClick={() => setStandkartOpen(true)}
                         className={[
                             "mb-10",
                             "px-6 py-3",
@@ -132,6 +134,13 @@ export default function ProgramPage({
                     >
                         Standkart
                     </button>
+
+                    <StandkartOverlay
+                        open={standkartOpen}
+                        onClose={() => setStandkartOpen(false)}
+                        imageSrc={`${router.basePath}/program/standkart.png`}
+                        alt="Standkart"
+                    />
 
                     {/* Grid av logoer */}
                     {bedrifterItems.length > 0 ? (
