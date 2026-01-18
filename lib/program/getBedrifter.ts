@@ -62,6 +62,7 @@ export function getBedrifter(filePath: string): BedriftItem[] {
     header: true,
     skipEmptyLines: true,
     transformHeader: (h) => h.toLowerCase().trim(),
+    transform: (value) => value?.toLowerCase(),
   });
 
   const missing: string[] = [];
@@ -70,6 +71,7 @@ export function getBedrifter(filePath: string): BedriftItem[] {
     .map((row) => ({
       name: row.name?.trim() ?? "",
       logo: row.logo?.trim() ?? "",
+      spons: row.spons?.trim() ?? "",
     }))
     .filter((row) => row.name)
     .map((row) => {
@@ -78,7 +80,7 @@ export function getBedrifter(filePath: string): BedriftItem[] {
         missing.push(row.name);
         return null;
       }
-      return { name: row.name, logo: found } satisfies BedriftItem;
+      return { name: row.name, logo: found, spons: row.spons } satisfies BedriftItem;
     })
     .filter((x): x is BedriftItem => x !== null);
 

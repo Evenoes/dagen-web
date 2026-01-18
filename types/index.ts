@@ -47,4 +47,5 @@ export type ProgramItem = {
 export type BedriftItem = {
     name: string;
     logo: string;
+    spons: string;
 }

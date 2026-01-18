@@ -1,11 +1,7 @@
 import { useState } from "react";
-import ReactMarkdown from "react-markdown";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import fs from "fs";
-import path from "path";
 
-import { getMarkdownContent } from "@/lib/getFileContent";
 import { getProgramText } from "@/lib/program/getProgramText";
 import { BedriftItem, ProgramItem } from "@/types";
 import { getBedrifter } from "@/lib/program/getBedrifter";
@@ -43,6 +39,10 @@ export default function ProgramPage({
     const isProgram = tab === "program";
     const isBedrifter = tab === "bedrifter";
 
+    const hsp = bedrifterItems.find((b) => b.spons === "hsp") ?? null;
+    const spons = bedrifterItems.filter((b) => b.spons === "sponsor") ?? null;
+    const restBedrifer = bedrifterItems.filter((b) => b.spons !== "hsp" && b.spons !== "sponsor");
+
     return (
         <main className="max-w-[1304px] mx-auto px-6">
             {/* Toggle */}
@@ -58,7 +58,7 @@ export default function ProgramPage({
                             "rounded-l-[100px]",
                             "inline-flex items-center justify-center",
                             "font-mono text-sm tracking-tight",
-                            isProgram ? "bg-(--primary)" : "bg-background",
+                            isProgram ? "bg-primary" : "bg-background",
                         ].join(" ")}
                     >
                         Program
@@ -74,7 +74,7 @@ export default function ProgramPage({
                             "rounded-r-[100px]",
                             "inline-flex items-center justify-center",
                             "font-mono text-sm tracking-tight",
-                            isBedrifter ? "bg-(--primary)" : "bg-background",
+                            isBedrifter ? "bg-primary" : "bg-background",
                         ].join(" ")}
                     >
                         Bedrifter
@@ -129,7 +129,7 @@ export default function ProgramPage({
                             "border border-black",
                             "rounded-full",
                             "font-mono text-sm tracking-tight",
-                            "hover:bg-(--primary)",
+                            "hover:bg-primary",
                         ].join(" ")}
                     >
                         Standkart
@@ -151,6 +151,8 @@ export default function ProgramPage({
                             <p className="font-mono text-xs font-extralight text-center">
                                 OBS! KUN FOR DEMO! - bedrifter til ettermiddagen er ikke bekreftet enda
                             </p>
+
+
                             {/* TODO ^ FJERNE DEMO DISCLAIMER ^ !!!! ----- !!! */}
 
 
@@ -160,36 +162,76 @@ export default function ProgramPage({
                                 Disse kommer til {nextEventUp}@ifi!<br />
                             </h2>
 
+                            {/* HSP */}
+                            {hsp && (
+                                <div className="w-full flex items-center justify-icenter p-3">
+                                    <Image
+                                        src={`${router.basePath}/logos/${hsp.logo}`}
+                                        alt={`Hovedsponsor for dagen - ${hsp.name}`}
+                                        width={340}
+                                        height={340}
+                                        className="h-auto w-full max-w-h-[360px] object-contain"
+                                    />
+                                </div>
+                            )}
 
-                            {/* LAGE SPONSOR max-w-[320px] isj OG HS CENTER w-2X isj */}
-                            {/* Spons cols-4 (kanskje 3) */}
-                            {/* Oppdatere for csv med "spons?" kolonne finne logisk verdier */}
-                            {/* Null = vanlig - 1 = spons - 2 = hs - ? - ev. string??  */}
-
-
-                            <div
-                                className={[
-                                    "w-full",
-                                    "grid gap-2 md:gap-6 px-2 md:px-0",
-                                    "grid-cols-3 md:grid-cols-5",
-                                    "items-center justify-items-center",
+                            {/* Sponsorer */}
+                            {spons.length > 0 && (
+                                <div className={[
+                                    // "w-full mt-24 md:mt-48",
+                                    // "grid gap-2 md:gap-6 px-2 md:px-0",
+                                    // "grid-cols-2 md:grid-cols-3",
+                                    // "items-center justify-items-center",
+                                    // "flex flex-wrap",
+                                    "mt-24 md:mt-48 flex flex-wrap justify-center gap-0 md:gap-6 px-2 md:px-0",
                                 ].join(" ")}
-                            >
-                                {bedrifterItems.map((b) => (
-                                    <div
-                                        key={b.name}
-                                        className="w-full flex items-center justify-center p-3"
-                                    >
-                                        <Image
-                                            src={`${router.basePath}/logos/${b.logo}`}
-                                            alt={b.name}
-                                            width={340}
-                                            height={340}
-                                            className="h-auto w-full max-w-[220px] object-contain"
-                                        />
-                                    </div>
-                                ))}
-                            </div>
+                                >
+                                    {spons
+                                        .map((b) => (
+                                            <div
+                                                key={b.name}
+                                                className=/*"w-full flex items-center justify-center p-3"*/"flex items-center justify-center p-3 w-1/3 md:w-1/4"
+                                            >
+                                                <Image
+                                                    src={`${router.basePath}/logos/${b.logo}`}
+                                                    alt={b.name}
+                                                    width={340}
+                                                    height={340}
+                                                    className="h-auto w-full max-w-[280px] object-contain"
+                                                />
+                                            </div>
+                                        ))}
+                                </div>
+                            )}
+
+                            {/* Resten */}
+                            {restBedrifer.length > 0 && (
+                                <div
+                                    className={[
+                                        // "w-full mt-24 md:mt-48",
+                                        // "grid gap-2 md:gap-6 px-2 md:px-0",
+                                        // "grid-cols-3 md:grid-cols-5",
+                                        // "items-center justify-items-center",
+                                        "mt-24 md:mt-48 flex flex-wrap justify-center gap-0 md:gap-0 px-2 md:px-0",
+                                    ].join(" ")}
+                                >
+                                    {restBedrifer
+                                        .map((b) => (
+                                            <div
+                                                key={b.name}
+                                                className=/*"w-full flex items-center justify-center p-3"*/"flex items-center justify-center p-3 w-1/4 md:w-1/6"
+                                            >
+                                                <Image
+                                                    src={`${router.basePath}/logos/${b.logo}`}
+                                                    alt={b.name}
+                                                    width={340}
+                                                    height={340}
+                                                    className="h-auto w-full max-w-[220px] object-contain"
+                                                />
+                                            </div>
+                                        ))}
+                                </div>
+                            )}
                         </div>
                     ) : (
                         <div className="text-center font-mono text-lg">
