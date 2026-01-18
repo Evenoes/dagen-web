@@ -3,8 +3,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
-import ArrowDownIcon from "./icons/ArrowDownIcon";
 import { buttonClasses } from "./buttons/buttonStyles";
+import downArrow from "./icons/downArrow.svg";
+import rightArrow from "./icons/rightArrow.svg";
 
 type JobCardProps = {
     tittel: string;
@@ -96,7 +97,7 @@ export default function JobCard({
                         "overflow-hidden",
                         "w-[994.91px]",
                     ].join(" ")}
-                      style={minCardHeightPx ? { minHeight: `${minCardHeightPx}px` } : undefined}
+                    style={minCardHeightPx ? { minHeight: `${minCardHeightPx}px` } : undefined}
                 >
                     {/* TOPPDEL */}
                     <div className="px-16 pt-10 pb-8">
@@ -121,7 +122,7 @@ export default function JobCard({
                                 >
                                     <span>{stillingstype}</span>
 
-                                    <ArrowDownIcon className="w-12 h-12 -rotate-90 text-text-color" />
+                                    <Image src={rightArrow} alt="" width={22} height={22} />
                                 </Link>
 
                                 {/* Info */}
@@ -209,9 +210,9 @@ export default function JobCard({
                                             aria-label={isOpen ? "Vis mindre" : "Vis mer"}
                                         >
                                             <span>{isOpen ? "Vis mindre" : "Vis mer"}</span>
-                                            <ArrowDownIcon
+                                            <Image src={downArrow} alt="" width={20} height={20}
                                                 className={[
-                                                    "w-[22px] h-[22px] text-button-text transition-transform",
+                                                    "text-button-text transition-transform",
                                                     isOpen ? "rotate-180" : "",
                                                 ].join(" ")}
                                             />

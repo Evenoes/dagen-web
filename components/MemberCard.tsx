@@ -20,35 +20,37 @@ export default function MemberCard({
     const router = useRouter();
 
     return (
-        <div className=" w-[200px] h-[305px] text-center">
+        <div className="max-w60 min-h-80 top-1 text-center">
             {/* Bilde, white space lik bildestørrelse hvis ikke bilde */}
             {memberPicture ? (
-                <div className="w-40 h-40 mx-auto mb-4 relative">
-                <Image
-                    src={`${router.basePath}/${memberPicture}`}
-                    alt={memberName}
-                    fill
-                    sizes="160px"
-                    quality={95}
-                    className="rounded-full object-cover"
-                />
+                <div className="w-48 h-48 mx-auto mb-2.5 relative">
+                    <Image
+                        src={`${router.basePath}/${memberPicture}`}
+                        alt={memberName}
+                        fill
+                        sizes="200px"
+                        quality={95}
+                        className="rounded-full object-cover"
+                    />
                 </div>
             ) : (
-                <div className="w-40 h-40 mx-auto mb-4" />
+                <div className="w-36 h-36 mx-auto mb-2.5 relative" />
             )}
 
-            {/* Navn høyde satt til md:min-h-14 slik at kortet ikke skalerer forskjellig med korte og lange navn. min-h-24 for liten skjerm */}
-            <h2 className="text-[24px] font-normal font-heading leading-7 text-text-heading min-h-24 md:min-h-14 flex items-center justify-center">
+            {/* Navn */}
+            <h2 className="text-xl md:text-2xl font-normal 
+                            leading-7 text-text-color min-h-16 md:min-h-14 
+                            flex items-center justify-center md:mb-[13px]">
                 {memberName}
             </h2>
 
             {/* Rolle / tittel */}
-            <p className="text-gray-700 font-medium wrap-break-word">
+            <p className="text-text-color text-md md:text-md font-mono font-normal md:leading-6 mb-2.5">
                 {memberTitle}
             </p>
 
             {/* Epost, denne kan gjøres klikkbar (mailto), men var ikke det på den gamle siden */}
-            <p className="text-gray-500 mt-2 text-sm wrap-break-word">
+            <p className="text-text-color text-xs md:text-sm font-mono font-normal md:leading-5">
                 {roleEmail}
             </p>
         </div>
