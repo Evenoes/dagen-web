@@ -17,22 +17,48 @@ type HomePageProps = {
 export default function Home({ whatIsDagen, hspInfo, dagenInfo, ettermiddagenInfo }: HomePageProps) {
   const router = useRouter();
   return (
-    <main className="max-w-[1253px] mx-auto px-4 md:px-6 pt-[300px] pb-40">
+    <main
+      className={[
+        "w-full max-w-[1253px] mx-auto",
+        "px-[clamp(1rem,2vw,1.5rem)] pt-[clamp(5rem,12vw,300px)] pb-[clamp(4rem,10vw,300px)]",
+        "text-black",
+      ].join(" ")}
+    >
 
       {/* Hva er Dagen - infotekst - PATH til tekst nederst i koden */}
-      <section className="mb-[270px]">
-        <div className="prose max-w-[1107px] mx-auto font-mono">
+      <section
+        className="mb-[clamp(4.5rem,14vw,324px)]">
+        <div
+          className="w-fit max-w-[1107px] mx-auto prose font-mono">
           <ReactMarkdown>{whatIsDagen}</ReactMarkdown>
         </div>
       </section>
 
       {/* HSP, skjult hvis markdownfilen er tom */}
-      {hspInfo &&
-        <section className="mb-[170px]">
-          <div className="max-w-[1106px] min-h-[557px] mx-auto border-[0.93px] border-black rounded-[4.66px] px-8 py-8 flex flex-col">
-            <div className="flex flex-col items-center text-center md:flex-row md:justify-center md:gap-16 mb-12">
-              {/* Logo: under på mobil, venstre på desktop */}
-              <div className="order-2 md:order-1 relative w-32 h-32 shrink-0 mt-6 md:mt-0">
+      {hspInfo && (
+        <section
+          className="mb-[clamp(1rem,10vw,170px)]">
+          <div
+            className={[
+              "w-full mx-auto md:max-3xl lg:max-w-6xl min-h-[clamp(22rem,50vw,557px)]",
+              "px-8 py-8",
+              "border border-black rounded-sm",
+              "flex flex-col",
+            ].join(" ")}
+          >
+            <div
+              className={[
+                "mb-[clamp(2rem,6vw,3rem)]",
+                "flex flex-col items-center text-center md:flex-row md:justify-center gap-[clamp(2rem,6vw,4rem)]",
+              ].join(" ")}
+            >
+              {/* Logo: under tittel på mobil, venstre på desktop */}
+              <div
+                className={[
+                  "order-2 md:order-1 relative w-32 h-32 shrink-0",
+                  "ml-2 mt-6 md:mt-0",
+                ].join(" ")}
+              >
                 <Image
                   src={`${router.basePath}/homepage/hsp_logo.png`} // <------------- BILDE LINK / PATH FOR HPS-LOGO
                   alt=""
@@ -41,27 +67,45 @@ export default function Home({ whatIsDagen, hspInfo, dagenInfo, ettermiddagenInf
                 />
               </div>
 
-              {/* Tittel: først og delt på mobil, høyre for logo på desktop */}
-              <h2 className="order-1 md:order-2 m-0 font-heading font-bold text-black text-[32px] sm:text-[40px] md:text-[48px] leading-[1.05]">
+              {/* Tittel */}
+              <h2
+                className={[
+                  "order-1 md:order-2 m-0",
+                  "text-[clamp(32px,5vw,48px)] leading-none",
+                  "font-heading font-bold text-text-color",
+                ].join(" ")}
+              >
                 <span className="md:hidden">
-                  HOVEDSAMAR-<br />
-                  BEIDSPARTNER
+                  HOVEDSPONSOR
+                  <br />
+                  2026
                 </span>
-                <span className="hidden md:inline">HOVEDSAMARBEIDSPARTNER</span>
+                <span className="hidden md:inline">HOVEDSPONSOR 2026</span>
               </h2>
             </div>
 
             {/* HSP - infotekst --- PATH nederst i koden */}
-            <div className="prose max-w-none flex-1 font-mono">
+            <div
+              className="max-w-none flex-1 prose font-mono">
               <ReactMarkdown>{hspInfo}</ReactMarkdown>
             </div>
 
-            <div className="mt-auto flex flex-col gap-4 md:flex-row md:gap-6 md:justify-end pt-6">
-              <button className={buttonClasses([
-                "md:min-w-80 h-16 px-5 py-3 gap-10",
-                "font-normal text-sm md:text-lg rounded-[100px]",
-                "leading-8 transition",
-              ].join(" "))}
+            <div
+              className={[
+                "mt-auto pt-6",
+                "flex flex-col lg:flex-row lg:justify-end gap-[clamp(1rem,2vw,1.5rem)]",
+              ].join(" ")}
+            >
+              <button
+                className={buttonClasses(
+                  [
+                    "h-16 md:min-w-80",
+                    "px-5 py-3 gap-10",
+                    "rounded-full",
+                    "text-sm md:text-lg leading-8",
+                    "font-normal transition",
+                  ].join(" "),
+                )}
               >
                 Bli hovedsponsor 2027
                 <Image src={rightArrow} alt="" width={12} height={12} />
@@ -69,31 +113,59 @@ export default function Home({ whatIsDagen, hspInfo, dagenInfo, ettermiddagenInf
             </div>
           </div>
         </section>
-      }
+      )}
 
       {/* Dagen */}
-      <section className="mb-[170px] px-4 md:px-0 -mx-4 md:-mx-16">
-        <div className="max-w-[1129px] mr-auto">
-          <div className="flex flex-col md:flex-row gap-8 md:gap-[81px]">
-
+      <section className={[
+        "mb-[clamp(5rem,10vw,170px)] px-4 -mx-4 lg:px-0",
+        "lg:mx-0 xl:-mx-16 overflow-x-clip",
+      ].join(" ")}
+      >
+        <div
+          className="max-w-[1129px] mr-auto">
+          <div
+            className={[
+              "gap-[clamp(2rem,6vw,81px)]",
+              "flex flex-col lg:flex-row",
+            ].join(" ")}
+          >
             {/* Dagen - Overskrift og tekst - PATH til tekst nederst i koden */}
-            <div className="max-w-[490px] flex flex-col">
-              <h2 className="font-heading font-bold text-black m-0 text-center md:text-center text-[32px] sm:text-[40px] md:text-[48px] leading-[1.05]">
+            <div
+              className="w-full lg:max-w-[490px] items-center flex flex-col">
+              <h2
+                className={[
+                  "m-0 text-center",
+                  "text-[clamp(32px,5vw,48px)] leading-[1.05]",
+                  "font-heading font-bold uppercase",
+                ].join(" ")}
+              >
                 DAGEN@IFI
               </h2>
-              <div className="mt-16 prose max-w-none font-mono">
+
+              <div
+                className={[
+                  "w-full lg:max-w-[433px]",
+                  "mt-[clamp(2.5rem,6vw,4rem)]",
+                  "prose font-mono",
+                ].join(" ")}
+              >
                 <ReactMarkdown>{dagenInfo}</ReactMarkdown>
               </div>
-              <div className="max-w-[490px] flex flex-col gap-2 md:gap-3.5 md:flex-row justify-center">
-                <button className={buttonClasses(([
-                  "w-full"
-                ].join(" ")))}>
+
+              <div
+                className={[
+                  "w-full lg:max-w-[490px]",
+                  "mt-[clamp(1.5rem,4vw,2.5rem)]",
+                  "flex flex-col items-center sm:flex-row",
+                  "sm:items-stretch sm:justify-center",
+                  "gap-[clamp(0.5rem,2vw,0.875rem)]",
+                ].join(" ")}
+              >
+                <button className={buttonClasses("w-full max-w-[187px]")}>
                   Bli funk!
                   <Image src={rightArrow} alt="" width={12} height={12} />
                 </button>
-                <button className={buttonClasses(([
-                  "w-full"
-                ].join(" ")))}>
+                <button className={buttonClasses("w-full max-w-[232px]")}>
                   Stå på stand
                   <Image src={rightArrow} alt="" width={12} height={12} />
                 </button>
@@ -101,12 +173,17 @@ export default function Home({ whatIsDagen, hspInfo, dagenInfo, ettermiddagenInf
             </div>
 
             {/* Dagen - bilde */}
-            <div className="order-3 md:order-1 relative w-full md:w-[558px] aspect-square md:h-[558px] shrink-0 border-[0.93px] border-black rounded-[4.66px] overflow-hidden">
+            <div
+              className={[
+                "order-3 lg:order-1 relative w-full lg:w-[min(558px,50vw)] aspect-square shrink-0",
+                "border-[0.93px] border-black rounded-[4.66px] overflow-hidden",
+              ].join(" ")}
+            >
               <Image
                 src={`${router.basePath}/homepage/dagen.webp`} // <------------- BILDE LINK / PATH FOR DAGEN
                 alt=""
                 fill
-                sizes="(min-width: 768px) 558px, 100vw"
+                sizes="(min-width: 1024px) 558px, 100vw"
                 className="object-cover"
               />
             </div>
@@ -115,35 +192,67 @@ export default function Home({ whatIsDagen, hspInfo, dagenInfo, ettermiddagenInf
       </section>
 
       {/* Ettermiddagen */}
-      <section className="px-4 md:px-0 -mx-4 md:-mx-16">
-        <div className="max-w-[1129px] ml-auto">
-          <div className="flex flex-col md:flex-row gap-8 md:gap-[81px]">
-
+      <section className="px-4 -mx-4 lg:px-0 lg:mx-0 xl:-mx-16 overflow-x-clip">
+        <div
+          className="max-w-[1129px] ml-auto">
+          <div
+            className={[
+              "gap-[clamp(2rem,6vw,81px)]",
+              "flex flex-col lg:flex-row",
+            ].join(" ")}
+          >
             {/* Ettermiddagen - bilde */}
-            <div className="order-3 md:order-1 relative w-full md:w-[558px] aspect-square md:h-[558px] shrink-0 border-[0.93px] border-black rounded-[4.66px] overflow-hidden">
+            <div
+              className={[
+                "order-3 lg:order-1 relative w-full lg:w-[558px] aspect-square shrink-0",
+                "border-[0.93px] border-black rounded-[4.66px] overflow-hidden",
+              ].join(" ")}
+            >
               <Image
                 src={`${router.basePath}/homepage/ettermiddagen.webp`} // <------------- BILDE LINK / PATH FOR ETTERMIDDAGEN
                 alt=""
                 fill
-                sizes="(min-width: 768px) 558px, 100vw"
+                sizes="(min-width: 1024px) 558px, 100vw"
                 className="object-cover"
               />
             </div>
 
             {/* Ettermiddagen - Overskrift og tekst - PATH til tekst nederst i koden */}
-            <div className="order-1 md:order-2 w-full md:w-[490px] flex flex-col">
-              <h2 className="font-heading font-bold text-black m-0 text-center md:text-center text-[32px] sm:text-[40px] md:text-[48px] leading-[1.05]">
+            <div
+              className={[
+                "order-1 lg:order-2 w-full min-w-0 lg:max-w-[433px]",
+                "flex flex-col items-center lg:items-start",
+              ].join(" ")}
+            >
+              <h2
+                className={[
+                  "m-0 text-center",
+                  "w-full wrap-break-word",
+                  "text-[clamp(32px,5vw,42px)] leading-[1.05]",
+                  "font-heading font-bold uppercase",
+                ].join(" ")}
+              >
                 ETTERMIDDAGEN@IFI
               </h2>
-              <div className="mt-16 prose max-w-none font-mono">
+
+              <div
+                className={[
+                  "w-full min-w-0 lg:max-w-[433px]",
+                  "mt-[clamp(2.5rem,6vw,4rem)]",
+                  "prose font-mono text-left",
+                  "wrap-break-word",
+                ].join(" ")}
+              >
                 <ReactMarkdown>{ettermiddagenInfo}</ReactMarkdown>
               </div>
-              <button className={buttonClasses(([
-                  "w-full"
-                ].join(" ")))}>
+
+              <div
+                className="mt-[clamp(1.5rem,4vw,2.5rem)]">
+                <button className={buttonClasses("w-full max-w-[232px]")}>
                   Stå på stand
                   <Image src={rightArrow} alt="" width={12} height={12} />
                 </button>
+              </div>
             </div>
           </div>
         </div>
