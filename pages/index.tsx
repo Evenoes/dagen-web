@@ -12,9 +12,10 @@ type HomePageProps = {
   hspInfo: string;
   dagenInfo: string;
   ettermiddagenInfo: string;
+  thisYear: string;
 };
 
-export default function Home({ whatIsDagen, hspInfo, dagenInfo, ettermiddagenInfo }: HomePageProps) {
+export default function Home({ whatIsDagen, hspInfo, dagenInfo, ettermiddagenInfo, thisYear }: HomePageProps) {
   const router = useRouter();
   return (
     <main
@@ -78,9 +79,9 @@ export default function Home({ whatIsDagen, hspInfo, dagenInfo, ettermiddagenInf
                 <span className="md:hidden">
                   HOVEDSPONSOR
                   <br />
-                  2026
+                  {thisYear}
                 </span>
-                <span className="hidden md:inline">HOVEDSPONSOR 2026</span>
+                <span className="hidden md:inline">HOVEDSPONSOR {thisYear}</span>
               </h2>
             </div>
 
@@ -107,7 +108,7 @@ export default function Home({ whatIsDagen, hspInfo, dagenInfo, ettermiddagenInf
                   ].join(" "),
                 )}
               >
-                Bli hovedsponsor 2027
+                Bli hovedsponsor {thisYear + 1}
                 <Image src={rightArrow} alt="" width={12} height={12} />
               </button>
             </div>
@@ -266,12 +267,16 @@ export function getStaticProps() {
   const hspInfo = getMarkdownContent("hjem/hsp-info"); // <---------------- PATH - HSP-tekst
   const dagenInfo = getMarkdownContent("hjem/dagen"); // <----------------- PATH - Dagen-tekst
   const ettermiddagenInfo = getMarkdownContent("hjem/ettermiddagen"); // <- PATH - Ettermiddagen-tekst
+
+  const thisYear = new Date().getFullYear();
+
   return {
     props: {
       whatIsDagen,
       hspInfo,
       dagenInfo,
       ettermiddagenInfo,
+      thisYear,
     },
   };
 }
