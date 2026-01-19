@@ -20,14 +20,27 @@ export default function Header() {
     const { pathname, basePath } = useRouter();
 
     return (
-        <header className="sticky top-0 z-50 pt-[35px]">
-            <div className="max-w-[1304px] mx-auto px-4 md:px-6">
+        <header
+            className={[
+                "sticky top-0 z-50",
+                "pt-[35px]",
+            ].join(" ")}
+        >
+            <div
+                className={[
+                    "max-w-[1304px] mx-auto",
+                    "px-4 lg:px-6",
+                ].join(" ")}
+            >
                 <div className="relative h-[61px]">
 
                     {/* Logo */}
                     <Link
                         href="/"
-                        className="absolute inset-y-0 left-1/2 -translate-x-1/2 md:left-0 md:translate-x-0 flex items-center"
+                        className={[
+                            "absolute inset-y-0 left-1/2 -translate-x-1/2 lg:left-0 lg:translate-x-0",
+                            "flex items-center shrink-0",
+                        ].join(" ")}
                     >
                         <Image
                             src={`${basePath}/web-design/dagen-logo/dagen_at.svg`} // <-------- PATH - logo i header
@@ -38,7 +51,14 @@ export default function Header() {
                     </Link>
 
                     {/* Desktop Menu med "knapper" (Linker med design som knapper) */}
-                    <nav className="hidden md:flex gap-4 absolute right-0 inset-y-0 items-center">
+                    <nav
+                        className={[
+                            "hidden lg:flex",
+                            "absolute right-0 inset-y-0",
+                            "gap-3 xl:gap-4",
+                            "items-center min-w-0",
+                        ].join(" ")}
+                    >
                         {links.map((link) => {
                             const isActive = pathname === link.href || pathname.startsWith(`${link.href}/`);
                             return (
@@ -46,11 +66,12 @@ export default function Header() {
                                     key={link.href}
                                     href={link.href}
                                     className={[
-                                        "inline-flex items-center justify-center ",
-                                        "h-[59px] px-4 py-2 ",
-                                        "rounded-[53.4px] border-[0.53px] border-button-outline ",
-                                        "hover:bg-background active:bg-background ",
-                                        "font-mono font-normal text-[18px] leading-[34px] ",
+                                        "inline-flex items-center justify-center min-w-0",
+                                        "h-[59px] px-3 xl:px-4 py-2",
+                                        "rounded-[53.4px] border-[0.53px] border-button-outline",
+                                        "hover:bg-background active:bg-background",
+                                        "text-[16px] xl:text-[18px] leading-[34px]",
+                                        "font-mono font-normal whitespace-nowrap",
                                         "transition text-button-text",
                                         isActive ? "bg-background" : "bg-button-bg",
                                     ].join(" ")}
@@ -64,7 +85,11 @@ export default function Header() {
                     {/* Mobil Hamburger-menyknapp */}
                     <button
                         type="button"
-                        className="md:hidden absolute right-0 top-1/2 -translate-y-1/2 flex flex-col gap-[5px] z-10"
+                        className={[
+                            "lg:hidden",
+                            "absolute right-0 top-1/2 -translate-y-1/2 z-10",
+                            "flex flex-col gap-[5px]",
+                        ].join(" ")}
                         onClick={() => setMobileMenuOpen(!isMobilMenuOpen)}
                         aria-label={isMobilMenuOpen ? "Lukk meny" : "Åpne meny"}
                         aria-expanded={isMobilMenuOpen}
@@ -90,26 +115,30 @@ export default function Header() {
                     />
 
                     {/* Selve menyen */}
-                    <nav 
-                    id="mobile-menu"
-                    className={[
+                    <nav
+                        id="mobile-menu"
+                        className={[
+                            "lg:hidden",
                             "absolute right-0 top-full z-50",
-                            "md:hidden",
-                            "flex flex-col gap-1 p-1 font-mono",
+                            "p-1",
+                            "flex flex-col gap-1",
+                            "font-mono",
                         ].join(" ")}
-                        >
-                    {links.map((link) => {
+                    >
+                        {links.map((link) => {
                             const isActive = pathname === link.href || pathname.startsWith(`${link.href}/`);
                             return (
                                 <Link
                                     key={link.href}
                                     href={link.href}
+                                    onClick={() => setMobileMenuOpen(false)}
                                     className={[
-                                        "inline-flex items-center justify-center ",
-                                        "px-2 py-1 ",
-                                        "rounded-full border border-button-outline ",
-                                        "hover:bg-background active:bg-background ",
-                                        "font-mono font-normal text-[18px] leading-[34px] ",
+                                        "inline-flex items-center justify-center",
+                                        "px-2 py-1",
+                                        "rounded-full border border-button-outline",
+                                        "hover:bg-background active:bg-background",
+                                        "text-[18px] leading-[34px]",
+                                        "font-mono font-normal whitespace-nowrap tracking-wide",
                                         "transition text-button-text",
                                         isActive ? "bg-background" : "bg-button-bg",
                                     ].join(" ")}
