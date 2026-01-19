@@ -19,7 +19,6 @@ function getEventNameOnDate(date = new Date()): string {
 
 const nextEventUp = getEventNameOnDate();
 
-
 type Tab = "program" | "bedrifter" | "standkart";
 
 type ProgramPageProps = {
@@ -33,7 +32,6 @@ export default function ProgramPage({
 }: ProgramPageProps) {
     const router = useRouter();
     const [tab, setTab] = useState<Tab>("program");
-    const [standkartOpen, setStandkartOpen] = useState(false);
 
     const isProgram = tab === "program";
     const isBedrifter = tab === "bedrifter";
@@ -46,49 +44,50 @@ export default function ProgramPage({
     return (
         <main className="max-w-[1304px] mx-auto px-6 justify-items-center">
             {/* Toggle */}
-            <div className="sticky top-40">
-                <div className="w-64 h-12 relative inline-flex">
+            <div className="sticky top-40 z-50">
+                <div className="w-64 h-12 relative inline-flex font-mono text-sm tracking-tight">
+                    
+                    {/* Programknapp */}
                     <button
                         type="button"
                         onClick={() => setTab("program")}
                         aria-pressed={isProgram}
                         className={[
                             "flex-1 h-12 -mr-px",
-                            "outline-1 -outline-offset-1 outline-button-outline",
-                            "rounded-l-full",
                             "inline-flex items-center justify-center",
-                            "font-mono text-sm tracking-tight",
+                            "rounded-l-full",
+                            "outline-1 -outline-offset-1 outline-button-outline",
                             isProgram ? "bg-button-bg" : "bg-button-hover",
                         ].join(" ")}
                     >
                         Program
                     </button>
 
+                    {/* Bedrifter-knapp */}
                     <button
                         type="button"
                         onClick={() => setTab("bedrifter")}
                         aria-pressed={isBedrifter}
                         className={[
                             "flex-1 h-12",
-                            "outline-1 -outline-offset-1 outline-button-outline",
                             "inline-flex items-center justify-center",
-                            "font-mono text-sm tracking-tight",
+                            "outline-1 -outline-offset-1 outline-button-outline",
                             isBedrifter ? "bg-button-bg" : "bg-button-hover",
                         ].join(" ")}
                     >
                         Bedrifter
                     </button>
 
+                    {/* Standkartknapp */}
                     <button
                         type="button"
                         onClick={() => setTab("standkart")}
                         aria-pressed={isStandkart}
                         className={[
                             "flex-1 h-12 -ml-px",
-                            "outline-1 -outline-offset-1 outline-button-outline",
-                            "rounded-r-full",
                             "inline-flex items-center justify-center",
-                            "font-mono text-sm tracking-tight",
+                            "rounded-r-full",
+                            "outline-1 -outline-offset-1 outline-button-outline",
                             isStandkart ? "bg-button-bg" : "bg-button-hover",
                         ].join(" ")}
                     >
@@ -99,135 +98,136 @@ export default function ProgramPage({
 
             {/* Program */}
             {isProgram && (
-                <div className="flex flex-col items-center mb-24 mt-11 md:mt-[88px]">
-                    <Image
-                        src={`${router.basePath}/program/${nextEventUp}_logo.svg`}
-                        alt="Dagen at ifi logo"
-                        width={500}
-                        height={300}
-                        
-                    />
-                    <h2 className="text-3xl py-12 px-12 font-heading">
-                        Årets program
-                    </h2>
+                <div className="w-full flex flex-col items-center mt-22 mb-24 md:mt-[88px]">
+                    <div className="w-full max-w-[1041px]">
 
-                    {programItems.length > 0 ? (
-                        <div className="space-y-6">
-                            {programItems.map((item) => (
-                                <div key={`${item.time}-${item.text}`}>
-                                    <div className="font-mono text-sm uppercase tracking-wide">
-                                        kl.{item.time}
-                                    </div>
-                                    <div className="font-mono text-lg">
-                                        {item.text}
-                                    </div>
-                                </div>
-                            ))}
+                        {/* Logo */}
+                        <div
+                            className={[
+                                "w-full",
+                                "px-6 py-4 md:px-16 lg:px-44",
+                                "flex flex-col items-center justify-center gap-2.5",
+                                "bg-background outline-1 -outline-offset-1 outline-black",
+                            ].join(" ")}
+                        >
+                            <Image
+                                src={`${router.basePath}/program/${nextEventUp}_logo.svg`}
+                                alt="Dagen at ifi logo"
+                                width={700}
+                                height={176}
+                                className="w-full max-w-[700px] h-auto object-contain"
+                            />
                         </div>
-                    ) : (
-                        <div className="text-center font-mono text-lg">
-                            Program for {nextEventUp} kommer
-                        </div>
-                    )}
+
+                        {/* Rader */}
+                        {programItems.length > 0 ? (
+                            <div className="w-full">
+                                {programItems.map((item) => (
+                                    <div
+                                        key={`${item.time}-${item.text}`}
+                                        className="grid grid-cols-[126px_1fr] md:grid-cols-[224px_1fr]"
+                                    >
+                                        {/* Tid */}
+                                        <div
+                                            className={[
+                                                "w-32 md:w-full px-2 md:px-6 py-2 md:py-5",
+                                                "flex items-center wrap-break-word",
+                                                "bg-background",
+                                                "border-l border-b border-black",
+                                            ].join(" ")}
+                                        >
+                                            <div className="font-mono text-xs md:text-base font-normal leading-8 tracking-wide">
+                                                Kl.{item.time}
+                                            </div>
+                                        </div>
+
+                                        {/* Tekst */}
+                                        <div
+                                            className={[
+                                                "w-full px-2 md:px-6 py-2 md:py-4",
+                                                "flex items-center",
+                                                "bg-background",
+                                                "border-l border-r border-b border-black",
+                                            ].join(" ")}
+                                        >
+                                            <div className="font-mono text-xs md:text-base font-normal leading-8 tracking-wide">
+                                                {item.text}
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        ) : (
+                            <div className="mt-12 text-center font-mono text-lg">
+                                Program for {nextEventUp} kommer
+                            </div>
+                        )}
+                    </div>
                 </div>
             )}
 
             {/* Bedrifter */}
             {isBedrifter && (
-                <div className="flex flex-col items-center mb-24 mt-24">
-                    
+                <div className="flex flex-col items-center mt-24 mb-24">
                     {/* Grid av logoer */}
                     {bedrifterItems.length > 0 ? (
-                        <div className="relative">
+                        <div className="relative w-full">
 
-
-
-                            <p className="font-mono text-xs font-extralight text-center">
-                                OBS! KUN FOR DEMO! - bedrifter til ettermiddagen er ikke bekreftet enda
-                            </p>
-
-
-                            {/* TODO ^ FJERNE DEMO DISCLAIMER ^ !!!! ----- !!! */}
-
-
-
-
+                            {/* Tittel */}
                             <h2 className="font-mono text-4xl font-bold text-center my-16">
                                 Disse kommer til {nextEventUp}@ifi!<br />
                             </h2>
 
                             {/* HSP */}
                             {hsp && (
-                                <div className="w-full flex items-center justify-icenter p-3">
+                                <div className="w-full p-3 flex items-center justify-center">
                                     <Image
                                         src={`${router.basePath}/logos/${hsp.logo}`}
                                         alt={`Hovedsponsor for dagen - ${hsp.name}`}
                                         width={340}
                                         height={340}
-                                        className="h-auto w-full max-w-h-[360px] object-contain"
+                                        className="h-auto w-full max-w-[360px] object-contain"
                                     />
                                 </div>
                             )}
 
                             {/* Sponsorer */}
                             {spons.length > 0 && (
-                                <div className={[
-                                    "w-full mt-24 md:mt-48",
-                                    "grid gap-2 md:gap-6 px-2 md:px-0",
-                                    "grid-cols-2 md:grid-cols-3",
-                                    "items-center justify-items-center",
-                                    "flex flex-wrap",
-                                ].join(" ")}
-                                >
-                                    {spons
-                                        .map((b) => (
-                                            <div
-                                                key={b.name}
-                                                className="w-full flex items-center justify-center p-3"
-                                            >
-                                                <Image
-                                                    src={`${router.basePath}/logos/${b.logo}`}
-                                                    alt={b.name}
-                                                    width={340}
-                                                    height={340}
-                                                    className="h-auto w-full max-w-[280px] object-contain"
-                                                />
-                                            </div>
-                                        ))}
+                                <div className="w-full mt-24 md:mt-48 px-2 md:px-0 grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-6 items-center justify-items-center">
+                                    {spons.map((b) => (
+                                        <div key={b.name} className="w-full p-3 flex items-center justify-center">
+                                            <Image
+                                                src={`${router.basePath}/logos/${b.logo}`}
+                                                alt={b.name}
+                                                width={340}
+                                                height={340}
+                                                className="h-auto w-full max-w-[280px] object-contain"
+                                            />
+                                        </div>
+                                    ))}
                                 </div>
                             )}
 
                             {/* Resten */}
                             {restBedrifer.length > 0 && (
-                                <div
-                                    className={[
-                                        "w-full mt-24 md:mt-48",
-                                        "grid gap-2 md:gap-6 px-2 md:px-0",
-                                        "grid-cols-3 md:grid-cols-5",
-                                        "items-center justify-items-center",
-                                    ].join(" ")}
-                                >
-                                    {restBedrifer
-                                        .map((b) => (
-                                            <div
-                                                key={b.name}
-                                                className="w-full flex items-center justify-center p-3"
-                                            >
-                                                <Image
-                                                    src={`${router.basePath}/logos/${b.logo}`}
-                                                    alt={b.name}
-                                                    width={340}
-                                                    height={340}
-                                                    className="h-auto w-full max-w-[220px] object-contain"
-                                                />
-                                            </div>
-                                        ))}
+                                <div className="w-full mt-24 md:mt-48 px-2 md:px-0 grid grid-cols-3 md:grid-cols-5 gap-2 md:gap-6 items-center justify-items-center">
+                                    {restBedrifer.map((b) => (
+                                        <div key={b.name} className="w-full p-3 flex items-center justify-center">
+                                            <Image
+                                                src={`${router.basePath}/logos/${b.logo}`}
+                                                alt={b.name}
+                                                width={340}
+                                                height={340}
+                                                className="h-auto w-full max-w-[220px] object-contain"
+                                            />
+                                        </div>
+                                    ))}
                                 </div>
                             )}
                         </div>
                     ) : (
                         <div className="text-center font-mono text-lg">
-                            Bedrifter kommer snart
+                            Bedrifter for {nextEventUp}@ifi kommer snart
                         </div>
                     )}
                 </div>
@@ -235,11 +235,11 @@ export default function ProgramPage({
 
             {/* Standkart */}
             {isStandkart && (
-                <div className="flex flex-col items-center mb-24 mt-24">
-                    <p className="font-mono text-sm">
+                <div className="flex flex-col items-center mt-24 mb-24 font-mono">
+                    <p className="text-sm">
                         OBS! Standkartet under er for Dagen 2024, og er kun ment for demonstrasjon. Oppdatert standkart kommer snart.
                     </p>
-                    <h2 className="text-text-heading text-5xl font-bold font-mono uppercase leading-8 tracking-widest pt-40">
+                    <h2 className="text-text-heading text-5xl font-bold uppercase leading-8 tracking-widest pt-40">
                         STANDKART
                     </h2>
                     <Image
@@ -247,12 +247,10 @@ export default function ProgramPage({
                         alt="standkart"
                         width={1000}
                         height={4000}
-                        className="h-auto w-full object-contain pt-16" 
-                        />
+                        className="h-auto w-full object-contain pt-16"
+                    />
                 </div>
             )}
-
-
         </main>
     );
 }
