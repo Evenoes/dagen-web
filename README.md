@@ -19,17 +19,19 @@ cd dagen-web
 npm install
 ```
 
-### 3 Lag nødvendige mapper
-Disse mappen må eksistere for at siden skal fungere.  
+### (Optional) Mapper for innhold
+Disse mappene brukes for å hente tekster til de forskjellige sidene 
 *Det er lagt opp til at disse vanligvis hentes fra privat content repo*
 ```bash
 mkdir -p content/hjem
-mkdir -p content/bedrift/FAQ/answers
-mkdir -p content/bli-med/interngrupper
-mkdir -p public/logos
-mkdir -p public/members
-mkdir -p public/web-design
+mkdir -p content/bedrift
+mkdir -p content/bli-med
+mkdir -p content/om-oss
+mkdir -p content/program
+mkdir -p content/stillingsannonser
+mkdir -p public
 ```
+*Se lenger ned for hele filstrukturen med filene vi bruker*
 
 ### (Optional) Kontaktform
 Opprett `.env.local` hvis Formspree skal brukes
@@ -44,60 +46,70 @@ npm run dev
 Åpne:
 [http://localhost:3000](http://localhost:3000)
 
-### Minimum filstruktur for content
-For at siden skal fungere
+### Eksempel på filstruktur for content
+*Oppdatert 22.01.2026*
 ```markdown
 content/
 ├── hjem/
-│   ├── hjemside.csv
-│   ├── members.csv
-│   └── *.md
+│   ├── dagen.md
+│   ├── ettermiddagen.md
+│   ├── hsp-info.md
+│   └── what-is-dagen.md
+│
+├── om-oss/
+│   ├── members.csv (header: Name,Title,Email,Picture <- alle = string)
+│   ├── varslingsplakat.md
+│   └── vedtekter.md
+│
+├── program/
+│   ├── bedrifter.csv (header: Name(string),Logo(string),Spons(standard/sponsor/hsp))
+│   └── program.csv (header: Time(string),Text(string)
 │
 ├── bedrift/
-│   ├── bedriftside.csv
-│   ├── stillingsannonser.csv
-│   └── FAQ/
-│       ├── faq.csv
-│       └── answers/*.md
+│   ├── bedrift_page_info.md
+│   ├── hsp_info.md
+│   ├── stand_info.md
+│   │
+│   ├── hsp/
+│   │   ├── hsp_extended.md
+│   │   ├── hsp_hsp_card.csv (header: Checked(0/1),Text(string))
+│   │   ├── hsp_info_text.md
+│   │   └── hsp_sponsor_card.csv (header: Checked(0/1),Text(string))
+│   │
+│   └── stand/
+│       ├── sponsor_stand_card.csv (header: Checked(0/1),Text(string))
+│       ├── stand_faq.md
+│       ├── stand_prices_list.csv (header: Label(string),Price(string))
+│       └── standard_stand_card.csv (header: Checked(0/1),Text(string))
+│
+├── stillingsannonser/
+│   └── stillingsannonser.csv (header: Tittel,Stillingstype,Firma,Frist,URL,Logo,Beskrivelse) <- alle = string
 │
 └── bli-med/
-    ├── bli_med.csv
-    └── interngrupper/*.md
+    ├── bli_med.md
+    ├── funk_extended.md
+    ├── funk_info.md
+    ├── intern_extended.md
+    ├── intern_info.md
+    ├── styret_extended.md
+    ├── styret_info.md
+    │
+    ├── apply-link/
+    │   ├── apply_funk.md
+    │   └── apply_intern.md
+    │
+    ├── styret-cards/*.md (en per verv)
+    └── intern-cars/*md (en per verv / gruppe)
 ```
 
-### CSV-formater
-CSV-filen brukes til å sette opp sider eller deler av sider.
 
-**Sideoppsett**, hjem, bedrift og bli med:  
-`hjemside.csv`, `bedriftside.csv`,`bli_med.csv`  
-Header | Beskrivelse
--|-
-Index | Hvilken rad elementet tilhører
-File | Markdown-fil eller bilde
-ButtonHref | (optional) lenke til knapp
-ButtonLabel | (optional) tekst på knapp
-Size | (optional) prosentvis størrelse relativ til andre elementer
-
-Oversikt over medlemmer: `members.csv`:  
-```csv
-Name,Title,Email,Picture
-```
-
-`stillingsannonser.csv`:
-```csv
-Tittel,Firma,Frist,URL,Logo
-```
-
-`faq.csv`:
-```csv
-Question,Answer
-```
-`Answer` referer til en markdown-fil i `FAQ/answers/`.  
-
-### Minimum filstruktur for public
+### Eksempel på filstruktur for public
 ```markdown
 public/
-├── logos/
-├── members/
-└── web-design/
+├── homepage/     - bilder til hjemsiden
+├── logos/        - bedriftslogoer til program og stillingsannonser
+├── members/      - bilder av medlemmer - til om-oss
+├── program/      - bilde av standkart og logoer for eventene
+└── web-design/   - bakgrunnsbilde
+    └── dagen-logo/   - logo til header m.m.
 ```
