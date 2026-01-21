@@ -6,7 +6,7 @@ const basePath = isProd ? `/${repo}` : "";
 
 export default function Document() {
   return (
-    <Html lang="en">
+    <Html lang="nb">
       <Head>
         <link rel="icon" href={`${basePath}/web-design/dagen-logo/dagen_at.svg`} />
       </Head>

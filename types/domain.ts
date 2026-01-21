@@ -6,3 +6,8 @@ export type ApplyLinks = {
 };
 
 export type PriceRow = { label: string; price: string };
+
+export type CheckedRow = {
+  checked: 0 | 1;
+  text: string;
+};

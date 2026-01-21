@@ -13,16 +13,20 @@ export default function JoinUsCard({ title, infoText, onOpen, applyLink }: JoinU
     return (
         <div
             className={[
-                "w-[360px] md:w-96 h-auto md:h-[602px]",
-                "relative bg-(--card-bg) outline-1 -outline-offset-1 outline-black overflow-hidden",
-                "px-6 py-6 md:px-0 md:py-0",
+                "w-[360px] md:w-96 md:min-h-[602px]",
+                "bg-card-bg outline outline-card-outline overflow-hidden",
+                "px-6 py-6 md:px-0 md:py-0 text-text-color mx-auto justify-items-center",
             ].join(" ")}
         >
             {/* Tittel */}
             <div
                 className={[
-                    "text-center text-black text-4xl font-normal font-mono leading-8 tracking-widest",
-                    "md:absolute md:left-0 md:top-[34px] md:w-96",
+                    "flex justify-center flex-1",
+                    "w-full min-w-0",
+                    "text-4xl font-normal font-mono leading-8 tracking-widest",
+                    "md:mt-[34px]",
+                    "text-center",
+                    "hyphens-auto wrap-anywhere",
                 ].join(" ")}
             >
                 {title}
@@ -31,9 +35,10 @@ export default function JoinUsCard({ title, infoText, onOpen, applyLink }: JoinU
             {/* Tekst */}
             <div
                 className={[
-                    "mt-8 text-justify text-black text-lg font-normal font-mono leading-8 tracking-wide",
-                    "[&>p]:m-0",
-                    "md:absolute md:top-[86px] md:left-[39px] md:right-[39px] md:h-96 md:mt-0",
+                    "flex justify-center",
+                    "mt-8 text-lg font-normal font-mono leading-8 tracking-wide",
+                    "[&>p]:m-0 hyphens-auto",
+                    "md:min-h-96 md:mt-[86px] px-4",
                 ].join(" ")}
             >
                 <div className="whitespace-pre-line leading-loose">
@@ -42,20 +47,16 @@ export default function JoinUsCard({ title, infoText, onOpen, applyLink }: JoinU
             </div>
 
             {/* Knapper */}
-            <div className="mt-10 flex items-center justify-between md:mt-0 md:static">
+            <div className="mt-10 mb-8 flex flex-wrap gap-4 md:gap-2 w-full items-center px-6">
+
                 {/* Les mer */}
-                <div className="md:absolute md:left-[35px] md:top-[506px]">
-                    <ReadMoreButton onClick={onOpen} />
-                </div>
-
+                <ReadMoreButton onClick={onOpen} />
+                
                 {/* Søk */}
-                {applyLink && (
-                    <div className="md:absolute md:right-[35px] md:top-[506px]">
-                        <ApplyButton href={applyLink} />
-                    </div>
-                )}
+                <div className="lg:ml-auto w-full md:w-auto">
+                    {applyLink && <ApplyButton href={applyLink} />}
+                </div>
             </div>
-
         </div>
     );
 }

@@ -11,17 +11,20 @@ export default function BedriftCard({ title, bodyMd, onOpen }: BedriftCardProps)
     return (
         <div
             className={[
-                "w-full md:w-[659px] h-auto md:h-[787px] relative bg-card-bg",
-                "outline-1 -outline-offset-1 outline-black",
+                "w-full md:w-[659px] md:min-h-[787px] flex flex-col",
+                "outline outline-card-outline bg-card-bg",
+                "px-6 py-6 text-text-color mx-auto justify-items-center",
             ].join(" ")}
         >
             {/* Tittel */}
             <div
                 className={[
-                    "md:w-[659px] md:left-0 md:top-[66px] md:absolute",
-                    "text-center text-text-heading text-4xl font-normal font-mono",
-                    "leading-[50px] tracking-widest wrap-break-word",
-                    "py-8 md:py-0"
+                    "flex justify-center",
+                    "w-full min-w-0",
+                    "text-4xl font-bold font-mono leading-8 tracking-widest",
+                    "md:mt-[34px]",
+                    "text-center uppercase",
+                    "hyphens-auto wrap-anywhere",
                 ].join(" ")}
             >
                 {title}
@@ -30,10 +33,10 @@ export default function BedriftCard({ title, bodyMd, onOpen }: BedriftCardProps)
             {/* Tekst */}
             <div
                 className={[
-                    "md:w-[581px] md:h-[491px] md:left-[39px] md:top-[148px] md:absolute",
-                    "text-justify text-text-color text-lg font-normal font-mono",
-                    "leading-8 tracking-wide mt-4 md:mt-0 px-4 md:px-0",
-                    "[&>p]:m-0",
+                    "flex justify-center flex-1",
+                    "mt-8 text-lg font-normal font-mono leading-8 tracking-wide",
+                    "[&>p]:m-0 hyphens-auto",
+                    "md:min-h-96 md:mt-[86px] px-4",
                 ].join(" ")}
             >
                 <div className="whitespace-pre-line">
@@ -43,8 +46,8 @@ export default function BedriftCard({ title, bodyMd, onOpen }: BedriftCardProps)
 
             {/* Les mer */}
             <div className={[
-                "md:absolute md:left-[39px] md:top-[692px]",
-                "px-4 py-8 md:px-0 md:py-0",
+                "mt-10 mb-8 flex flex-wrap gap-4",
+                "md:gap-2 w-full justify-start px-6",
             ].join(" ")}
             >
                 <ReadMoreButton onClick={onOpen} />

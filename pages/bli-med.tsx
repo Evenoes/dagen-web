@@ -86,8 +86,8 @@ export default function JoinUs({
         className="max-w-[1107px] mx-auto">
         <p
           className={[
-            "px-6 md:px-0",
-            "text-black text-lg font-normal font-mono leading-8",
+            "px-6 md:px-4",
+            "text-text-color text-lg font-normal font-mono leading-8",
             "tracking-wide text-justify",
           ].join(" ")}
         >
@@ -97,7 +97,7 @@ export default function JoinUs({
 
       {/* Inforkort */}
       <div className="flex flex-col items-center gap-10 py-[114px]
-                md:flex-row md:justify-center md:gap-[63px]">
+                md:flex-row md:justify-center md:items-stretch md:gap-2 px-2">
 
         {/* Funk */}
         <JoinUsCard
@@ -150,34 +150,13 @@ export default function JoinUs({
 
         {/* Kort - Intern */}
         {overlay === "intern" && (
-          <div className="max-w-[1256px] mx-auto space-y-10">
+          <div className="max-w-[1256px] mx-auto space-y-10 justify-items-center">
             
             {/* Rad 1 */}
-            <div className="grid gap-10 grid-cols-1 md:grid-cols-3 gap-x-[88px] justify-items-center">
-              {internCards.slice(0, 3).map(card => (
+            <div className="flex flex-wrap gap-10 gap-x-[88px] justify-center">
+              {internCards.map(card => (
                 <JoinReadMoreCard key={card.title} variant="intern" title={card.title} cardText={card.text} />
               ))}
-            </div>
-
-            {/* Rad 2 */}
-            <div className="grid gap-10 grid-cols-1 md:grid-cols-3 gap-x-[88px] justify-items-center">
-              {internCards.slice(3, 6).map(card => (
-                <JoinReadMoreCard key={card.title} variant="intern" title={card.title} cardText={card.text} />
-              ))}
-            </div>
-
-            {/* Rad 3 – 2 kort, sentrert på desktop */}
-            <div className="flex justify-center">
-              <div className="flex flex-col items-center gap-10 md:flex-row md:gap-x-[88px] md:max-w-[880px]">
-                {internCards.slice(6, 8).map((card) => (
-                  <JoinReadMoreCard
-                    key={card.title}
-                    variant="intern"
-                    title={card.title}
-                    cardText={card.text}
-                  />
-                ))}
-              </div>
             </div>
           </div>
         )}
@@ -185,7 +164,7 @@ export default function JoinUs({
         {/* Kort - Styret */}
         {overlay === "styret" && (
           <div className="max-w-[1256px] mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-[54px] gap-y-10 justify-items-center">
+            <div className="flex flex-wrap gap-x-[54px] gap-y-10 justify-center">
               {styretCards.map((card) => (
                 <JoinReadMoreCard
                   key={card.title}

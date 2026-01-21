@@ -13,14 +13,14 @@ type BedriftPageProps = {
     standInfo: string;
     hspInfo: string;
 
-    standardStand: string;
-    sponsorStand: string;
+    standardStand: { checked: string; text: string }[];
+    sponsorStand: { checked: string; text: string }[];
     standPrices: PriceRow[];
     standFaq: string;
 
     hspExtended: string;
-    hspSponsor: string;
-    hspHsp: string;
+    hspSponsor: { checked: string; text: string }[];
+    hspHsp: { checked: string; text: string }[];
     hspInfoText: string;
 };
 
@@ -36,16 +36,27 @@ function formatKr(value: string) {
 function PriceRow({ label, price }: { label: string; price: string }) {
     return (
         <>
-            <div className="min-h-[62px] md:min-h-[84px] px-4 md:px-[25px] bg-background outline-1 outline-black flex items-center">
-                <div className="text-sm md:text-lg font-bold font-mono wrap-break-word text-left hyphens-auto">
-                    {label}
-                </div>
+            <div
+                className={[
+                    "min-h-[62px] md:min-h-[84px]",
+                    "px-4 md:px-[25px]",
+                    "text-left text-sm md:text-lg font-bold font-mono hyphens-auto wrap-break-word",
+                    "bg-background outline-1 outline-black",
+                    "flex items-center",
+                ].join(" ")}
+            >
+                <div>{label}</div>
             </div>
 
-            <div className="h-auto md:min-h-[84px] bg-background outline-1 outline-black flex items-center justify-center">
-                <div className="text-sm md:text-lg font-bold font-mono">
-                    {formatKr(price)}
-                </div>
+            <div
+                className={[
+                    "h-auto md:min-h-[84px]",
+                    "text-sm md:text-lg font-bold font-mono",
+                    "bg-background outline-1 outline-black",
+                    "flex items-center justify-center",
+                ].join(" ")}
+            >
+                <div>{formatKr(price)}</div>
             </div>
         </>
     );
@@ -92,28 +103,48 @@ export default function Bedrift({
         ),
         p: ({ node, ...props }: any) => <p className="m-0 mb-10" {...props} />,
         a: ({ node, ...props }: any) => (
-            <a className="underline text-[#007C91] hover:opacity-80" {...props} />
+            <a className="underline hover:opacity-80 text-[#007C91]" {...props} />
         ),
     };
-
 
     const overlayTitle =
         overlay === "stand"
             ? "Les mer om å stå på stand"
             : overlay === "hsp"
-                ? "Les mer om å være hovedsamarbeidspartner"
+                ? "Les mer om å være hovedsponsor"
                 : "";
 
     return (
-        <main className="w-full md:max-w-[1360px] mx-auto px-4 md:px-0 mt-[205px] pb-64 md:pb-0 md:mb-[116px]">
-
-            {/* Bedriftside info (top tekst) */}
-            <div className="w-full md:max-w[1107px] h-auto md:h-40 text-black text-justify text-lg font-normal font-mono leading-8 tracking-wide">
+        <main
+            className={[
+                "md:max-w-[1360px]",
+                "mt-[205px] md:mb-[116px]",
+                "px-4 md:px-2",
+                "text-justify text-lg font-normal font-mono leading-8 tracking-wide",
+                "text-text-color",
+                "mx-auto pb-64 md:pb-0 justify-items-center",
+            ].join(" ")}
+        >
+            {/* Bedriftside info (topptekst) */}
+            <div
+                className={[
+                    "w-full md:max-w-[1107px]",
+                    "text-justify text-lg font-normal font-mono leading-8 tracking-wide",
+                    "justify-center",
+                ].join(" ")}
+            >
                 <ReactMarkdown>{bedriftPageInfo}</ReactMarkdown>
             </div>
 
             {/* Infokort */}
-            <div className="w-full md:h-[787px] mt-16 mb-16 md:mb-[118px] gap-10 md:gap-[41px] flex flex-col md:flex-row items-center">
+            <div
+                className={[
+                    "w-full md:min-h-[787px]",
+                    "mt-16 mb-16 md:mt-40 md:mb-[118px]",
+                    "gap-10 md:gap-[41px]",
+                    "flex flex-col md:flex-row justify-center",
+                ].join(" ")}
+            >
                 <BedriftCard
                     title="Stå på stand"
                     bodyMd={standInfo}
@@ -121,7 +152,7 @@ export default function Bedrift({
                 />
 
                 <BedriftCard
-                    title="Hovedsamarbeidspartner"
+                    title="Hovedsponsor"
                     bodyMd={hspInfo}
                     onOpen={() => openOverlay("hsp")}
                 />
@@ -129,63 +160,67 @@ export default function Bedrift({
 
             {/* Overlay */}
             <BedriftOverlay open={overlay !== null} onClose={closeOverlay}>
-                <div className="max-w-[1107px] mx-auto">
-                    <div className="text-black text-4xl font-bold font-mono uppercase leading-10 tracking-widest text-center mb-16 wrap-break-word">
+                <div className="max-w-[1107px] mx-auto px-4 md:px-0">
+                    <div className="text-center text-4xl font-bold font-mono uppercase leading-10 tracking-widest mb-16 wrap-break-word">
                         {overlayTitle}
                     </div>
 
                     {/* STAND overlay */}
                     {overlay === "stand" && (
-                        <div className="md:max-w-[1002px] mx-auto md:text-justify justify-start">
-                            <div className="md:min-h-[156px]">
-                                <span className="text-black text-lg font-bold font-mono leading-8 tracking-wide">
-                                    STANDPLASSTYPER
-                                    <br />
-                                </span>
-                                <span className="text-black text-lg font-normal font-mono leading-8 tracking-wide">
-                                    På Ettermiddagen@ifi har vi kun standard plasser.
-                                    <br />
-                                    På Dagen@ifi tilbyr vi standard standplasser og sponsorplasser.
-                                </span>
+                        <div className="md:max-w-[1002px] mx-auto justify-items-center">
+                            {/* Infotekst */}
+                            <div className="text-left md:text-justify mr-auto">
+                                <div className="md:min-h-[156px]">
+                                    <span className="text-lg font-bold font-mono leading-8 tracking-wide">
+                                        STANDPLASSTYPER
+                                        <br />
+                                    </span>
+                                    <span className="text-lg font-normal font-mono leading-8 tracking-wide">
+                                        På Ettermiddagen@ifi har vi kun standard plasser.
+                                        <br />
+                                        På Dagen@ifi tilbyr vi standard standplasser og sponsorplasser.
+                                    </span>
+                                </div>
                             </div>
 
                             {/* Kort */}
-                            <div className="grid gap-10 grid-cols-1 md:grid-cols-2 gap-x-[64.6px] justify-items-center mt-10">
-                                <div className="flex flex-col items-start">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-x-[64.6px] justify-items-center mt-10">
+                                <div className="w-full max-w-[360px] md:max-w-none flex flex-col items-start">
                                     <BedriftOverlayCard
                                         title="Standard"
-                                        isStandard={true}
-                                        bodyList={standardStand}
+                                        items={standardStand}
                                         layout="fixed"
                                     />
-                                    <div className="px-1 text-black text-[10px] font-mono leading-5 tracking-wide">
+                                    <div className="px-1 text-[10px] font-mono leading-5 tracking-wide">
                                         *Rom for speedintervju kan legges til mot et tillegg
                                     </div>
                                 </div>
 
-                                <BedriftOverlayCard
-                                    title="Sponsor"
-                                    bodyList={sponsorStand}
-                                    layout="fixed"
-                                />
+                                <div className="w-full max-w-[360px] md:max-w-none">
+                                    <BedriftOverlayCard
+                                        title="Sponsor"
+                                        items={sponsorStand}
+                                        layout="fixed"
+                                    />
+                                </div>
                             </div>
 
                             {/* Priser - liste */}
                             <div className="mt-16 w-full">
-
                                 {/* Tittel */}
-                                <div className={[
-                                    "w-full md:max-w-none",
-                                    "mx-auto md:mx-0 px-4 md:px-0 md:py-[7px] md:ml-[11px]",
-                                    "text-text-color text-lg font-bold font-mono",
-                                ].join(" ")}
-                                    >
+                                <div
+                                    className={[
+                                        "mx-auto",
+                                        "px-4 md:px-0 md:py-[7px]",
+                                        "text-left text-lg font-bold font-mono",
+                                    ].join(" ")}
+                                >
                                     PRISER*
                                 </div>
 
                                 {/* Ettermiddagen */}
                                 {first && (
-                                    <div className="mb-[31px] w-full mx-auto md:mx-0 px-4 md:px-0">
+                                    <div className="mb-[31px] w-full mx-auto px-4 md:px-0">
                                         <div className="grid grid-cols-[2fr_1fr]">
                                             <PriceRow label={first.label} price={first.price} />
                                         </div>
@@ -193,41 +228,30 @@ export default function Bedrift({
                                 )}
 
                                 {/* Dagen */}
-                                <div className="w-full mx-auto px-4 md:mx-0 md:px-0">
+                                <div className="w-full mx-auto px-4 md:px-0">
                                     {rest.map((row) => (
-                                        <div
-                                            key={row.label}
-                                            className="grid grid-cols-[2fr_1fr]"
-                                        >
+                                        <div key={row.label} className="grid grid-cols-[2fr_1fr]">
                                             <PriceRow label={row.label} price={row.price} />
                                         </div>
                                     ))}
                                 </div>
 
                                 {/* Fotnote */}
-                                <div className="mt-[31px] w-full max-w-[400px] mx-auto px-4 md:max-w-none md:w-auto md:mx-0 md:px-0 md:ml-[11px] text-black text-xs md:text-lg font-mono">
+                                <div className="mt-[31px] w-full max-w-[400px] mx-auto px-4 md:max-w-none md:w-auto md:px-0 text-left text-xs md:text-lg font-mono">
                                     *Priser kan variere fra år til år, eller etter avtale.
                                 </div>
                             </div>
 
                             {/* FAQ */}
-                            <div className="mt-16 max-w-[979px] mx-auto md:text-justify text-black text-sm md:text-lg font-mono leading-6 md:leading-8 tracking-wide">
+                            <div className="mt-16 max-w-[979px] mr-auto text-left md:text-justify text-sm md:text-lg font-mono leading-6 md:leading-8 tracking-wide text-black">
                                 <ReactMarkdown
                                     components={{
                                         h3: ({ node, ...props }) => (
-                                            <h3
-                                                className="m-0 font-bold tracking-widest uppercase"
-                                                {...props}
-                                            />
+                                            <h3 className="m-0 font-bold tracking-widest uppercase" {...props} />
                                         ),
-                                        p: ({ node, ...props }) => (
-                                            <p className="m-0 mb-10" {...props} />
-                                        ),
+                                        p: ({ node, ...props }) => <p className="m-0 mb-10" {...props} />,
                                         a: ({ node, ...props }) => (
-                                            <a
-                                                className="underline text-text-link hover:opacity-80"
-                                                {...props}
-                                            />
+                                            <a className="underline hover:opacity-80 text-text-link" {...props} />
                                         ),
                                     }}
                                 >
@@ -239,27 +263,27 @@ export default function Bedrift({
 
                     {/* HSP overlay */}
                     {overlay === "hsp" && (
-                        <div className="max-w-[1002px] mx-auto md:text-justify justify-start">
-                            {/* 1) hsp_extended først */}
-                            <div className="max-w-[979px] mx-auto text-black text-sm md:text-lg font-mono leading-6 md:leading-8 tracking-wide word-break">
+                        <div className="max-w-[1002px] mx-auto justify-items-center">
+                            {/* hsp_extended */}
+                            <div className="mr-auto text-left md:text-justify text-sm md:text-lg font-mono leading-6 md:leading-8 tracking-wide word-break text-black">
                                 <ReactMarkdown components={mdComponents}>{hspExtended}</ReactMarkdown>
                             </div>
 
-                            {/* 2) to kort */}
-                            <div className="grid gap-10 grid-cols-1 md:grid-cols-2 md:gap-x-[64.6px] justify-items-center mt-10">
-                                <BedriftOverlayCard title="Sponsor" bodyList={hspSponsor} layout="fluid" />
-                                <BedriftOverlayCard title="Hovedsponsor" bodyList={hspHsp} layout="fluid" />
+                            {/* kort */}
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-x-[64.6px] justify-items-center mt-10">
+                                <BedriftOverlayCard title="Sponsor" items={hspSponsor} layout="fluid" />
+                                <BedriftOverlayCard title="Hovedsponsor" items={hspHsp} layout="fluid" />
                             </div>
 
-                            {/* 3) info-tekst til slutt */}
-                            <div className="mt-16 max-w-[979px] mx-auto text-black text-sm md:text-lg font-mono leading-6 md:leading-8 tracking-wide">
+                            {/* info-tekst */}
+                            <div className="mt-16 mr-auto text-left md:text-justify text-sm md:text-lg font-mono leading-6 md:leading-8 tracking-wide text-black">
                                 <ReactMarkdown components={mdComponents}>{hspInfoText}</ReactMarkdown>
                             </div>
                         </div>
                     )}
-
                 </div>
             </BedriftOverlay>
+
         </main>
     );
 }
@@ -269,14 +293,14 @@ export function getStaticProps() {
     const standInfo = getMarkdownContent("bedrift/stand_info");
     const hspInfo = getMarkdownContent("bedrift/hsp_info");
 
-    const standardStand = getMarkdownContent("bedrift/stand/standard_stand_card");
-    const sponsorStand = getMarkdownContent("bedrift/stand/sponsor_stand_card");
+    const standardStand = getCsvContent<{ checked: string; text: string }>("bedrift/stand/standard_stand_card");
+    const sponsorStand = getCsvContent<{ checked: string; text: string }>("bedrift/stand/sponsor_stand_card");
     const standPrices = getCsvContent<PriceRow>("bedrift/stand/stand_prices_list");
     const standFaq = getMarkdownContent("bedrift/stand/stand_faq");
 
     const hspExtended = getMarkdownContent("bedrift/hsp/hsp_extended");
-    const hspSponsor = getMarkdownContent("bedrift/hsp/hsp_sponsor_card");
-    const hspHsp = getMarkdownContent("bedrift/hsp/hsp_hsp_card");
+    const hspSponsor = getCsvContent<{ checked: string; text: string }>("bedrift/hsp/hsp_sponsor_card");
+    const hspHsp = getCsvContent<{ checked: string; text: string }>("bedrift/hsp/hsp_hsp_card");
     const hspInfoText = getMarkdownContent("bedrift/hsp/hsp_info_text");
 
     return {

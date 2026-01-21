@@ -44,7 +44,7 @@ export default function ProgramPage({
     return (
         <main className="max-w-[1304px] mx-auto px-6 justify-items-center">
             {/* Toggle */}
-            <div className="sticky top-40 z-50 flex justify-center">
+            <div className="sticky top-40 z-30 flex justify-center">
                 <div className="w-64 h-12 relative inline-flex font-mono text-sm tracking-tight">
                     
                     {/* Programknapp */}

@@ -1,3 +1,4 @@
+import { GridIcon, ListIcon } from "@/components/icons/ButtonIcons";
 import JobCard from "@/components/JobCard";
 import { getJobListings, JobCsvRow } from "@/lib/getJobListings";
 import { useState, useLayoutEffect, useRef } from "react";
@@ -62,7 +63,7 @@ export default function Stillingsannonser({ jobListings: jobListings }: Stilling
           onClick={() => setIsGalleryView((v) => !v)}
           className={[
             "relative inline-flex h-12 w-48 items-center",
-            "rounded-full border border-black",
+            "rounded-full border border-button-outline",
             "bg-background overflow-auto",
             "transition focus:outline-none",
           ].join(" ")}
@@ -71,7 +72,7 @@ export default function Stillingsannonser({ jobListings: jobListings }: Stilling
           <span
             className={[
               "absolute left-0 top-0 h-full w-1/2",
-              "bg-primary",
+              "bg-button-bg",
               "transition-transform duration-300 ease-out",
               isGalleryView ? "translate-x-full" : "translate-x-0",
             ].join(" ")}
@@ -80,21 +81,12 @@ export default function Stillingsannonser({ jobListings: jobListings }: Stilling
           {/* Bilder i slider */}
           {/* List view */}
           <span className="relative z-10 flex w-1/2 items-center justify-center">
-            <svg width="36" height="36" viewBox="0 0 24 24" fill="none">
-              <line x1="4" y1="6" x2="20" y2="6" stroke="black" strokeWidth="1" />
-              <line x1="4" y1="12" x2="20" y2="12" stroke="black" strokeWidth="1" />
-              <line x1="4" y1="18" x2="20" y2="18" stroke="black" strokeWidth="1" />
-            </svg>
+            <ListIcon />
           </span>
 
           {/* Gallery view */}
           <span className="relative z-10 flex w-1/2 items-center justify-center">
-            <svg width="36" height="32" viewBox="0 0 24 24" fill="none">
-              <rect x="3" y="4" width="8" height="7" stroke="black" strokeWidth="1" />
-              <rect x="14" y="4" width="8" height="7" stroke="black" strokeWidth="1" />
-              <rect x="3" y="14" width="8" height="7" stroke="black" strokeWidth="1" />
-              <rect x="14" y="14" width="8" height="7" stroke="black" strokeWidth="1" />
-            </svg>
+            <GridIcon />
           </span>
         </button>
       </div>
@@ -102,7 +94,7 @@ export default function Stillingsannonser({ jobListings: jobListings }: Stilling
       {/* Kort */}
       <div ref={contentRef} className="mx-auto">
 
-        {/* Mobil: 1 kolonne */}
+        {/* Mobil - Liste */}
         <div className="flex flex-col items-center gap-6 md:hidden">
           {jobListings.map((job) => (
             <JobCard
@@ -119,6 +111,7 @@ export default function Stillingsannonser({ jobListings: jobListings }: Stilling
           ))}
         </div>
 
+        {/* Gallery view */}
         {/* Venstre rad først */}
         {isGalleryView && (
           <div className="hidden md:flex justify-center">
@@ -161,6 +154,7 @@ export default function Stillingsannonser({ jobListings: jobListings }: Stilling
           </div>
         )}
 
+        {/* Listevisning */}
         {!isGalleryView && (
           <div className="hidden md:flex justify-center">
             <div className="flex flex-col items-start gap-[66px]">
