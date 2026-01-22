@@ -35,7 +35,7 @@ jobs:
       - name: Pull content repo
         env:
           # github-actions[bot] CONTENT_REPO_TOKEN is configured in repository secrets
-          CONTENT_REPO_URL: https://x-access-token:${{ secrets.CONTENT_REPO_TOKEN }}@github.com/evenoes/dagen-web-content.git
+          CONTENT_REPO_URL: https://x-access-token:${{ secrets.CONTENT_REPO_TOKEN }}@github.com/ifi-dagen/dagen-web-content.git
         run: bash scripts/pull-content.sh
 
       - name: Build (Next export)
