@@ -1,18 +1,14 @@
-const isProd = process.env.NODE_ENV === "production";
+import type { NextConfig } from "next";
 
-// Repo-navn fra GitHub Actions (owner/repo)
-const repo = process.env.GITHUB_REPOSITORY?.split("/")[1] ?? "dagen-web";
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
-const nextConfig = {
+const nextConfig: NextConfig = {
   output: "export",
   images: { unoptimized: true },
-
-  // Viktig for GitHub Pages (statiske sider som mapper)
   trailingSlash: true,
 
-  // Viktig for GitHub Pages prosjekt-site: https://bruker.github.io/<repoName>/
-  basePath: isProd ? `/${repo}` : "",
-  assetPrefix: isProd ? `/${repo}/` : "",
+  basePath,
+  assetPrefix: basePath ? `${basePath}/` : "",
 };
 
 export default nextConfig;
