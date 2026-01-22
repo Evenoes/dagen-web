@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { buttonClasses } from "@/components/buttons/buttonStyles";
 import rightArrow from "@/components/icons/rightArrow.svg";
+import Link from "next/link";
 
 type HomePageProps = {
   whatIsDagen: string;
@@ -162,14 +163,14 @@ export default function Home({ whatIsDagen, hspInfo, dagenInfo, ettermiddagenInf
                   "gap-[clamp(0.5rem,2vw,0.875rem)]",
                 ].join(" ")}
               >
-                <button className={buttonClasses("w-full max-w-[187px]")}>
+                <Link className={buttonClasses("w-full max-w-[187px]")} href={"/bli-med"}>
                   Bli funk!
                   <Image src={rightArrow} alt="" width={12} height={12} />
-                </button>
-                <button className={buttonClasses("w-full max-w-[232px]")}>
+                </Link>
+                <Link className={buttonClasses("w-full max-w-[232px]")} href={"/bedrift"}>
                   Stå på stand
                   <Image src={rightArrow} alt="" width={12} height={12} />
-                </button>
+                </Link>
               </div>
             </div>
 
@@ -249,10 +250,10 @@ export default function Home({ whatIsDagen, hspInfo, dagenInfo, ettermiddagenInf
 
               <div
                 className="mt-[clamp(1.5rem,4vw,2.5rem)]">
-                <button className={buttonClasses("w-full max-w-[232px]")}>
+                <Link className={buttonClasses("w-full max-w-[232px]")} href={"/bedrift"}>
                   Stå på stand
                   <Image src={rightArrow} alt="" width={12} height={12} />
-                </button>
+                </Link>
               </div>
             </div>
           </div>
