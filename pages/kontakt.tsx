@@ -5,7 +5,7 @@ import downArrow from "@/components/icons/downArrow.svg";
 
 type Status = "idle" | "sending" | "sent" | "error";
 
-export default function Kontakt() {
+export default function ContactUsPage() {
   const [isAnonymous, setIsAnonymous] = useState(false);
   const [contactType, setContactType] = useState("");
   const [status, setStatus] = useState<Status>("idle");

@@ -1,27 +1,29 @@
 import ReactMarkdown from "react-markdown";
-import ApplyButton from "../buttons/ApplyButton";
-import ReadMoreButton from "../buttons/ReadMoreButton";
+import ApplyButton from "./buttons/ApplyButton";
+import ReadMoreButton from "./buttons/ReadMoreButton";
 
 type JoinUsCardProps = {
     title: string;
     infoText: string;
     onOpen: () => void;
     applyLink: string | null;
+    widthClass: string;
 };
 
-export default function JoinUsCard({ title, infoText, onOpen, applyLink }: JoinUsCardProps) {
+export default function PageCard({ title, infoText, onOpen, applyLink, widthClass }: JoinUsCardProps) {
     return (
         <div
             className={[
-                "w-[360px] md:w-96 md:min-h-[602px]",
+                //"w-[360px] md:w-96",
+                widthClass, "flex flex-col",    
                 "bg-card-bg outline outline-card-outline overflow-hidden",
-                "px-6 py-6 md:px-0 md:py-0 text-text-color mx-auto justify-items-center",
+                "px-6 py-6 text-text-color mx-auto justify-items-center",
             ].join(" ")}
         >
             {/* Tittel */}
             <div
                 className={[
-                    "flex justify-center flex-1",
+                    "flex justify-center",
                     "w-full min-w-0",
                     "text-4xl font-normal font-mono leading-8 tracking-widest",
                     "md:mt-[34px]",
@@ -35,7 +37,7 @@ export default function JoinUsCard({ title, infoText, onOpen, applyLink }: JoinU
             {/* Tekst */}
             <div
                 className={[
-                    "flex justify-center",
+                    "flex justify-center flex-1",
                     "mt-8 text-lg font-normal font-mono leading-8 tracking-wide",
                     "[&>p]:m-0 hyphens-auto",
                     "md:min-h-96 md:mt-[86px] px-4",

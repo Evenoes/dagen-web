@@ -44,7 +44,7 @@ export default function Header() {
                     >
                         <Image
                             src={`${basePath}/web-design/dagen-logo/dagen_at.svg`} // <-------- PATH - logo i header
-                            alt="dagen@ifi logo"
+                            alt="dagen@ifi logo - Hjem knapp"
                             width={64.27}
                             height={58.93}
                         />

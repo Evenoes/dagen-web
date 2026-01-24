@@ -34,7 +34,6 @@ export function getCsvContent<T extends Record<string, unknown>>( contentName: s
       header: true,
       skipEmptyLines: true,
       transformHeader: (h) => h.toLowerCase().trim(),
-      transform: (v) => v.toLowerCase(),
     });
 
     if (parsed.errors.length) {

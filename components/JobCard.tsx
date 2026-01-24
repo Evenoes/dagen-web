@@ -104,7 +104,7 @@ export default function JobCard({
                         <div className="grid grid-cols-[1fr_auto] gap-6 items-start">
                             {/* Venstre: type + info */}
                             <div>
-                                {/* Type-button */}
+                                {/* Url-knapp, viser stillingstype i tekst */}
                                 <Link
                                     href={url}
                                     target="_blank"
@@ -113,11 +113,7 @@ export default function JobCard({
                                     className={buttonClasses([
                                         "gap-3.5",
                                         "h-[77px] px-7",
-                                        "rounded-[90.19px]",
-                                        "font-normal text-text-color",
                                         "text-[44.6px] leading-[1.2]",
-                                        "tracking-[0]",
-                                        "transition",
                                     ].join(" "))}
                                 >
                                     <span>{stillingstype}</span>
@@ -201,7 +197,6 @@ export default function JobCard({
                                             }}
                                             className={buttonClasses([
                                                 "h-[63.99px] px-[26px] w-[220px]",
-                                                "rounded-[57.93px]",
                                                 "font-normal text-[23.14px] leading-[43.7px]",
                                                 "transition",
 

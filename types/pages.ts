@@ -1,7 +1,7 @@
 import type { CardData, ApplyLinks } from "./domain";
 
-export type BliMedPageProps = {
-  bliMedInfo: string;
+export type JoinUsPageProps = {
+  joinUsInfo: string;
   funkInfo: string;
   funkExtended: string;
   internInfo: string;

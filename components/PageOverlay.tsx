@@ -9,7 +9,7 @@ type OverlayShellProps = {
   historyKey: string;
 };
 
-export default function OverlayShell({
+export default function PageOverlay({
   open,
   onClose,
   children,

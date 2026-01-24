@@ -23,7 +23,7 @@ export default function Home({ whatIsDagen, hspInfo, dagenInfo, ettermiddagenInf
       className={[
         "w-full max-w-[1253px] mx-auto",
         "px-[clamp(1rem,2vw,1.5rem)] pt-[clamp(5rem,12vw,300px)] pb-[clamp(4rem,10vw,300px)]",
-        "text-black",
+        "text-text-color",
       ].join(" ")}
     >
 
@@ -178,7 +178,7 @@ export default function Home({ whatIsDagen, hspInfo, dagenInfo, ettermiddagenInf
             <div
               className={[
                 "order-3 lg:order-1 relative w-full lg:w-[min(558px,50vw)] aspect-square shrink-0",
-                "border-[0.93px] border-black rounded-[4.66px] overflow-hidden",
+                "rounded-[4.66px] overflow-hidden",
               ].join(" ")}
             >
               <Image
@@ -207,7 +207,7 @@ export default function Home({ whatIsDagen, hspInfo, dagenInfo, ettermiddagenInf
             <div
               className={[
                 "order-3 lg:order-1 relative w-full lg:w-[558px] aspect-square shrink-0",
-                "border-[0.93px] border-black rounded-[4.66px] overflow-hidden",
+                "rounded-[4.66px] overflow-hidden",
               ].join(" ")}
             >
               <Image

@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
-import Papa from "papaparse";
 import { BedriftItem } from "@/types";
+import { getCsvContent } from "@/lib/getFileContent";
 
 const ALLOWED_EXTS = ["svg", "png", "jpg", "jpeg", "webp", "avif", "gif"] as const;
 
@@ -22,7 +22,7 @@ function findLogoFilename(name: string, logoFromCsv?: string): string | null {
   const tried: string[] = [];
 
   // 1) Prøv logo-feltet direkte (om det finnes)
-  const logoRaw = (logoFromCsv ?? "").trim();
+  const logoRaw = (logoFromCsv ?? "").trim().toLowerCase();
   if (logoRaw) {
     // Hvis den allerede har endelse: prøv den
     if (logoRaw.includes(".")) {
@@ -52,22 +52,18 @@ function findLogoFilename(name: string, logoFromCsv?: string): string | null {
   return null;
 }
 
+type BedriftCsvRow = {
+  name?: string;
+  logo?: string;
+  spons?: string;
+};
+
 export function getBedrifter(filePath: string): BedriftItem[] {
-  const fullPath = path.join(process.cwd(), "content", filePath);
-  if (!fs.existsSync(fullPath)) return [];
-
-  const csv = fs.readFileSync(fullPath, "utf8");
-
-  const parsed = Papa.parse<BedriftItem>(csv, {
-    header: true,
-    skipEmptyLines: true,
-    transformHeader: (h) => h.toLowerCase().trim(),
-    transform: (value) => value?.toLowerCase(),
-  });
+  const parsed = getCsvContent<BedriftCsvRow>(filePath);
 
   const missing: string[] = [];
 
-  const items = (parsed.data ?? [])
+  const items = (parsed ?? [])
     .map((row) => ({
       name: row.name?.trim() ?? "",
       logo: row.logo?.trim() ?? "",
@@ -85,7 +81,7 @@ export function getBedrifter(filePath: string): BedriftItem[] {
     .filter((x): x is BedriftItem => x !== null);
 
   for (const name of missing) {
-    console.error(`[getBedrifter] Fant ikke logo for: ${name}`);
+    console.error(`[getBedrifter] Logo not found for: ${name}`);
   }
 
   return items;

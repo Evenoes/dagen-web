@@ -1,12 +1,12 @@
 import { useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 
-import BedriftOverlay from "@/components/BedriftOverlay";
-import BedriftCard from "@/components/BedriftCard";
-import BedriftOverlayCard from "@/components/BedriftOverlayCard";
-
 import { getMarkdownContent, getCsvContent } from "@/lib/getFileContent";
 import type { PriceRow } from "@/types/domain";
+import PageOverlay from "@/components/PageOverlay";
+import PageCard from "@/components/PageCard";
+import OverlayCard from "@/components/OverlayCard";
+import Checklist from "@/components/Checklist";
 
 type BedriftPageProps = {
     bedriftPageInfo: string;
@@ -30,7 +30,7 @@ function formatKr(value: string) {
     const digits = value.replace(/\s/g, "");
     const n = Number(digits);
     if (!Number.isFinite(n)) return value;
-    return `${n.toLocaleString("nb-NO")} KR`;
+    return `${n.toLocaleString("nb-NO")},-`;
 }
 
 function PriceRow({ label, price }: { label: string; price: string }) {
@@ -145,21 +145,25 @@ export default function Bedrift({
                     "flex flex-col md:flex-row justify-center",
                 ].join(" ")}
             >
-                <BedriftCard
+                <PageCard
                     title="Stå på stand"
-                    bodyMd={standInfo}
+                    infoText={standInfo}
                     onOpen={() => openOverlay("stand")}
+                    applyLink={null}
+                    widthClass="w-full md:w-[659px]"
                 />
 
-                <BedriftCard
+                <PageCard
                     title="Hovedsponsor"
-                    bodyMd={hspInfo}
+                    infoText={hspInfo}
                     onOpen={() => openOverlay("hsp")}
+                    applyLink={null}
+                    widthClass="w-full md:w-[659px]"
                 />
             </div>
 
             {/* Overlay */}
-            <BedriftOverlay open={overlay !== null} onClose={closeOverlay}>
+            <PageOverlay open={overlay !== null} onClose={closeOverlay} maxWidthClass="max-w-[1107px]" historyKey="__bedriftOverlay">
                 <div className="max-w-[1107px] mx-auto px-4 md:px-0">
                     <div className="text-center text-4xl font-bold font-mono uppercase leading-10 tracking-widest mb-16 wrap-break-word">
                         {overlayTitle}
@@ -185,22 +189,27 @@ export default function Bedrift({
 
                             {/* Kort */}
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-x-[64.6px] justify-items-center mt-10">
-                                <div className="w-full max-w-[360px] md:max-w-none flex flex-col items-start">
-                                    <BedriftOverlayCard
+
+                                {/* Standard */}
+                                <div className="max-w-[360px] flex flex-col items-start">
+                                    <OverlayCard
                                         title="Standard"
-                                        items={standardStand}
-                                        layout="fixed"
+                                        frameClass="md:min-h-[474px]"
+                                        bodyClass="px-4 pb-5 text-sm tracking-wide leading-7 justify-start"
+                                        children={<Checklist items={standardStand} />}
                                     />
                                     <div className="px-1 text-[10px] font-mono leading-5 tracking-wide">
                                         *Rom for speedintervju kan legges til mot et tillegg
                                     </div>
                                 </div>
 
-                                <div className="w-full max-w-[360px] md:max-w-none">
-                                    <BedriftOverlayCard
+                                {/* Sponsor */}
+                                <div className="max-w-[360px]">
+                                    <OverlayCard
                                         title="Sponsor"
-                                        items={sponsorStand}
-                                        layout="fixed"
+                                        frameClass="md:min-h-[474px]"
+                                        bodyClass="px-4 pb-5 text-sm tracking-wide leading-7 justify-start"
+                                        children={<Checklist items={sponsorStand} />}
                                     />
                                 </div>
                             </div>
@@ -243,7 +252,7 @@ export default function Bedrift({
                             </div>
 
                             {/* FAQ */}
-                            <div className="mt-16 max-w-[979px] mr-auto text-left md:text-justify text-sm md:text-lg font-mono leading-6 md:leading-8 tracking-wide text-black">
+                            <div className="mt-16 max-w-[979px] mr-auto text-left md:text-justify text-sm md:text-lg font-mono leading-6 md:leading-8 tracking-wide">
                                 <ReactMarkdown
                                     components={{
                                         h3: ({ node, ...props }) => (
@@ -265,24 +274,35 @@ export default function Bedrift({
                     {overlay === "hsp" && (
                         <div className="max-w-[1002px] mx-auto justify-items-center">
                             {/* hsp_extended */}
-                            <div className="mr-auto text-left md:text-justify text-sm md:text-lg font-mono leading-6 md:leading-8 tracking-wide word-break text-black">
+                            <div className="mr-auto text-left md:text-justify text-sm md:text-lg font-mono leading-6 md:leading-8 tracking-wide word-break">
                                 <ReactMarkdown components={mdComponents}>{hspExtended}</ReactMarkdown>
                             </div>
 
                             {/* kort */}
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-x-[64.6px] justify-items-center mt-10">
-                                <BedriftOverlayCard title="Sponsor" items={hspSponsor} layout="fluid" />
-                                <BedriftOverlayCard title="Hovedsponsor" items={hspHsp} layout="fluid" />
+                                <OverlayCard
+                                    title="Sponsor"
+                                    frameClass="max-w-[360px]"
+                                    bodyClass="px-4 pb-5 text-sm tracking-wide leading-7 justify-start"
+                                    children={<Checklist items={hspSponsor} />}
+                                />
+                                <OverlayCard
+                                    title="Hovedsponsor"
+                                    frameClass="max-w-[360px]"
+                                    bodyClass="px-4 pb-5 text-sm tracking-wide leading-7 justify-start"
+                                    children={<Checklist items={hspHsp} />}
+                                    />
+
                             </div>
 
                             {/* info-tekst */}
-                            <div className="mt-16 mr-auto text-left md:text-justify text-sm md:text-lg font-mono leading-6 md:leading-8 tracking-wide text-black">
+                            <div className="mt-16 mr-auto text-left md:text-justify text-sm md:text-lg font-mono leading-6 md:leading-8 tracking-wide">
                                 <ReactMarkdown components={mdComponents}>{hspInfoText}</ReactMarkdown>
                             </div>
                         </div>
                     )}
                 </div>
-            </BedriftOverlay>
+            </PageOverlay>
 
         </main>
     );
