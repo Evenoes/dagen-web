@@ -9,9 +9,8 @@ export function buttonClasses(extra: string = "") {
     "h-14 px-8",
 
     // Shape / border
-    "rounded-[53.41px]",
-    "outline-[1px] outline-offset-[-0.53px]",
-    "outline-button-outline",
+    "rounded-full",
+    "outline outline-button-outline",
 
     // Typography
     "font-mono text-lg tracking-wide",

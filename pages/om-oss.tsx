@@ -1,4 +1,3 @@
-import AboutUsOverlay from "@/components/AboutUsOverlay";
 import { buttonClasses } from "@/components/buttons/buttonStyles";
 import MemberCard from "@/components/MemberCard";
 import { getMarkdownContent } from "@/lib/getFileContent";
@@ -7,6 +6,7 @@ import { Member } from "@/types";
 import Link from "next/link";
 import { useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
+import PageOverlay from "@/components/PageOverlay";
 
 
 type AboutUsProps = {
@@ -18,7 +18,7 @@ type AboutUsProps = {
 
 type OverlayType = "vedtekter" | "varsling" | null;
 
-export default function AboutUs({ members, vedtekter, varsling, thisYear }: AboutUsProps) {
+export default function AboutUsPage({ members, vedtekter, varsling, thisYear }: AboutUsProps) {
     const [overlay, setOverlay] = useState<OverlayType>(null);
     const scrollYRef = useRef(0);
 
@@ -47,13 +47,13 @@ export default function AboutUs({ members, vedtekter, varsling, thisYear }: Abou
             <div className="flex flex-row gap-2 justify-center">
                 <button
                     onClick={() => openOverlay("vedtekter")}
-                    className={buttonClasses()}
+                    className={buttonClasses("w-38")}
                 >
                     Vedtekter
                 </button>
                 <button
                     onClick={() => openOverlay("varsling")}
-                    className={buttonClasses()}
+                    className={buttonClasses("w-38")}
                 >
                     Varsling
                 </button>
@@ -93,12 +93,10 @@ export default function AboutUs({ members, vedtekter, varsling, thisYear }: Abou
 
                             <Link
                                 href="/bli-med"
-                                className={[
-                                    "bg-button-bg rounded-4xl px-6 py-4",
-                                    "text-button-text outline outline-button-outline",
-                                    "hover:bg-button-hover font-mono",
-                                    "inline-block mt-12 md:mt-14 mx-auto"
-                                ].join(" ")}
+                                className={buttonClasses([
+                                    "px-6 py-4 h-18",
+                                    "mt-10 whitespace-pre-line"
+                                ].join(" "))}
                             >
                                 Bli med i Dagen!
                             </Link>
@@ -108,7 +106,7 @@ export default function AboutUs({ members, vedtekter, varsling, thisYear }: Abou
             </div>
 
             {/* Overlay */}
-            <AboutUsOverlay open={overlay !== null} onClose={closeOverlay}>
+            <PageOverlay open={overlay !== null} onClose={closeOverlay} maxWidthClass="max-w-7xl" historyKey="__aboutUsOverlay">
                 <div className="max-w-4xl mx-auto">
                     <div className="text-text-color font-mono text-justify whitespace-pre-line">
                         
@@ -127,8 +125,7 @@ export default function AboutUs({ members, vedtekter, varsling, thisYear }: Abou
                         )}
                     </div>
                 </div>
-            </AboutUsOverlay>
-
+            </PageOverlay>
         </main>
     )
 }

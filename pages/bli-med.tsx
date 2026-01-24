@@ -1,27 +1,27 @@
 import ReactMarkdown from "react-markdown";
 import { useState, useMemo, useRef } from "react";
 
-import JoinUsCard from "@/components/bli-med/JoinUsCard";
-import JoinUsOverlay from "@/components/bli-med/JoinUsOverlay";
-import JoinReadMoreCard from "@/components/bli-med/JoinReadMoreCard";
+import PageCard from "@/components/PageCard";
 import ApplyButton from "@/components/buttons/ApplyButton";
+import PageOverlay from "@/components/PageOverlay";
+import OverlayCard from "@/components/OverlayCard";
 
 import { getMarkdownContent } from "@/lib/getFileContent";
-import { getApplyLinks } from "@/lib/bli-med/getApplyLinks";
+import { getApplyLinks } from "@/lib/getApplyLinks";
 import {
   INTERN_TITLES,
   INTERN_KEYS,
   STYRET_TITLES,
   STYRET_KEYS,
-} from "@/lib/bli-med/joinCards";
+} from "@/lib/joinCards";
 
-import type { BliMedPageProps } from "@/types/pages";
+import type { JoinUsPageProps } from "@/types/pages";
 import type { CardData } from "@/types/domain";
 
 type OverlayType = "funk" | "intern" | "styret" | null;
 
-export default function JoinUs({
-  bliMedInfo,
+export default function JoinUsPage({
+  joinUsInfo,
   funkInfo,
   funkExtended,
   internInfo,
@@ -31,7 +31,7 @@ export default function JoinUs({
   internCards,
   styretCards,
   applyLinks,
-}: BliMedPageProps) {
+}: JoinUsPageProps) {
   const [overlay, setOverlay] = useState<OverlayType>(null);
 
   const OVERLAY = useMemo(() => {
@@ -91,7 +91,7 @@ export default function JoinUs({
             "tracking-wide text-justify",
           ].join(" ")}
         >
-          {bliMedInfo}
+          {joinUsInfo}
         </p>
       </div>
 
@@ -100,31 +100,34 @@ export default function JoinUs({
                 md:flex-row md:justify-center md:items-stretch md:gap-2 px-2">
 
         {/* Funk */}
-        <JoinUsCard
+        <PageCard
           title="Funksjonær;"
           infoText={funkInfo}
           onOpen={() => openOverlay("funk")}
           applyLink={applyLinks.funk}
+          widthClass="w-[360px] md:w-96"
         />
 
         {/* Intern */}
-        <JoinUsCard
+        <PageCard
           title="Intern;"
           infoText={internInfo}
           onOpen={() => openOverlay("intern")}
           applyLink={applyLinks.intern}
+          widthClass="w-[360px] md:w-96"
         />
 
         {/* Styret */}
-        <JoinUsCard
+        <PageCard
           title="Styremedlem;"
           infoText={styretInfo}
           onOpen={() => openOverlay("styret")}
           applyLink={null}
+          widthClass="w-[360px] md:w-96"
         />
       </div>
 
-      <JoinUsOverlay open={overlay !== null} onClose={closeOverlay}>
+      <PageOverlay open={overlay !== null} onClose={closeOverlay} maxWidthClass="max-w-[1304px]" historyKey="__joinUsOverlay">
         <div className="max-w-[1107px] mx-auto">
           {/* Title */}
           <div className="text-black text-4xl font-bold font-mono uppercase 
@@ -150,12 +153,16 @@ export default function JoinUs({
 
         {/* Kort - Intern */}
         {overlay === "intern" && (
-          <div className="max-w-[1256px] mx-auto space-y-10 justify-items-center">
-            
-            {/* Rad 1 */}
+          <div className="max-w-[1256px] mx-auto space-y-10 justify-items-center">       
             <div className="flex flex-wrap gap-10 gap-x-[88px] justify-center">
               {internCards.map(card => (
-                <JoinReadMoreCard key={card.title} variant="intern" title={card.title} cardText={card.text} />
+                <OverlayCard
+                  key={card.title}
+                  title={card.title}
+                  frameClass="w-[360px] md:h-[512px]"
+                  bodyClass="px-8 py-5 justify-start text-lg tracking-wide leading-8"
+                  children={card.text}
+                  />
               ))}
             </div>
           </div>
@@ -166,23 +173,24 @@ export default function JoinUs({
           <div className="max-w-[1256px] mx-auto">
             <div className="flex flex-wrap gap-x-[54px] gap-y-10 justify-center">
               {styretCards.map((card) => (
-                <JoinReadMoreCard
+                <OverlayCard
                   key={card.title}
-                  variant="styret"
                   title={card.title}
-                  cardText={card.text}
-                />
+                  frameClass="md:w-[599px] md:h-[404px]"
+                  bodyClass="px-6 py-6 justify-start text-lg tracking-wide leading-8"
+                  children={card.text}
+                  />
               ))}
             </div>
           </div>
         )}
-      </JoinUsOverlay>
+      </PageOverlay>
     </main>
   );
 }
 
 export function getStaticProps() {
-  const bliMedInfo = getMarkdownContent("bli-med/bli_med");
+  const joinUsInfo = getMarkdownContent("bli-med/bli_med");
   const funkInfo = getMarkdownContent("bli-med/funk_info");
   const funkExtended = getMarkdownContent("bli-med/funk_extended");
   const internInfo = getMarkdownContent("bli-med/intern_info");
@@ -204,7 +212,7 @@ export function getStaticProps() {
 
   return {
     props: {
-      bliMedInfo,
+      joinUsInfo,
       funkInfo,
       funkExtended,
       internInfo,

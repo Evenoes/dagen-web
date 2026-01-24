@@ -2,9 +2,9 @@ import { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 
-import { getProgramText } from "@/lib/program/getProgramText";
 import { BedriftItem, ProgramItem } from "@/types";
-import { getBedrifter } from "@/lib/program/getBedrifter";
+import { getBedrifter } from "@/lib/getBedrifter";
+import { getCsvContent } from "@/lib/getFileContent";
 
 function getEventNameOnDate(date = new Date()): string {
     const year = date.getFullYear();
@@ -159,7 +159,7 @@ export default function ProgramPage({
                             </div>
                         ) : (
                             <div className="mt-12 text-center font-mono text-lg">
-                                Program for {nextEventUp} kommer
+                                Program for {nextEventUp}@ifi kommer
                             </div>
                         )}
                     </div>
@@ -253,8 +253,8 @@ export default function ProgramPage({
 }
 
 export function getStaticProps() {
-    const programItems = getProgramText("program/program.csv");
-    const bedrifterItems = getBedrifter("program/bedrifter.csv");
+    const programItems = getCsvContent("program/program");
+    const bedrifterItems = getBedrifter("program/bedrifter");
     return {
         props: {
             programItems,

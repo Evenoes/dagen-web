@@ -39,7 +39,7 @@ function useContainerScale(
 }
 
 
-export default function Stillingsannonser({ jobListings: jobListings }: StillingsannonserProps) {
+export default function JobListingsPage({ jobListings: jobListings }: StillingsannonserProps) {
   const [isGalleryView, setIsGalleryView] = useState(false);
   const left = jobListings.filter((_, i) => i % 2 === 0);
   const right = jobListings.filter((_, i) => i % 2 === 1);
@@ -47,7 +47,7 @@ export default function Stillingsannonser({ jobListings: jobListings }: Stilling
   const scale = useContainerScale(contentRef, 994.91, 1);
 
   return (
-    <div className="max-w-[1047px] mx-auto px-4 md:px-6 py-8 mt-12">
+    <main className="max-w-[1047px] mx-auto px-4 md:px-6 py-8 mt-12">
 
       {/* Overskrift */}
       <h2 className="font-mono text-3xl font-bold text-text-color hyphens-auto text-center mb-8">
@@ -55,109 +55,52 @@ export default function Stillingsannonser({ jobListings: jobListings }: Stilling
       </h2>
 
       {/* View-knapp */}
-      <div className="hidden md:flex justify-end max-w-[1047px] mx-auto mb-10">
-        <button
-          type="button"
-          role="switch"
-          aria-checked={isGalleryView}
-          onClick={() => setIsGalleryView((v) => !v)}
-          className={[
-            "relative inline-flex h-12 w-48 items-center",
-            "rounded-full border border-button-outline",
-            "bg-background overflow-auto",
-            "transition focus:outline-none",
-          ].join(" ")}
-        >
-          {/* Slider */}
-          <span
+      {jobListings.length > 1 && (
+        <div className="hidden md:flex justify-end max-w-[1047px] mx-auto mb-10">
+          <button
+            type="button"
+            role="switch"
+            aria-checked={isGalleryView}
+            onClick={() => setIsGalleryView((v) => !v)}
             className={[
-              "absolute left-0 top-0 h-full w-1/2",
-              "bg-button-bg",
-              "transition-transform duration-300 ease-out",
-              isGalleryView ? "translate-x-full" : "translate-x-0",
+              "relative inline-flex h-12 w-48 items-center",
+              "rounded-full border border-button-outline",
+              "bg-background overflow-auto",
+              "transition focus:outline-none",
             ].join(" ")}
-          />
+          >
+            {/* Slider */}
+            <span
+              className={[
+                "absolute left-0 top-0 h-full w-1/2",
+                "bg-button-bg",
+                "transition-transform duration-100 ",
+                isGalleryView ? "translate-x-full" : "translate-x-0",
+              ].join(" ")}
+            />
 
-          {/* Bilder i slider */}
-          {/* List view */}
-          <span className="relative z-10 flex w-1/2 items-center justify-center">
-            <ListIcon />
-          </span>
+            {/* Bilder i slider */}
+            {/* List view */}
+            <span className="relative z-10 flex w-1/2 items-center justify-center">
+              <ListIcon />
+            </span>
 
-          {/* Gallery view */}
-          <span className="relative z-10 flex w-1/2 items-center justify-center">
-            <GridIcon />
-          </span>
-        </button>
-      </div>
+            {/* Gallery view */}
+            <span className="relative z-10 flex w-1/2 items-center justify-center">
+              <GridIcon />
+            </span>
+          </button>
+        </div>
+      )}
+
 
       {/* Kort */}
       <div ref={contentRef} className="mx-auto">
+        {jobListings.length > 0 ? (
+          <>
 
-        {/* Mobil - Liste */}
-        <div className="flex flex-col items-center gap-6 md:hidden">
-          {jobListings.map((job) => (
-            <JobCard
-              key={`${job.firma}-${job.url}`}
-              tittel={job.tittel}
-              stillingstype={job.stillingstype}
-              firma={job.firma}
-              frist={job.frist}
-              url={job.url}
-              logo={job.logo}
-              beskrivelse={job.beskrivelse}
-              scale={scale}
-            />
-          ))}
-        </div>
-
-        {/* Gallery view */}
-        {/* Venstre rad først */}
-        {isGalleryView && (
-          <div className="hidden md:flex justify-center">
-            <div className="flex items-start gap-8">
-              <div className="flex flex-col items-start gap-8">
-                {left.map((job) => (
-                  <JobCard
-                    key={`${job.firma}-${job.url}`}
-                    tittel={job.tittel}
-                    stillingstype={job.stillingstype}
-                    firma={job.firma}
-                    frist={job.frist}
-                    url={job.url}
-                    logo={job.logo}
-                    beskrivelse={job.beskrivelse}
-                    scale={scale / 2.1}
-                    minCardHeightPx={620}
-                  />
-                ))}
-              </div>
-
-              {/* Høre rad */}
-              <div className="flex flex-col items-start gap-8">
-                {right.map((job) => (
-                  <JobCard
-                    key={`${job.firma}-${job.url}`}
-                    tittel={job.tittel}
-                    stillingstype={job.stillingstype}
-                    firma={job.firma}
-                    frist={job.frist}
-                    url={job.url}
-                    logo={job.logo}
-                    beskrivelse={job.beskrivelse}
-                    scale={scale / 2.1}
-                    minCardHeightPx={620}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Listevisning */}
-        {!isGalleryView && (
-          <div className="hidden md:flex justify-center">
-            <div className="flex flex-col items-start gap-[66px]">
+            {/* Mobil - Liste */}
+            <div className="flex flex-col items-center gap-6 md:hidden">
               {jobListings.map((job) => (
                 <JobCard
                   key={`${job.firma}-${job.url}`}
@@ -172,10 +115,79 @@ export default function Stillingsannonser({ jobListings: jobListings }: Stilling
                 />
               ))}
             </div>
-          </div>
+
+            {/* Desktop */}
+            <div className="hidden md:flex justify-center">
+
+              {/* Gallery view */}
+              {isGalleryView && (
+                <div className="flex items-start gap-8">
+
+                  {/* Venstre rad først */}
+                  <div className="flex flex-col items-start gap-8">
+                    {left.map((job) => (
+                      <JobCard
+                        key={`${job.firma}-${job.url}`}
+                        tittel={job.tittel}
+                        stillingstype={job.stillingstype}
+                        firma={job.firma}
+                        frist={job.frist}
+                        url={job.url}
+                        logo={job.logo}
+                        beskrivelse={job.beskrivelse}
+                        scale={scale / 2.1}
+                        minCardHeightPx={620}
+                      />
+                    ))}
+                  </div>
+
+                  {/* Høre rad */}
+                  <div className="flex flex-col items-start gap-8">
+                    {right.map((job) => (
+                      <JobCard
+                        key={`${job.firma}-${job.url}`}
+                        tittel={job.tittel}
+                        stillingstype={job.stillingstype}
+                        firma={job.firma}
+                        frist={job.frist}
+                        url={job.url}
+                        logo={job.logo}
+                        beskrivelse={job.beskrivelse}
+                        scale={scale / 2.1}
+                        minCardHeightPx={620}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Listevisning */}
+              {!isGalleryView && (
+                <div className="flex flex-col items-start gap-[66px]">
+                  {jobListings.map((job) => (
+                    <JobCard
+                      key={`${job.firma}-${job.url}`}
+                      tittel={job.tittel}
+                      stillingstype={job.stillingstype}
+                      firma={job.firma}
+                      frist={job.frist}
+                      url={job.url}
+                      logo={job.logo}
+                      beskrivelse={job.beskrivelse}
+                      scale={scale}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+          </>
+        ) : (
+          <p className="text-center">
+            Ingen stillingsannonser? - Sjekk igjen senere, det dukker plutselig opp!
+          </p>
         )}
       </div>
-    </div>
+    </main>
   );
 }
 

@@ -20,7 +20,7 @@ export default function MemberCard({
     const router = useRouter();
 
     return (
-        <div className="max-w60 min-h-80 top-1 text-center">
+        <div className="max-w60 min-h-80 top-1 text-center text-text-color">
             {/* Bilde, white space lik bildestørrelse hvis ikke bilde */}
             {memberPicture ? (
                 <div className="w-48 h-48 mx-auto mb-2.5 relative">
@@ -34,23 +34,23 @@ export default function MemberCard({
                     />
                 </div>
             ) : (
-                <div className="w-48 h-48 mx-auto mb-2.5 relative" />
+                <div className="w-48 h-48 mx-auto mb-2.5 relative border rounded-full" />
             )}
 
             {/* Navn */}
             <h2 className="text-xl md:text-xl font-normal font-mono
-                            leading-7 text-text-color min-h-16 md:min-h-14 
+                            leading-7 min-h-16 md:min-h-14 
                             flex items-center justify-center md:mb-[13px]">
                 {memberName}
             </h2>
 
             {/* Rolle / tittel */}
-            <p className="text-text-color text-md md:text-md font-mono font-normal md:leading-6 mb-2.5">
+            <p className="text-md md:text-md font-mono font-normal md:leading-6 mb-2.5">
                 {memberTitle}
             </p>
 
             {/* Epost, denne kan gjøres klikkbar (mailto), men var ikke det på den gamle siden */}
-            <p className="text-text-color text-xs md:text-sm font-mono font-normal md:leading-5">
+            <p className="text-xs md:text-sm font-mono font-normal md:leading-5">
                 {roleEmail}
             </p>
         </div>
