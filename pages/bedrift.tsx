@@ -132,7 +132,7 @@ export default function Bedrift({
         overlay === "stand"
             ? "Les mer om å stå på stand"
             : overlay === "hovedsamarbeidspartner"
-                ? "Les mer om å være hovedsamarbeidspartner"
+                ? "Les mer om å være hoved\u00ADsamarbeids\u00ADpartner"
                 : "";
 
     return (
@@ -175,7 +175,7 @@ export default function Bedrift({
                 />
 
                 <PageCard
-                    title="Hovedsamarbeidspartner"
+                    title={"Hoved\u00ADsamarbeids\u00ADpartner"}
                     infoText={hspInfo}
                     onOpen={() => openOverlay("hovedsamarbeidspartner")}
                     applyLink={null}
@@ -292,7 +292,7 @@ export default function Bedrift({
                     )}
 
                     {/* HSP overlay */}
-                    {overlay === "samarbeidspartner" && (
+                    {overlay === "hovedsamarbeidspartner" && (
                         <div className="max-w-[1002px] mx-auto justify-items-center">
                             {/* hsp_extended */}
                             <div className="mr-auto text-left text-sm md:text-lg leading-6 md:leading-8 tracking-wide word-break prose">
@@ -308,7 +308,7 @@ export default function Bedrift({
                                     children={<Checklist items={hspSponsor} />}
                                 />
                                 <OverlayCard
-                                    title="Hovedsamarbeidspartner"
+                                    title={"Hoved\u00ADsamarbeids\u00ADpartner"}
                                     frameClass="max-w-[360px]"
                                     bodyClass="px-4 pb-5 text-sm tracking-wide leading-7 justify-start"
                                     children={<Checklist items={hspHsp} />}
