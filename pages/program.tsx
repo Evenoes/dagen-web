@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 
@@ -21,6 +21,9 @@ const nextEventUp = getEventNameOnDate();
 
 type Tab = "program" | "bedrifter" | "standkart";
 
+const isTab = (x: unknown): x is Tab =>
+    x === "program" || x === "bedrifter" || x === "standkart";
+
 type ProgramPageProps = {
     programItems: ProgramItem[];
     bedrifterItems: BedriftItem[];
@@ -32,6 +35,23 @@ export default function ProgramPage({
 }: ProgramPageProps) {
     const router = useRouter();
     const [tab, setTab] = useState<Tab>("program");
+
+    useEffect(() => {
+        const syncFromHash = () => {
+            const raw = window.location.hash.replace("#", "");
+            const next = isTab(raw) ? raw : "program";
+            setTab(next);
+        };
+
+        syncFromHash();
+        window.addEventListener("hashchange", syncFromHash);
+        return () => window.removeEventListener("hashchange", syncFromHash);
+    }, []);
+
+    const setTabHash = (next: Tab) => {
+        window.location.hash = next;
+        setTab(next);
+    };
 
     const isProgram = tab === "program";
     const isBedrifter = tab === "bedrifter";
@@ -46,11 +66,11 @@ export default function ProgramPage({
             {/* Toggle */}
             <div className="sticky top-40 z-30 flex justify-center">
                 <div className="w-64 h-12 relative inline-flex font-mono text-sm tracking-tight">
-                    
+
                     {/* Programknapp */}
                     <button
                         type="button"
-                        onClick={() => setTab("program")}
+                        onClick={() => setTabHash("program")}
                         aria-pressed={isProgram}
                         className={[
                             "flex-1 h-12 -mr-px",
@@ -66,7 +86,7 @@ export default function ProgramPage({
                     {/* Bedrifter-knapp */}
                     <button
                         type="button"
-                        onClick={() => setTab("bedrifter")}
+                        onClick={() => setTabHash("bedrifter")}
                         aria-pressed={isBedrifter}
                         className={[
                             "flex-1 h-12",
@@ -81,7 +101,7 @@ export default function ProgramPage({
                     {/* Standkartknapp */}
                     <button
                         type="button"
-                        onClick={() => setTab("standkart")}
+                        onClick={() => setTabHash("standkart")}
                         aria-pressed={isStandkart}
                         className={[
                             "flex-1 h-12 -ml-px",

@@ -163,11 +163,11 @@ export default function Home({ whatIsDagen, hspInfo, dagenInfo, ettermiddagenInf
                   "gap-[clamp(0.5rem,2vw,0.875rem)]",
                 ].join(" ")}
               >
-                <Link className={buttonClasses("w-full max-w-[187px]")} href={"/bli-med"}>
+                <Link className={buttonClasses("w-full max-w-[187px]")} href={"/bli-med/#funk"}>
                   Bli funk!
                   <Image src={rightArrow} alt="" width={12} height={12} />
                 </Link>
-                <Link className={buttonClasses("w-full max-w-[232px]")} href={"/bedrift"}>
+                <Link className={buttonClasses("w-full max-w-[232px]")} href={"/bedrift/#stand"}>
                   Stå på stand
                   <Image src={rightArrow} alt="" width={12} height={12} />
                 </Link>
@@ -250,7 +250,7 @@ export default function Home({ whatIsDagen, hspInfo, dagenInfo, ettermiddagenInf
 
               <div
                 className="mt-[clamp(1.5rem,4vw,2.5rem)]">
-                <Link className={buttonClasses("w-full max-w-[232px]")} href={"/bedrift"}>
+                <Link className={buttonClasses("w-full max-w-[232px]")} href={"/bedrift/#stand"}>
                   Stå på stand
                   <Image src={rightArrow} alt="" width={12} height={12} />
                 </Link>
