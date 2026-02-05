@@ -1,5 +1,5 @@
 import ReactMarkdown from "react-markdown";
-import { useState, useMemo, useRef } from "react";
+import { useState, useMemo, useRef, useEffect } from "react";
 
 import PageCard from "@/components/PageCard";
 import ApplyButton from "@/components/buttons/ApplyButton";
@@ -19,6 +19,9 @@ import type { JoinUsPageProps } from "@/types/pages";
 import type { CardData } from "@/types/domain";
 
 type OverlayType = "funk" | "intern" | "styret" | null;
+
+const isOverlayType = (x: unknown): x is Exclude<OverlayType, null> =>
+  x === "funk" || x === "intern" || x === "styret";
 
 export default function JoinUsPage({
   joinUsInfo,
@@ -57,24 +60,39 @@ export default function JoinUsPage({
   const overlayData = overlay ? OVERLAY[overlay] : null;
   const scrollYRef = useRef(0);
 
-  // Fordi Safari er vanskelig og tuller med scroll og overlay
-  const openOverlay = (type: OverlayType) => {
-    scrollYRef.current = window.scrollY || 0;
-    setOverlay(type);
-  }
+  useEffect(() => {
+    const syncFromHash = () => {
+      const raw = window.location.hash.replace("#", "");
+      const next: OverlayType = isOverlayType(raw) ? raw : null;
+      setOverlay(next);
+    };
 
-  // Setter historikk 1 tilbake ved lukking av overlay
+    syncFromHash();
+
+    window.addEventListener("hashchange", syncFromHash);
+    return () => window.removeEventListener("hashchange", syncFromHash);
+  }, []);
+
+  const openOverlay = (type: Exclude<OverlayType, null>) => {
+    scrollYRef.current = window.scrollY || 0;
+    window.location.hash = type;
+  };
+
+
   const closeOverlay = () => {
+    if (window.location.hash) {
+      history.pushState(
+        "",
+        document.title,
+        window.location.pathname + window.location.search
+      );
+    }
+
     setOverlay(null);
 
-    // Fordi Safari
     requestAnimationFrame(() => {
       window.scrollTo(0, scrollYRef.current);
     });
-
-    if (typeof window !== "undefined" && window.history.state?.joinUsOverlay) {
-      window.history.back();
-    }
   };
 
 
@@ -127,7 +145,7 @@ export default function JoinUsPage({
         />
       </div>
 
-      <PageOverlay open={overlay !== null} onClose={closeOverlay} maxWidthClass="max-w-[1304px]" historyKey="__joinUsOverlay">
+      <PageOverlay open={overlay !== null} onClose={closeOverlay} maxWidthClass="max-w-[1304px]">
         <div className="max-w-[1107px] mx-auto">
           {/* Title */}
           <div className="text-black text-4xl font-bold font-mono uppercase 
@@ -153,7 +171,7 @@ export default function JoinUsPage({
 
         {/* Kort - Intern */}
         {overlay === "intern" && (
-          <div className="max-w-[1256px] mx-auto space-y-10 justify-items-center">       
+          <div className="max-w-[1256px] mx-auto space-y-10 justify-items-center">
             <div className="flex flex-wrap gap-10 gap-x-[88px] justify-center">
               {internCards.map(card => (
                 <OverlayCard
@@ -162,7 +180,7 @@ export default function JoinUsPage({
                   frameClass="w-[360px] md:h-[512px]"
                   bodyClass="px-8 py-5 justify-start text-lg tracking-wide leading-8"
                   children={card.text}
-                  />
+                />
               ))}
             </div>
           </div>
@@ -179,7 +197,7 @@ export default function JoinUsPage({
                   frameClass="md:w-[599px] md:h-[404px]"
                   bodyClass="px-6 py-6 justify-start text-lg tracking-wide leading-8"
                   children={card.text}
-                  />
+                />
               ))}
             </div>
           </div>

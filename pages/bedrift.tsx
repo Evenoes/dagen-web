@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import ReactMarkdown from "react-markdown";
 
 import { getMarkdownContent, getCsvContent } from "@/lib/getFileContent";
@@ -24,7 +24,10 @@ type BedriftPageProps = {
     hspInfoText: string;
 };
 
-type OverlayType = "stand" | "hsp" | null;
+type OverlayType = "stand" | "samarbeidspartner" | null;
+
+const isOverlayType = (x: unknown): x is Exclude<OverlayType, null> =>
+    x === "stand" || x === "samarbeidspartner";
 
 function formatKr(value: string) {
     const digits = value.replace(/\s/g, "");
@@ -80,21 +83,39 @@ export default function Bedrift({
 
     const [first, ...rest] = standPrices;
 
+    useEffect(() => {
+        const syncFromHash = () => {
+            const raw = window.location.hash.replace("#", "");
+            const next: OverlayType = isOverlayType(raw) ? raw : null;
+            setOverlay(next);
+        };
+
+        syncFromHash();
+
+        window.addEventListener("hashchange", syncFromHash);
+        return () => window.removeEventListener("hashchange", syncFromHash);
+    }, []);
+
     const openOverlay = (type: Exclude<OverlayType, null>) => {
         scrollYRef.current = window.scrollY || 0;
-        setOverlay(type);
+        window.location.hash = type;
     };
 
+
     const closeOverlay = () => {
+        if (window.location.hash) {
+            history.pushState(
+                "",
+                document.title,
+                window.location.pathname + window.location.search
+            );
+        }
+
         setOverlay(null);
 
         requestAnimationFrame(() => {
             window.scrollTo(0, scrollYRef.current);
         });
-
-        if (typeof window !== "undefined" && window.history.state?.bedriftOverlay) {
-            window.history.back();
-        }
     };
 
     const mdComponents = {
@@ -110,8 +131,8 @@ export default function Bedrift({
     const overlayTitle =
         overlay === "stand"
             ? "Les mer om å stå på stand"
-            : overlay === "hsp"
-                ? "Les mer om å være hovedsponsor"
+            : overlay === "samarbeidspartner"
+                ? "Les mer om å være hovedsamarbeidspartner"
                 : "";
 
     return (
@@ -156,14 +177,14 @@ export default function Bedrift({
                 <PageCard
                     title="Hovedsponsor"
                     infoText={hspInfo}
-                    onOpen={() => openOverlay("hsp")}
+                    onOpen={() => openOverlay("samarbeidspartner")}
                     applyLink={null}
                     widthClass="w-full md:w-[659px]"
                 />
             </div>
 
             {/* Overlay */}
-            <PageOverlay open={overlay !== null} onClose={closeOverlay} maxWidthClass="max-w-[1107px]" historyKey="__bedriftOverlay">
+            <PageOverlay open={overlay !== null} onClose={closeOverlay} maxWidthClass="max-w-[1107px]">
                 <div className="max-w-[1107px] mx-auto px-4 md:px-0">
                     <div className="text-center text-4xl font-bold font-mono uppercase leading-10 tracking-widest mb-16 wrap-break-word">
                         {overlayTitle}
@@ -271,7 +292,7 @@ export default function Bedrift({
                     )}
 
                     {/* HSP overlay */}
-                    {overlay === "hsp" && (
+                    {overlay === "samarbeidspartner" && (
                         <div className="max-w-[1002px] mx-auto justify-items-center">
                             {/* hsp_extended */}
                             <div className="mr-auto text-left md:text-justify text-sm md:text-lg font-mono leading-6 md:leading-8 tracking-wide word-break prose">
@@ -291,7 +312,7 @@ export default function Bedrift({
                                     frameClass="max-w-[360px]"
                                     bodyClass="px-4 pb-5 text-sm tracking-wide leading-7 justify-start"
                                     children={<Checklist items={hspHsp} />}
-                                    />
+                                />
 
                             </div>
 

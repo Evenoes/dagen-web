@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { buttonClasses } from "./buttons/buttonStyles";
 
 type OverlayShellProps = {
@@ -6,7 +6,6 @@ type OverlayShellProps = {
   onClose: () => void;
   children: React.ReactNode;
   maxWidthClass: string;
-  historyKey: string;
 };
 
 export default function PageOverlay({
@@ -14,49 +13,23 @@ export default function PageOverlay({
   onClose,
   children,
   maxWidthClass,
-  historyKey,
 }: OverlayShellProps) {
   const [mounted, setMounted] = useState(open);
   const [anim, setAnim] = useState<"in" | "out">(open ? "in" : "out");
   const [latchedChildren, setLatchedChildren] = useState<React.ReactNode>(children);
 
-  const pushedRef = useRef(false);
-  const closingViaHistory = useRef(false);
-
   useEffect(() => {
     if (open) setLatchedChildren(children);
   }, [open, children]);
 
-  // Animert inn - lagrer til historikk for "back"-knapp
   useEffect(() => {
     if (open) {
       setMounted(true);
       setAnim("in");
-      window.history.pushState({ [historyKey]: true }, "");
-      pushedRef.current = true;
-      return;
+    } else if (mounted) {
+      setAnim("out");
     }
-
-    if (mounted) setAnim("out");
-  }, [open, mounted, historyKey]);
-
-  // Lukker overlay når "back"-knapp brukes
-  useEffect(() => {
-    if (!mounted) return;
-
-    const onPopState = () => {
-      if (!pushedRef.current) return;
-
-      closingViaHistory.current = true;
-      pushedRef.current = false;
-      onClose();
-
-      setTimeout(() => (closingViaHistory.current = false), 0);
-    };
-
-    window.addEventListener("popstate", onPopState);
-    return () => window.removeEventListener("popstate", onPopState);
-  }, [mounted, onClose]);
+  }, [open, mounted]);
 
   // ESC + scroll-lock for siden bak overlay
   useEffect(() => {
@@ -71,14 +44,6 @@ export default function PageOverlay({
     const prevHtmlOverflow = html.style.overflow;
     const prevBodyPaddingRight = document.body.style.paddingRight;
 
-    // Kompenser for scrollbar som forsvinner (hindrer “hopp”)
-    const scrollbarWidth = window.innerWidth - html.clientWidth;
-    if (scrollbarWidth > 0) {
-      document.body.style.paddingRight = `${scrollbarWidth}px`;
-    }
-
-    html.style.overflow = "hidden";
-
     return () => {
       document.removeEventListener("keydown", onKeyDown);
       html.style.overflow = prevHtmlOverflow;
@@ -87,23 +52,9 @@ export default function PageOverlay({
   }, [mounted]);
 
   const handleClose = () => {
-    if (pushedRef.current && !closingViaHistory.current) {
-      closingViaHistory.current = true;
-
-      window.setTimeout(() => {
-        if (pushedRef.current) {
-          pushedRef.current = false;
-          closingViaHistory.current = false;
-          onClose();
-        }
-      }, 50);
-
-      window.history.back();
-      return;
-    }
-
     onClose();
   };
+
 
   const onPanelAnimationEnd = () => {
     if (anim === "out") setMounted(false);
@@ -112,11 +63,18 @@ export default function PageOverlay({
   if (!mounted) return null;
 
   return (
-    <div className="fixed inset-0 z-50">
+    // Backdrop
+    <div
+      className="fixed inset-0 z-50"
+      onMouseDown={handleClose}
+    >
+      {/* Panel */}
       <div
+        onMouseDown={(e) => e.stopPropagation()}
         onAnimationEnd={onPanelAnimationEnd}
         className={[
-          "absolute inset-0 bg-card-bg flex flex-col",
+          "absolute inset-0 max-w-5xl mx-auto mt-36",
+          "bg-card-bg flex flex-col border",
           "transform-gpu will-change-transform",
           anim === "in" ? "slide-in" : "slide-out",
         ].join(" ")}
@@ -129,10 +87,7 @@ export default function PageOverlay({
                 onClick={handleClose}
                 type="button"
                 aria-label="Lukk"
-                className={buttonClasses([
-                  "pointer-events-auto",
-                  "w-20",
-                ].join(" "))}
+                className={buttonClasses(["pointer-events-auto", "w-20"].join(" "))}
               >
                 X
               </button>
@@ -141,7 +96,7 @@ export default function PageOverlay({
         </div>
 
         {/* Innhold */}
-        <div className="flex-1 overflow-y-auto">
+        <div className="flex-1 overflow-y-auto overscroll-contain">
           <div className={[maxWidthClass, "mx-auto px-6 pt-32 pb-20"].join(" ")}>
             {latchedChildren}
           </div>

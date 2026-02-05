@@ -4,7 +4,7 @@ import { getMarkdownContent } from "@/lib/getFileContent";
 import { getMembers } from "@/lib/members";
 import { Member } from "@/types";
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import ReactMarkdown from "react-markdown";
 import PageOverlay from "@/components/PageOverlay";
 
@@ -18,31 +18,52 @@ type AboutUsProps = {
 
 type OverlayType = "vedtekter" | "varsling" | null;
 
+const isOverlayType = (x: unknown): x is Exclude<OverlayType, null> =>
+    x === "vedtekter" || x === "varsling";
+
 export default function AboutUsPage({ members, vedtekter, varsling, thisYear }: AboutUsProps) {
     const [overlay, setOverlay] = useState<OverlayType>(null);
     const scrollYRef = useRef(0);
 
+    useEffect(() => {
+        const syncFromHash = () => {
+            const raw = window.location.hash.replace("#", "");
+            const next: OverlayType = isOverlayType(raw) ? raw : null;
+            setOverlay(next);
+        };
+
+        syncFromHash();
+
+        window.addEventListener("hashchange", syncFromHash);
+        return () => window.removeEventListener("hashchange", syncFromHash);
+    }, []);
+
     const openOverlay = (type: Exclude<OverlayType, null>) => {
-        scrollYRef.current = window.screenY || 0;
-        setOverlay(type);
+        scrollYRef.current = window.scrollY || 0;
+        window.location.hash = type;
     };
 
+
     const closeOverlay = () => {
+        if (window.location.hash) {
+            history.pushState(
+                "",
+                document.title,
+                window.location.pathname + window.location.search
+            );
+        }
+
         setOverlay(null);
 
         requestAnimationFrame(() => {
             window.scrollTo(0, scrollYRef.current);
         });
-
-        if (typeof window !== "undefined" && window.history.state?.aboutUsOverlay) {
-            window.history.back();
-        }
     };
 
     return (
         <main className="max-w-[1440px] mx-auto px-4 md:px-6 py-8 space-y-20 
                         mt-24 md:mt-36 md:mb-[187px] justify-items-center">
-            
+
             {/* Knapper for vedtekter og varlsing */}
             <div className="flex flex-row gap-2 justify-center">
                 <button
@@ -106,10 +127,10 @@ export default function AboutUsPage({ members, vedtekter, varsling, thisYear }: 
             </div>
 
             {/* Overlay */}
-            <PageOverlay open={overlay !== null} onClose={closeOverlay} maxWidthClass="max-w-7xl" historyKey="__aboutUsOverlay">
+            <PageOverlay open={overlay !== null} onClose={closeOverlay} maxWidthClass="max-w-7xl">
                 <div className="max-w-4xl mx-auto">
                     <div className="text-text-color font-mono text-justify">
-                        
+
                         {/* Vedtekter */}
                         {overlay === "vedtekter" && (
                             <div className="leading-8 tracking-wide prose vedtekter-prose">
