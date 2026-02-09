@@ -78,11 +78,11 @@ export default function Home({ whatIsDagen, hspInfo, dagenInfo, ettermiddagenInf
                 ].join(" ")}
               >
                 <span className="md:hidden">
-                  HOVEDSPONSOR
+                  {"HOVED\u00ADSAMARBEIDS\u00ADPARTNER"}
                   <br />
                   {thisYear}
                 </span>
-                <span className="hidden md:inline">HOVEDSPONSOR {thisYear}</span>
+                <span className="hidden md:inline">{"HOVED\u00ADSAMARBEIDS\u00ADPARTNER"} {thisYear}</span>
               </h2>
             </div>
 
@@ -109,7 +109,7 @@ export default function Home({ whatIsDagen, hspInfo, dagenInfo, ettermiddagenInf
                   ].join(" "),
                 )}
               >
-                Bli hovedsponsor {thisYear + 1}
+                Bli {"hoved\u00ADsamarbeids\u00ADpartner"} {thisYear + 1}
                 <Image src={rightArrow} alt="" width={12} height={12} />
               </button>
             </div>

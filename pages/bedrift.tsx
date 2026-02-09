@@ -24,10 +24,10 @@ type BedriftPageProps = {
     hspInfoText: string;
 };
 
-type OverlayType = "stand" | "samarbeidspartner" | null;
+type OverlayType = "stand" | "hovedsamarbeidspartner" | null;
 
 const isOverlayType = (x: unknown): x is Exclude<OverlayType, null> =>
-    x === "stand" || x === "samarbeidspartner";
+    x === "stand" || x === "hovedsamarbeidspartner";
 
 function formatKr(value: string) {
     const digits = value.replace(/\s/g, "");
@@ -131,8 +131,8 @@ export default function Bedrift({
     const overlayTitle =
         overlay === "stand"
             ? "Les mer om å stå på stand"
-            : overlay === "samarbeidspartner"
-                ? "Les mer om å være hovedsamarbeidspartner"
+            : overlay === "hovedsamarbeidspartner"
+                ? "Les mer om å være hoved\u00ADsamarbeids\u00ADpartner"
                 : "";
 
     return (
@@ -175,9 +175,9 @@ export default function Bedrift({
                 />
 
                 <PageCard
-                    title="Hovedsponsor"
+                    title={"Hoved\u00ADsamarbeids\u00ADpartner"}
                     infoText={hspInfo}
-                    onOpen={() => openOverlay("samarbeidspartner")}
+                    onOpen={() => openOverlay("hovedsamarbeidspartner")}
                     applyLink={null}
                     widthClass="w-full md:w-[659px]"
                 />
@@ -292,7 +292,7 @@ export default function Bedrift({
                     )}
 
                     {/* HSP overlay */}
-                    {overlay === "samarbeidspartner" && (
+                    {overlay === "hovedsamarbeidspartner" && (
                         <div className="max-w-[1002px] mx-auto justify-items-center">
                             {/* hsp_extended */}
                             <div className="mr-auto text-left text-sm md:text-lg leading-6 md:leading-8 tracking-wide word-break prose">
@@ -308,7 +308,7 @@ export default function Bedrift({
                                     children={<Checklist items={hspSponsor} />}
                                 />
                                 <OverlayCard
-                                    title="Hovedsponsor"
+                                    title={"Hoved\u00ADsamarbeids\u00ADpartner"}
                                     frameClass="max-w-[360px]"
                                     bodyClass="px-4 pb-5 text-sm tracking-wide leading-7 justify-start"
                                     children={<Checklist items={hspHsp} />}
