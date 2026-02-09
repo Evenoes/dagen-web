@@ -28,7 +28,6 @@ export default function PageCard({ title, infoText, onOpen, applyLink, widthClas
                     "text-4xl font-normal font-mono leading-8 tracking-widest",
                     "md:mt-[34px]",
                     "text-center",
-                    "hyphens-auto wrap-anywhere",
                 ].join(" ")}
             >
                 {title}
